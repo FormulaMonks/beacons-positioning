@@ -82,10 +82,10 @@ noble.on('discover', function(peripheral) {
 			var log = "";
 			var uuids = Object.keys(lastRssiByUuid);
 			uuids.sort();
+			charm.reset();
 			uuids.forEach(function(uuid) {
-				log += "distance: " + calculateDistanceFor(uuid, lastRssiByUuid[uuid]).toFixed(2) + "m device: " + uuid + " | ";
+				charm.write("distance: " + calculateDistanceFor(uuid, lastRssiByUuid[uuid]).toFixed(2) + "m device: " + uuid + "\n");
 			});
-			charm.reset().write(log);
 			lastRssiByUuid = {};
 		}
 	});
