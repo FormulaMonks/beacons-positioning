@@ -17,19 +17,28 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6ge-tE-gAq">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6ge-tE-gAq" userLabel="Heatmap">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m3P-S7-1hX" userLabel="Beacons" customClass="CBBeaconsMap">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="6ge-tE-gAq" secondAttribute="bottom" id="FAg-9F-fsk"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="m3P-S7-1hX" secondAttribute="trailing" constant="-16" id="GKl-dM-Eyo"/>
                             <constraint firstItem="6ge-tE-gAq" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-16" id="OXx-Fr-mZs"/>
                             <constraint firstItem="6ge-tE-gAq" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="-20" id="Tf2-gz-uvc"/>
+                            <constraint firstItem="m3P-S7-1hX" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-16" id="cJG-P6-TOU"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="m3P-S7-1hX" secondAttribute="bottom" id="lRW-C3-YlL"/>
                             <constraint firstAttribute="trailingMargin" secondItem="6ge-tE-gAq" secondAttribute="trailing" constant="-16" id="uS1-4F-fso"/>
+                            <constraint firstItem="m3P-S7-1hX" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="-20" id="vLi-fj-gFC"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="beaconsView" destination="m3P-S7-1hX" id="nY2-bU-ODX"/>
                         <outlet property="imageView" destination="6ge-tE-gAq" id="Ipg-gO-jdt"/>
                     </connections>
                 </viewController>
