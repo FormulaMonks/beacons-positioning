@@ -17,5 +17,6 @@
 @property (weak) id <CBBeaconsSimulatorDelegate> delegate;
 
 - (void)simulateBeacons:(NSArray *)beacons noise:(float)percentageNoise;
+- (void)stopSimulation;
 
 @end

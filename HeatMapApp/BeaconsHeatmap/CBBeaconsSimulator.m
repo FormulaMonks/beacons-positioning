@@ -23,6 +23,10 @@
     [self performSelector:@selector(moveLoop) withObject:nil afterDelay:0.1];
 }
 
+- (void)stopSimulation {
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
+}
+
 - (void)moveLoop {
     for (CBBeacon *beacon in _beacons) {
         int delta = beacon.distance * _noise;

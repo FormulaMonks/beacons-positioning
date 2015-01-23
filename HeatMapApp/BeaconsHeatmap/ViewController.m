@@ -31,6 +31,16 @@
     _beaconsView.delegate = self;
 }
 
+- (IBAction)changeSimulation:(UIButton *)sender {
+    if ([sender.titleLabel.text hasPrefix:@"Start"]) {
+        [sender setTitle:@"Stop Simulation" forState:UIControlStateNormal];
+        [_simulator simulateBeacons:_beaconsView.beacons noise:0.1];
+    } else {
+        [sender setTitle:@"Start Simulation" forState:UIControlStateNormal];
+        [_simulator stopSimulation];
+    }
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
@@ -40,8 +50,6 @@
     CBBeacon *b4 = [[CBBeacon alloc] initWithX:_beaconsView.bounds.size.width/2 y:_beaconsView.bounds.size.height distance:320];
     
     _beaconsView.beacons = @[b1, b2, b3, b4];
-    
-    [_simulator simulateBeacons:_beaconsView.beacons noise:0.1];
 }
 
 - (void)probabilityPointsUpdated:(NSArray *)points {

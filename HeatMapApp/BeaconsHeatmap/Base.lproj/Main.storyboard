@@ -24,17 +24,28 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F2P-LA-CLG">
+                                <rect key="frame" x="9" y="561" width="110" height="30"/>
+                                <state key="normal" title="Start Simulation">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="changeSimulation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Wrq-Ci-S3w"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="6ge-tE-gAq" secondAttribute="bottom" id="FAg-9F-fsk"/>
                             <constraint firstAttribute="trailingMargin" secondItem="m3P-S7-1hX" secondAttribute="trailing" constant="-16" id="GKl-dM-Eyo"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="F2P-LA-CLG" secondAttribute="bottom" constant="9" id="HyS-hk-csg"/>
                             <constraint firstItem="6ge-tE-gAq" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-16" id="OXx-Fr-mZs"/>
                             <constraint firstItem="6ge-tE-gAq" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="-20" id="Tf2-gz-uvc"/>
                             <constraint firstItem="m3P-S7-1hX" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-16" id="cJG-P6-TOU"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="m3P-S7-1hX" secondAttribute="bottom" id="lRW-C3-YlL"/>
                             <constraint firstAttribute="trailingMargin" secondItem="6ge-tE-gAq" secondAttribute="trailing" constant="-16" id="uS1-4F-fso"/>
                             <constraint firstItem="m3P-S7-1hX" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="-20" id="vLi-fj-gFC"/>
+                            <constraint firstItem="F2P-LA-CLG" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-7" id="zJ8-BL-VGZ"/>
                         </constraints>
                     </view>
                     <connections>
