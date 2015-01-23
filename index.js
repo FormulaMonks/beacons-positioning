@@ -20,7 +20,7 @@ noble.on('scanStop', function() {
 });
 
 var lastRssiByUuid = {};
-var waitFor = 2;
+var waitFor = 1;
 
 var distanceByUuid = {};
 
@@ -84,7 +84,7 @@ noble.on('discover', function(peripheral) {
             uuids.sort();
             charm.reset();
             uuids.forEach(function(uuid) {
-                charm.write("distance: " + calculateDistanceFor(uuid, lastRssiByUuid[uuid]).toFixed(2) + "m device: " + uuid + "\n");
+                charm.write("distance: " + calculateDistanceFor(uuid, lastRssiByUuid[uuid]).toFixed(2) + "m device: " + uuid + " (rssi:" +  rssi + ")" + "\n");
             });
             lastRssiByUuid = {};
         }
