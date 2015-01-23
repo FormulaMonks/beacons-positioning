@@ -8,11 +8,39 @@
 
 #import "CBBeaconsMap.h"
 
+const float kGap = 10.0;
+
 @interface CBBeaconsMap()
 @property CBBeacon *nearestBeacon;
 @end
 
 @implementation CBBeaconsMap
+
+- (void)awakeFromNib {
+    [self calculateProbabilityPoints];
+}
+
+- (void)calculateProbabilityPoints {
+    NSMutableArray *points = [NSMutableArray array];
+    for (int x = 0; x < self.bounds.size.width; x += kGap) {
+        for (int y = 0; y < self.bounds.size.height; y += kGap) {
+            int intersectionCount = 0;
+            for (CBBeacon *beacon in _beacons) {
+                float dx = beacon.position.x - x;
+                float dy = beacon.position.y - y;
+                if (dx*dx + dy*dy <= beacon.distance * beacon.distance) {
+                    intersectionCount++;
+                }
+            }
+            
+            if (intersectionCount == _beacons.count) {
+                [points addObject:[NSValue valueWithCGPoint:CGPointMake(x, y)]];
+            }
+        }
+    }
+    
+    [_delegate probabilityPointsUpdated:points];
+}
 
 - (void)drawRect:(CGRect)rect {
     CGContextRef ctx= UIGraphicsGetCurrentContext();
@@ -61,6 +89,8 @@
     
     _nearestBeacon.distance += prevLocation.y - location.y;
     [self setNeedsDisplay];
+    
+    [self calculateProbabilityPoints];
 }
 
 @end

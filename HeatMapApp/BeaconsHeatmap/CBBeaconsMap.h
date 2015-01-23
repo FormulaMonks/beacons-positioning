@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol CBBeaconsMapDelegate
+// array of CGPoints
+- (void)probabilityPointsUpdated:(NSArray *)points;
+@end
+
 @interface CBBeacon : NSObject
 @property CGPoint position;
 @property float distance;
@@ -17,6 +22,8 @@
 @end
 
 @interface CBBeaconsMap : UIView
+
+@property (weak) id<CBBeaconsMapDelegate> delegate;
 
 @property NSArray *beacons;
 
