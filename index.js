@@ -49,7 +49,7 @@ function calculateDistanceFor(uuid, rssi) {
     var distance = calculateDistance(-45, rssi);
     if (values.length >= 10) {
         var lastValue = values[0];
-        if (Math.abs(distance - lastValue) < 0.4) { // to avoid quick jumps in signal
+        if (Math.abs(distance - lastValue) < 2) { // to avoid quick jumps in signal
             values.unshift(distance);
         }
     } else {
