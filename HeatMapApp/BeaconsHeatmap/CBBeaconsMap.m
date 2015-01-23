@@ -18,6 +18,7 @@ const float kGap = 10.0;
 
 - (void)calculateProbabilityPoints {
     NSMutableArray *insidePoints = [NSMutableArray array];
+    NSMutableArray *insidePointsMinusOne = [NSMutableArray array];
     NSMutableArray *outsidePoints = [NSMutableArray array];
     for (int x = 0; x < self.bounds.size.width; x += kGap) {
         for (int y = 0; y < self.bounds.size.height; y += kGap) {
@@ -32,6 +33,8 @@ const float kGap = 10.0;
             
             if (intersectionCount == _beacons.count) {
                 [insidePoints addObject:[NSValue valueWithCGPoint:CGPointMake(x, y)]];
+            } else if (intersectionCount == _beacons.count - 1) {
+                [insidePointsMinusOne addObject:[NSValue valueWithCGPoint:CGPointMake(x, y)]];
             } else if (intersectionCount == 0) {
                 [outsidePoints addObject:[NSValue valueWithCGPoint:CGPointMake(x, y)]];
             }
@@ -40,8 +43,10 @@ const float kGap = 10.0;
     
     if (insidePoints.count > 0) {
         [_delegate probabilityPointsUpdated:insidePoints];
-    } else {
+    } else if (outsidePoints.count > 0) {
         [_delegate probabilityPointsUpdated:outsidePoints];
+    } else {
+        [_delegate probabilityPointsUpdated:insidePointsMinusOne];
     }
 }
 
