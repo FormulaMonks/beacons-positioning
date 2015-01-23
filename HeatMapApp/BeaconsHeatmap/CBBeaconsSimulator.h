@@ -8,8 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+@class CBBeaconsSimulator;
+
 @protocol CBBeaconsSimulatorDelegate
--(void)beaconsDidChange;
+-(void)beaconSimulatorDidChange:(CBBeaconsSimulator *)simulator;
 @end
 
 @interface CBBeaconsSimulator : NSObject

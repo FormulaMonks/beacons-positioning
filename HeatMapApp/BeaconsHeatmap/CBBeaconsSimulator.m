@@ -36,13 +36,9 @@
         }
     }
     
-    [_delegate beaconsDidChange];
+    [_delegate beaconSimulatorDidChange:self];
     
     [self performSelector:@selector(moveLoop) withObject:nil afterDelay:0.1];
-}
-
-- (void)dealloc {
-    
 }
 
 @end

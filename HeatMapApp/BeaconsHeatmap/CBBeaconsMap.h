@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class CBBeaconsMap;
+
 @protocol CBBeaconsMapDelegate
 // array of CGPoints
-- (void)probabilityPointsUpdated:(NSArray *)points;
+- (void)beaconMap:(CBBeaconsMap *)beaconMap probabilityPointsUpdated:(NSArray *)points;
 @end
 
 @interface CBBeacon : NSObject

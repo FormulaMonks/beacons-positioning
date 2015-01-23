@@ -52,7 +52,9 @@
     _beaconsView.beacons = @[b1, b2, b3, b4];
 }
 
-- (void)probabilityPointsUpdated:(NSArray *)points {
+// Delegates
+
+- (void)beaconMap:(CBBeaconsMap *)beaconMap probabilityPointsUpdated:(NSArray *)points {
     NSMutableArray *weights = [NSMutableArray arrayWithCapacity:points.count];
     for (int i = 0; i < points.count; i++) {
         [weights addObject:[NSNumber numberWithFloat:10.0]];
@@ -61,13 +63,8 @@
     _imageView.image = map;
 }
 
--(void)beaconsDidChange {
+-(void)beaconSimulatorDidChange:(CBBeaconsSimulator *)simulator {
     [_beaconsView updateBeacons];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end

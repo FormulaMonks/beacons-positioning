@@ -41,9 +41,9 @@ NSArray *_beacons;
     }
     
     if (insidePoints.count > 0) {
-        [_delegate probabilityPointsUpdated:insidePoints];
+        [_delegate beaconMap:self probabilityPointsUpdated:insidePoints];
     } else {
-        [_delegate probabilityPointsUpdated:outsidePoints];
+        [_delegate beaconMap:self probabilityPointsUpdated:outsidePoints];
     }
 }
 
