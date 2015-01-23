@@ -27,6 +27,7 @@
 
 @property NSArray *beacons;
 
-- (void)calculateProbabilityPoints;
+// will look for updates
+- (void)updateBeacons;
 
 @end

@@ -16,6 +16,8 @@ const float kGap = 10.0;
 
 @implementation CBBeaconsMap
 
+NSArray *_beacons;
+
 - (void)calculateProbabilityPoints {
     NSMutableArray *insidePoints = [NSMutableArray array];
     NSMutableArray *insidePointsMinusOne = [NSMutableArray array];
@@ -50,6 +52,18 @@ const float kGap = 10.0;
     }
 }
 
+- (NSArray *)beacons {
+    return _beacons;
+}
+
+- (void)setBeacons:(NSArray *)beacons {
+    _beacons = beacons;
+    
+    [self calculateProbabilityPoints];
+    
+    [self setNeedsDisplay];
+}
+
 - (void)drawRect:(CGRect)rect {
     CGContextRef ctx= UIGraphicsGetCurrentContext();
     CGRect bounds = [self bounds];
@@ -58,7 +72,7 @@ const float kGap = 10.0;
     center.x = bounds.origin.x + bounds.size.width / 2.0;
     center.y = bounds.origin.y + bounds.size.height / 2.0;
     
-    CGContextSetLineWidth(ctx,3);
+    CGContextSetLineWidth(ctx,1);
     CGContextSetRGBStrokeColor(ctx,0.8,0.8,0.8,1.0);
     
     for (CBBeacon *beacon in _beacons) {
@@ -67,6 +81,12 @@ const float kGap = 10.0;
         CGContextAddArc(ctx,beacon.position.x,beacon.position.y,beacon.distance,0.0,M_PI*2,YES);
         CGContextStrokePath(ctx);
     }
+}
+
+- (void)updateBeacons {
+    [self calculateProbabilityPoints];
+    
+    [self setNeedsDisplay];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -96,9 +116,10 @@ const float kGap = 10.0;
     CGPoint prevLocation = [touch previousLocationInView:self];
     
     _nearestBeacon.distance += prevLocation.y - location.y;
-    [self setNeedsDisplay];
     
     [self calculateProbabilityPoints];
+    
+    [self setNeedsDisplay];
 }
 
 @end

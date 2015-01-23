@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E2D8E9541A72726400CB4B18 /* CBBeaconsMap.m in Sources */ = {isa = PBXBuildFile; fileRef = E2D8E9531A72726400CB4B18 /* CBBeaconsMap.m */; };
+		E2D8E9571A72B6B500CB4B18 /* CBBeaconsSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = E2D8E9561A72B6B500CB4B18 /* CBBeaconsSimulator.m */; };
 		FA6A61941A719EFF00701CAD /* LFHeatMap.m in Sources */ = {isa = PBXBuildFile; fileRef = FA6A61931A719EFF00701CAD /* LFHeatMap.m */; };
 		FA75B5F51A718DE500CA6DA8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FA75B5F41A718DE500CA6DA8 /* main.m */; };
 		FA75B5F81A718DE500CA6DA8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FA75B5F71A718DE500CA6DA8 /* AppDelegate.m */; };
@@ -31,6 +32,8 @@
 /* Begin PBXFileReference section */
 		E2D8E9521A72726400CB4B18 /* CBBeaconsMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBBeaconsMap.h; sourceTree = "<group>"; };
 		E2D8E9531A72726400CB4B18 /* CBBeaconsMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBBeaconsMap.m; sourceTree = "<group>"; };
+		E2D8E9551A72B6B500CB4B18 /* CBBeaconsSimulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBBeaconsSimulator.h; sourceTree = "<group>"; };
+		E2D8E9561A72B6B500CB4B18 /* CBBeaconsSimulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBBeaconsSimulator.m; sourceTree = "<group>"; };
 		FA6A61921A719EFF00701CAD /* LFHeatMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFHeatMap.h; sourceTree = "<group>"; };
 		FA6A61931A719EFF00701CAD /* LFHeatMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFHeatMap.m; sourceTree = "<group>"; };
 		FA75B5EF1A718DE500CA6DA8 /* BeaconsHeatmap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeaconsHeatmap.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -102,12 +105,14 @@
 				FA75B5F71A718DE500CA6DA8 /* AppDelegate.m */,
 				FA75B5F91A718DE500CA6DA8 /* ViewController.h */,
 				FA75B5FA1A718DE500CA6DA8 /* ViewController.m */,
+				E2D8E9521A72726400CB4B18 /* CBBeaconsMap.h */,
+				E2D8E9531A72726400CB4B18 /* CBBeaconsMap.m */,
+				E2D8E9551A72B6B500CB4B18 /* CBBeaconsSimulator.h */,
+				E2D8E9561A72B6B500CB4B18 /* CBBeaconsSimulator.m */,
 				FA75B5FC1A718DE500CA6DA8 /* Main.storyboard */,
 				FA75B5FF1A718DE500CA6DA8 /* Images.xcassets */,
 				FA75B6011A718DE500CA6DA8 /* LaunchScreen.xib */,
 				FA75B5F21A718DE500CA6DA8 /* Supporting Files */,
-				E2D8E9521A72726400CB4B18 /* CBBeaconsMap.h */,
-				E2D8E9531A72726400CB4B18 /* CBBeaconsMap.m */,
 			);
 			path = BeaconsHeatmap;
 			sourceTree = "<group>";
@@ -248,6 +253,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA6A61941A719EFF00701CAD /* LFHeatMap.m in Sources */,
+				E2D8E9571A72B6B500CB4B18 /* CBBeaconsSimulator.m in Sources */,
 				FA75B5FB1A718DE500CA6DA8 /* ViewController.m in Sources */,
 				FA75B5F81A718DE500CA6DA8 /* AppDelegate.m in Sources */,
 				E2D8E9541A72726400CB4B18 /* CBBeaconsMap.m in Sources */,

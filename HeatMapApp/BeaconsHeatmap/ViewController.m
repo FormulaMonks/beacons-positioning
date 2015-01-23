@@ -9,11 +9,14 @@
 #import "ViewController.h"
 #import "LFHeatMap.h"
 #import "CBBeaconsMap.h"
+#import "CBBeaconsSimulator.h"
 
-@interface ViewController () <CBBeaconsMapDelegate>
+@interface ViewController () <CBBeaconsMapDelegate, CBBeaconsSimulatorDelegate>
 
 @property IBOutlet UIImageView *imageView;
 @property IBOutlet CBBeaconsMap *beaconsView;
+
+@property CBBeaconsSimulator *simulator;
 
 @end
 
@@ -22,19 +25,23 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    _simulator = [CBBeaconsSimulator new];
+    _simulator.delegate = self;
+    
     _beaconsView.delegate = self;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    CBBeacon *b1 = [[CBBeacon alloc] initWithX:0 y:40 distance:200];
-    CBBeacon *b2 = [[CBBeacon alloc] initWithX:0 y:_beaconsView.bounds.size.height - 80 distance:120];
-    CBBeacon *b3 = [[CBBeacon alloc] initWithX:_beaconsView.bounds.size.width y:_beaconsView.bounds.size.height/2 distance:70];
+    CBBeacon *b1 = [[CBBeacon alloc] initWithX:0 y:40 distance:290];
+    CBBeacon *b2 = [[CBBeacon alloc] initWithX:0 y:_beaconsView.bounds.size.height - 80 distance:300];
+    CBBeacon *b3 = [[CBBeacon alloc] initWithX:_beaconsView.bounds.size.width y:_beaconsView.bounds.size.height/2 distance:270];
     CBBeacon *b4 = [[CBBeacon alloc] initWithX:_beaconsView.bounds.size.width/2 y:_beaconsView.bounds.size.height distance:320];
+    
     _beaconsView.beacons = @[b1, b2, b3, b4];
-    [_beaconsView calculateProbabilityPoints];
-    [_beaconsView setNeedsDisplay];
+    
+    [_simulator simulateBeacons:_beaconsView.beacons noise:0.1];
 }
 
 - (void)probabilityPointsUpdated:(NSArray *)points {
@@ -44,6 +51,10 @@
     }
     UIImage *map = [LFHeatMap heatMapWithRect:_imageView.bounds boost:0.5 points:points weights:weights];
     _imageView.image = map;
+}
+
+-(void)beaconsDidChange {
+    [_beaconsView updateBeacons];
 }
 
 - (void)didReceiveMemoryWarning {
