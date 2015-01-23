@@ -16,12 +16,9 @@ const float kGap = 10.0;
 
 @implementation CBBeaconsMap
 
-- (void)awakeFromNib {
-    [self calculateProbabilityPoints];
-}
-
 - (void)calculateProbabilityPoints {
-    NSMutableArray *points = [NSMutableArray array];
+    NSMutableArray *insidePoints = [NSMutableArray array];
+    NSMutableArray *outsidePoints = [NSMutableArray array];
     for (int x = 0; x < self.bounds.size.width; x += kGap) {
         for (int y = 0; y < self.bounds.size.height; y += kGap) {
             int intersectionCount = 0;
@@ -34,12 +31,18 @@ const float kGap = 10.0;
             }
             
             if (intersectionCount == _beacons.count) {
-                [points addObject:[NSValue valueWithCGPoint:CGPointMake(x, y)]];
+                [insidePoints addObject:[NSValue valueWithCGPoint:CGPointMake(x, y)]];
+            } else if (intersectionCount == 0) {
+                [outsidePoints addObject:[NSValue valueWithCGPoint:CGPointMake(x, y)]];
             }
         }
     }
     
-    [_delegate probabilityPointsUpdated:points];
+    if (insidePoints.count > 0) {
+        [_delegate probabilityPointsUpdated:insidePoints];
+    } else {
+        [_delegate probabilityPointsUpdated:outsidePoints];
+    }
 }
 
 - (void)drawRect:(CGRect)rect {

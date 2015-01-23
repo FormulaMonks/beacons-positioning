@@ -27,4 +27,6 @@
 
 @property NSArray *beacons;
 
+- (void)calculateProbabilityPoints;
+
 @end

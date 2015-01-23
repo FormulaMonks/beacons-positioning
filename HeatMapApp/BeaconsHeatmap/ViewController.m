@@ -29,9 +29,11 @@
     [super viewDidAppear:animated];
     
     CBBeacon *b1 = [[CBBeacon alloc] initWithX:0 y:40 distance:200];
-    CBBeacon *b2 = [[CBBeacon alloc] initWithX:_beaconsView.bounds.size.width y:_beaconsView.bounds.size.height/2 distance:150];
-    CBBeacon *b3 = [[CBBeacon alloc] initWithX:_beaconsView.bounds.size.width/2 y:_beaconsView.bounds.size.height distance:320];
-    _beaconsView.beacons = @[b1, b2, b3];
+    CBBeacon *b2 = [[CBBeacon alloc] initWithX:0 y:_beaconsView.bounds.size.height - 80 distance:120];
+    CBBeacon *b3 = [[CBBeacon alloc] initWithX:_beaconsView.bounds.size.width y:_beaconsView.bounds.size.height/2 distance:70];
+    CBBeacon *b4 = [[CBBeacon alloc] initWithX:_beaconsView.bounds.size.width/2 y:_beaconsView.bounds.size.height distance:320];
+    _beaconsView.beacons = @[b1, b2, b3, b4];
+    [_beaconsView calculateProbabilityPoints];
     [_beaconsView setNeedsDisplay];
 }
 
