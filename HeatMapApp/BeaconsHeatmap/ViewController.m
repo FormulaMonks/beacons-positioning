@@ -34,7 +34,7 @@
 - (IBAction)changeSimulation:(UIButton *)sender {
     if ([sender.titleLabel.text hasPrefix:@"Start"]) {
         [sender setTitle:@"Stop Simulation" forState:UIControlStateNormal];
-        [_simulator simulateBeacons:_beaconsView.beacons noise:0.1];
+        [_simulator simulateBeacons:_beaconsView.beacons noise:0.05];
     } else {
         [sender setTitle:@"Start Simulation" forState:UIControlStateNormal];
         [_simulator stopSimulation];
