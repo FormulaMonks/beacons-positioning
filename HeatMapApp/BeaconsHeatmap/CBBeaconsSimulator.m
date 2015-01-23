@@ -9,6 +9,8 @@
 #import "CBBeaconsSimulator.h"
 #import "CBBeaconsMap.h"
 
+const float kRefreshTime = 0.1;
+
 @interface CBBeaconsSimulator()
 @property NSArray *beacons;
 @property float noise;
@@ -20,7 +22,7 @@
     _beacons = beacons;
     _noise = percentageNoise;
     
-    [self performSelector:@selector(moveLoop) withObject:nil afterDelay:0.1];
+    [self performSelector:@selector(moveLoop) withObject:nil afterDelay:kRefreshTime];
 }
 
 - (void)stopSimulation {
@@ -38,7 +40,7 @@
     
     [_delegate beaconSimulatorDidChange:self];
     
-    [self performSelector:@selector(moveLoop) withObject:nil afterDelay:0.1];
+    [self performSelector:@selector(moveLoop) withObject:nil afterDelay:kRefreshTime];
 }
 
 @end

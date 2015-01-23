@@ -44,10 +44,10 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    CBBeacon *b1 = [[CBBeacon alloc] initWithX:0 y:40 distance:290];
-    CBBeacon *b2 = [[CBBeacon alloc] initWithX:0 y:_beaconsView.bounds.size.height - 80 distance:300];
-    CBBeacon *b3 = [[CBBeacon alloc] initWithX:_beaconsView.bounds.size.width y:_beaconsView.bounds.size.height/2 distance:270];
-    CBBeacon *b4 = [[CBBeacon alloc] initWithX:_beaconsView.bounds.size.width/2 y:_beaconsView.bounds.size.height distance:320];
+    CBBeacon *b1 = [[CBBeacon alloc] initWithX:0 y:_beaconsView.bounds.size.height*0.1 distance:_beaconsView.bounds.size.width * 0.9];
+    CBBeacon *b2 = [[CBBeacon alloc] initWithX:0 y:_beaconsView.bounds.size.height*0.93 distance:_beaconsView.bounds.size.height * 0.6];
+    CBBeacon *b3 = [[CBBeacon alloc] initWithX:_beaconsView.bounds.size.width y:_beaconsView.bounds.size.height/2 distance:_beaconsView.bounds.size.height * 0.5];
+    CBBeacon *b4 = [[CBBeacon alloc] initWithX:_beaconsView.bounds.size.width/2 y:_beaconsView.bounds.size.height distance:_beaconsView.bounds.size.height * 0.6];
     
     _beaconsView.beacons = @[b1, b2, b3, b4];
 }
@@ -59,7 +59,7 @@
     for (int i = 0; i < points.count; i++) {
         [weights addObject:[NSNumber numberWithFloat:10.0]];
     }
-    UIImage *map = [LFHeatMap heatMapWithRect:_imageView.bounds boost:0.5 points:points weights:weights];
+    UIImage *map = [LFHeatMap heatMapWithRect:_imageView.bounds boost:0.6 points:points weights:weights];
     _imageView.image = map;
 }
 
