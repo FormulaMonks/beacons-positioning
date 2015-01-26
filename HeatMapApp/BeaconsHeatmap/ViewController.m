@@ -10,7 +10,6 @@
 #import "LFHeatMap.h"
 #import "CBBeaconsMap.h"
 #import "CBBeaconsSimulator.h"
-#import "SRWebSocket.h"
 
 @interface ViewController () <CBBeaconsMapDelegate, CBBeaconsSimulatorDelegate>
 
@@ -18,6 +17,7 @@
 @property IBOutlet CBBeaconsMap *beaconsView;
 
 @property CBBeaconsSimulator *simulator;
+@property SRWebSocket *socket;
 
 @end
 
@@ -29,7 +29,7 @@
     _simulator = [CBBeaconsSimulator new];
     _simulator.delegate = self;
     
-    _beaconsView.delegate = self;
+    _beaconsView.delegate = self;    
 }
 
 - (IBAction)changeSimulation:(UIButton *)sender {
@@ -62,10 +62,6 @@
     }
     UIImage *map = [LFHeatMap heatMapWithRect:_imageView.bounds boost:0.6 points:points weights:weights];
     _imageView.image = map;
-}
-
--(void)beaconSimulatorDidChange:(CBBeaconsSimulator *)simulator {
-    [_beaconsView updateBeacons];
 }
 
 @end

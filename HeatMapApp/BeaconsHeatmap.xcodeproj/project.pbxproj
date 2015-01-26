@@ -21,7 +21,6 @@
 		FABF907F1A767F5A00255342 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FABF907E1A767F5A00255342 /* CFNetwork.framework */; };
 		FABF90811A767F5F00255342 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FABF90801A767F5F00255342 /* Security.framework */; };
 		FABF90831A767F6500255342 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FABF90821A767F6500255342 /* Foundation.framework */; };
-		FABF90891A767FC500255342 /* SRWebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = FABF90881A767FC500255342 /* SRWebSocket.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,8 +57,6 @@
 		FABF907E1A767F5A00255342 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		FABF90801A767F5F00255342 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		FABF90821A767F6500255342 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		FABF90871A767FC500255342 /* SRWebSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRWebSocket.h; sourceTree = "<group>"; };
-		FABF90881A767FC500255342 /* SRWebSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRWebSocket.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,7 +159,6 @@
 		FA75B6181A718E2800CA6DA8 /* libs */ = {
 			isa = PBXGroup;
 			children = (
-				FABF90851A767FC500255342 /* SocketRocket */,
 				FA6A61911A719EFF00701CAD /* LFHeatMap */,
 			);
 			name = libs;
@@ -178,16 +174,6 @@
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
-		};
-		FABF90851A767FC500255342 /* SocketRocket */ = {
-			isa = PBXGroup;
-			children = (
-				FABF90871A767FC500255342 /* SRWebSocket.h */,
-				FABF90881A767FC500255342 /* SRWebSocket.m */,
-			);
-			name = SocketRocket;
-			path = libs/SocketRocket/SocketRocket;
-			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -294,7 +280,6 @@
 				E2D8E9571A72B6B500CB4B18 /* CBBeaconsSimulator.m in Sources */,
 				FA75B5FB1A718DE500CA6DA8 /* ViewController.m in Sources */,
 				FA75B5F81A718DE500CA6DA8 /* AppDelegate.m in Sources */,
-				FABF90891A767FC500255342 /* SRWebSocket.m in Sources */,
 				E2D8E9541A72726400CB4B18 /* CBBeaconsMap.m in Sources */,
 				FA75B5F51A718DE500CA6DA8 /* main.m in Sources */,
 			);
