@@ -21,6 +21,7 @@
 		FABF907F1A767F5A00255342 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FABF907E1A767F5A00255342 /* CFNetwork.framework */; };
 		FABF90811A767F5F00255342 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FABF90801A767F5F00255342 /* Security.framework */; };
 		FABF90831A767F6500255342 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FABF90821A767F6500255342 /* Foundation.framework */; };
+		FABF908E1A769C0A00255342 /* SIOSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = FABF908C1A769C0A00255342 /* SIOSocket.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,9 @@
 		FABF907E1A767F5A00255342 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		FABF90801A767F5F00255342 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		FABF90821A767F6500255342 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		FABF908B1A769C0A00255342 /* SIOSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIOSocket.h; sourceTree = "<group>"; };
+		FABF908C1A769C0A00255342 /* SIOSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIOSocket.m; sourceTree = "<group>"; };
+		FABF908D1A769C0A00255342 /* socket.io.js.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = socket.io.js.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,6 +163,7 @@
 		FA75B6181A718E2800CA6DA8 /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				FABF908A1A769C0A00255342 /* SIOSocket */,
 				FA6A61911A719EFF00701CAD /* LFHeatMap */,
 			);
 			name = libs;
@@ -174,6 +179,17 @@
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
+		};
+		FABF908A1A769C0A00255342 /* SIOSocket */ = {
+			isa = PBXGroup;
+			children = (
+				FABF908B1A769C0A00255342 /* SIOSocket.h */,
+				FABF908C1A769C0A00255342 /* SIOSocket.m */,
+				FABF908D1A769C0A00255342 /* socket.io.js.h */,
+			);
+			name = SIOSocket;
+			path = libs/SIOSocket/SocketIO/Source;
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -277,6 +293,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA6A61941A719EFF00701CAD /* LFHeatMap.m in Sources */,
+				FABF908E1A769C0A00255342 /* SIOSocket.m in Sources */,
 				E2D8E9571A72B6B500CB4B18 /* CBBeaconsSimulator.m in Sources */,
 				FA75B5FB1A718DE500CA6DA8 /* ViewController.m in Sources */,
 				FA75B5F81A718DE500CA6DA8 /* AppDelegate.m in Sources */,

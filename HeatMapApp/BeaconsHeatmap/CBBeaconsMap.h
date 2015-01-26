@@ -18,6 +18,7 @@
 @interface CBBeacon : NSObject
 @property CGPoint position;
 @property float distance;
+@property NSString *name;
 
 - (instancetype)initWithX:(float)x y:(float)y distance:(float)distance;
 

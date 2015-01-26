@@ -1,3 +1,6 @@
 [submodule "HeatMapApp/libs/LFHeatMap"]
 	path = HeatMapApp/libs/LFHeatMap
 	url = https://github.com/gpolak/LFHeatMap.git
+[submodule "HeatMapApp/libs/SIOSocket"]
+	path = HeatMapApp/libs/SIOSocket
+	url = git@github.com:MegaBits/SIOSocket.git

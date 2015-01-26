@@ -69,9 +69,6 @@ NSArray *_beacons;
     center.x = bounds.origin.x + bounds.size.width / 2.0;
     center.y = bounds.origin.y + bounds.size.height / 2.0;
     
-    CGContextSetLineWidth(ctx,1);
-    CGContextSetRGBStrokeColor(ctx,0.8,0.8,0.8,1.0);
-    
     for (CBBeacon *beacon in _beacons) {
         if (_moveBeacon && _nearestBeacon == beacon) {
             CGContextSetFillColorWithColor(ctx, [[UIColor redColor] CGColor]);
@@ -79,8 +76,34 @@ NSArray *_beacons;
             CGContextSetFillColorWithColor(ctx, [[UIColor blackColor] CGColor]);
         }
         
-        CGContextFillRect(ctx, CGRectMake(beacon.position.x - 10, beacon.position.y - 10, 20, 20));
+        float beaconSize = 20;
+        UIFont *font= [UIFont systemFontOfSize:12.0];
+        if (beacon.name) {
+            CGPoint nameLocation;
+            if (beacon.position.x <= beaconSize) {
+                nameLocation.x = beacon.position.x + beaconSize/2 + 2;
+                nameLocation.y = beacon.position.y - beaconSize/2;
+            }
+            else if (self.bounds.size.width - beacon.position.x <= beaconSize) {
+                nameLocation.x = beacon.position.x - [beacon.name sizeWithAttributes:@{NSFontAttributeName:font}].width - beaconSize/2 -  2;
+                nameLocation.y = beacon.position.y - beaconSize/2;
+            }
+            else if (beacon.position.y <= beaconSize) {
+                nameLocation.x = beacon.position.x - [beacon.name sizeWithAttributes:@{NSFontAttributeName:font}].width/2;
+                nameLocation.y = [beacon.name sizeWithAttributes:@{NSFontAttributeName:font}].height;
+            }
+            else if (self.bounds.size.height - beacon.position.y <= beaconSize) {
+                nameLocation.x = beacon.position.x - [beacon.name sizeWithAttributes:@{NSFontAttributeName:font}].width/2;
+                nameLocation.y = beacon.position.y - [beacon.name sizeWithAttributes:@{NSFontAttributeName:font}].height - beaconSize/2 - 2;
+            }
+            [beacon.name drawAtPoint:nameLocation withAttributes:@{NSFontAttributeName:font}];
+        }
         
+        CGContextFillRect(ctx, CGRectMake(beacon.position.x - beaconSize/2, beacon.position.y - beaconSize/2, beaconSize, beaconSize));
+        
+        CGContextSetLineWidth(ctx,1);
+        CGContextSetRGBStrokeColor(ctx,0.8,0.8,0.8,1.0);
+
         CGContextAddArc(ctx,beacon.position.x,beacon.position.y,beacon.distance,0.0,M_PI*2,YES);
         CGContextStrokePath(ctx);
     }
@@ -128,11 +151,7 @@ NSArray *_beacons;
     CGPoint prevLocation = [touch previousLocationInView:self];
     
     if (_moveBeacon && _nearestBeacon) {
-        if (_nearestBeacon.position.x == 0 || _nearestBeacon.position.x == self.bounds.size.width) {
-            _nearestBeacon.position = CGPointMake(_nearestBeacon.position.x, _nearestBeacon.position.y - (prevLocation.y - location.y));
-        } else {
-            _nearestBeacon.position = CGPointMake(_nearestBeacon.position.x - (prevLocation.x - location.x), _nearestBeacon.position.y);
-        }
+        _nearestBeacon.position = CGPointMake(_nearestBeacon.position.x - (prevLocation.x - location.x), _nearestBeacon.position.y - (prevLocation.y - location.y));
     } else { // move distance
         _nearestBeacon.distance += prevLocation.y - location.y;
     }

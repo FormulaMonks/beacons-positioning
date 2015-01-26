@@ -28,9 +28,10 @@ io.on('connection', function(socket){
 beacons.waitForDevices = waitFor;
 beacons.on('update', function(devices) {
     // charm.reset();
-    devices.forEach(function(device) {
+    // devices.forEach(function(device) {
         // charm.write("distance: " + device.distance + "m device: " + device.name + " (rssi:" +  device.rssi + ")" + "\n");
-    });
+    // });
+    io.emit('update', devices);
 });
 
 io.listen(port);
