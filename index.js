@@ -1,5 +1,18 @@
 var noble = require('noble');
+var program = require('commander');
 var charm = require('charm')();
+var path = require('path');
+var pkg = require(path.join(__dirname, 'package.json'));
+
+program.version(pkg.version).
+option('-n, --number of <devices>', 'number of devices to listen to', parseInt).
+parse(process.argv);
+
+var devices = program.number;
+if (!devices) {
+    console.error("You need to specify the number of devices to listen to.");
+    program.help();
+}
 
 charm.pipe(process.stdout);
 
@@ -20,7 +33,7 @@ noble.on('scanStop', function() {
 });
 
 var lastRssiByUuid = {};
-var waitFor = 1;
+var waitFor = program.number;
 
 var distanceByUuid = {};
 
@@ -106,3 +119,5 @@ noble.on('discover', function(peripheral) {
     peripheral.connect();
 
 });
+
+console.log("waiting for " + waitFor + " devices to connect...");

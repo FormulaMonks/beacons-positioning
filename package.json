@@ -18,6 +18,8 @@
   "homepage": "https://github.com/citrusbyte/beacons-positioning",
   "dependencies": {
     "charm": "^1.0.0",
-    "noble": "^0.3.7"
+    "commander": "^2.6.0",
+    "noble": "^0.3.7",
+    "path": "^0.11.14"
   }
 }
