@@ -32,8 +32,9 @@ const float kRefreshTime = 0.1;
 - (void)moveLoop {
     for (CBBeacon *beacon in _beacons) {
         float delta = beacon.distance * _noise;
-        if (delta > 0) {
-            float r = -delta/2 + (arc4random() % (int)(delta * 100))/100.0;
+        int multDelta = (int)(delta * 100);
+        if (multDelta > 0) {
+            float r = -delta/2 + (arc4random() % multDelta)/100.0;
             beacon.distance += r;
         }
     }
