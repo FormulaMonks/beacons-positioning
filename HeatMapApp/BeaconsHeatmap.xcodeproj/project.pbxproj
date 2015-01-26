@@ -17,6 +17,11 @@
 		FA75B6001A718DE500CA6DA8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA75B5FF1A718DE500CA6DA8 /* Images.xcassets */; };
 		FA75B6031A718DE500CA6DA8 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA75B6011A718DE500CA6DA8 /* LaunchScreen.xib */; };
 		FA75B60F1A718DE500CA6DA8 /* BeaconsHeatmapTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FA75B60E1A718DE500CA6DA8 /* BeaconsHeatmapTests.m */; };
+		FABF907D1A767F5300255342 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FABF907C1A767F5300255342 /* libicucore.dylib */; };
+		FABF907F1A767F5A00255342 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FABF907E1A767F5A00255342 /* CFNetwork.framework */; };
+		FABF90811A767F5F00255342 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FABF90801A767F5F00255342 /* Security.framework */; };
+		FABF90831A767F6500255342 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FABF90821A767F6500255342 /* Foundation.framework */; };
+		FABF90891A767FC500255342 /* SRWebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = FABF90881A767FC500255342 /* SRWebSocket.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +54,12 @@
 		FA75B6081A718DE500CA6DA8 /* BeaconsHeatmapTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BeaconsHeatmapTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA75B60D1A718DE500CA6DA8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FA75B60E1A718DE500CA6DA8 /* BeaconsHeatmapTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BeaconsHeatmapTests.m; sourceTree = "<group>"; };
+		FABF907C1A767F5300255342 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
+		FABF907E1A767F5A00255342 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		FABF90801A767F5F00255342 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		FABF90821A767F6500255342 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		FABF90871A767FC500255342 /* SRWebSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRWebSocket.h; sourceTree = "<group>"; };
+		FABF90881A767FC500255342 /* SRWebSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRWebSocket.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +67,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FABF90831A767F6500255342 /* Foundation.framework in Frameworks */,
+				FABF90811A767F5F00255342 /* Security.framework in Frameworks */,
+				FABF907F1A767F5A00255342 /* CFNetwork.framework in Frameworks */,
+				FABF907D1A767F5300255342 /* libicucore.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,6 +97,7 @@
 		FA75B5E61A718DE500CA6DA8 = {
 			isa = PBXGroup;
 			children = (
+				FABF90841A767F6700255342 /* Frameworks */,
 				FA75B5F11A718DE500CA6DA8 /* BeaconsHeatmap */,
 				FA75B60B1A718DE500CA6DA8 /* BeaconsHeatmapTests */,
 				FA75B5F01A718DE500CA6DA8 /* Products */,
@@ -146,10 +162,32 @@
 		FA75B6181A718E2800CA6DA8 /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				FABF90851A767FC500255342 /* SocketRocket */,
 				FA6A61911A719EFF00701CAD /* LFHeatMap */,
 			);
 			name = libs;
 			sourceTree = "<group>";
+		};
+		FABF90841A767F6700255342 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FABF90821A767F6500255342 /* Foundation.framework */,
+				FABF90801A767F5F00255342 /* Security.framework */,
+				FABF907E1A767F5A00255342 /* CFNetwork.framework */,
+				FABF907C1A767F5300255342 /* libicucore.dylib */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FABF90851A767FC500255342 /* SocketRocket */ = {
+			isa = PBXGroup;
+			children = (
+				FABF90871A767FC500255342 /* SRWebSocket.h */,
+				FABF90881A767FC500255342 /* SRWebSocket.m */,
+			);
+			name = SocketRocket;
+			path = libs/SocketRocket/SocketRocket;
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -256,6 +294,7 @@
 				E2D8E9571A72B6B500CB4B18 /* CBBeaconsSimulator.m in Sources */,
 				FA75B5FB1A718DE500CA6DA8 /* ViewController.m in Sources */,
 				FA75B5F81A718DE500CA6DA8 /* AppDelegate.m in Sources */,
+				FABF90891A767FC500255342 /* SRWebSocket.m in Sources */,
 				E2D8E9541A72726400CB4B18 /* CBBeaconsMap.m in Sources */,
 				FA75B5F51A718DE500CA6DA8 /* main.m in Sources */,
 			);

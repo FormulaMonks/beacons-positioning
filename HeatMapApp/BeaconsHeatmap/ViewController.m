@@ -10,6 +10,7 @@
 #import "LFHeatMap.h"
 #import "CBBeaconsMap.h"
 #import "CBBeaconsSimulator.h"
+#import "SRWebSocket.h"
 
 @interface ViewController () <CBBeaconsMapDelegate, CBBeaconsSimulatorDelegate>
 

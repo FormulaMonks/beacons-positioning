@@ -1,3 +1,6 @@
 [submodule "HeatMapApp/libs/LFHeatMap"]
 	path = HeatMapApp/libs/LFHeatMap
 	url = https://github.com/gpolak/LFHeatMap.git
+[submodule "HeatMapApp/libs/SocketRocket"]
+	path = HeatMapApp/libs/SocketRocket
+	url = git@github.com:square/SocketRocket.git

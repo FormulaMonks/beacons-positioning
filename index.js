@@ -2,6 +2,7 @@ var noble = require('noble');
 var program = require('commander');
 var charm = require('charm')();
 var path = require('path');
+var express = require('express');
 var pkg = require(path.join(__dirname, 'package.json'));
 
 program.version(pkg.version).
@@ -88,7 +89,6 @@ function calculateDistanceFor(uuid, rssi) {
 
 noble.on('discover', function(peripheral) {
     console.log('peripheral discovered (' + peripheral.advertisement.localName + '):');
-
 
     peripheral.on('rssiUpdate', function(rssi) {
         lastRssiByUuid[peripheral.uuid] = rssi;
