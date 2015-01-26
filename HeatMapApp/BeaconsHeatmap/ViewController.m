@@ -44,9 +44,9 @@
                 NSDictionary *item = devices[i];
                 CBBeacon *beacon = _beaconsView.beacons[i];
                 
-                NSLog(@"update received: %@", args);
                 beacon.name = item[@"name"];
                 beacon.distance = [item[@"distance"] floatValue];
+                NSLog(@"distance to %@: %f", beacon.name, beacon.distance);
                 
                 [_beaconsView updateBeacons];
             }

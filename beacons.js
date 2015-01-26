@@ -30,10 +30,10 @@ function calculateDistanceFor(uuid, rssi) {
 
     var values = distanceByUuid[uuid];
 
-    var distance = calculateDistance(-45, rssi);
+    var distance = calculateDistance(-50, rssi);
     if (values.length >= 10) {
         var lastValue = values[0];
-        if (Math.abs(distance - lastValue) < 2) { // to avoid quick jumps in signal
+        if (Math.abs(distance - lastValue) < 4) { // to avoid quick jumps in signal
             values.unshift(distance);
         }
     } else {

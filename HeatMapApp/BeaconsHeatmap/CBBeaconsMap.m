@@ -84,19 +84,19 @@ NSArray *_beacons;
         UIFont *font= [UIFont systemFontOfSize:12.0];
         if (beacon.name) {
             CGPoint nameLocation;
-            if (beacon.position.x <= beaconSize) {
+            if (beacon.position.x <= beaconSize * 2) {
                 nameLocation.x = beacon.position.x + beaconSize/2 + 2;
                 nameLocation.y = beacon.position.y - beaconSize/2;
             }
-            else if (self.bounds.size.width - beacon.position.x <= beaconSize) {
+            else if (self.bounds.size.width - beacon.position.x <= beaconSize * 2) {
                 nameLocation.x = beacon.position.x - [beacon.name sizeWithAttributes:@{NSFontAttributeName:font}].width - beaconSize/2 -  2;
                 nameLocation.y = beacon.position.y - beaconSize/2;
             }
-            else if (beacon.position.y <= beaconSize) {
+            else if (beacon.position.y <= beaconSize * 2) {
                 nameLocation.x = beacon.position.x - [beacon.name sizeWithAttributes:@{NSFontAttributeName:font}].width/2;
                 nameLocation.y = [beacon.name sizeWithAttributes:@{NSFontAttributeName:font}].height;
             }
-            else if (self.bounds.size.height - beacon.position.y <= beaconSize) {
+            else if (self.bounds.size.height - beacon.position.y <= beaconSize * 2) {
                 nameLocation.x = beacon.position.x - [beacon.name sizeWithAttributes:@{NSFontAttributeName:font}].width/2;
                 nameLocation.y = beacon.position.y - [beacon.name sizeWithAttributes:@{NSFontAttributeName:font}].height - beaconSize/2 - 2;
             }
@@ -114,7 +114,8 @@ NSArray *_beacons;
 }
 
 - (float)mappedScale {
-    return (self.bounds.size.width/_physicalSize.width + self.bounds.size.height/_physicalSize.height) / 2.0;
+    return self.bounds.size.width/_physicalSize.width;
+//    return (self.bounds.size.width/_physicalSize.width + self.bounds.size.height/_physicalSize.height) / 2.0;
 }
 
 - (float)mappedDistanceFor:(CBBeacon *)beacon {
