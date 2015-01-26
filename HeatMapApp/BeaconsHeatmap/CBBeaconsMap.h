@@ -26,6 +26,8 @@
 
 @interface CBBeaconsMap : UIView
 
+@property CGSize physicalSize;
+
 @property (weak) id<CBBeaconsMapDelegate> delegate;
 
 @property NSArray *beacons;

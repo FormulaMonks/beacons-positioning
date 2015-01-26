@@ -30,6 +30,7 @@
     _simulator = [CBBeaconsSimulator new];
     _simulator.delegate = self;
     
+    _beaconsView.physicalSize = CGSizeMake(3.15, 4.7);
     _beaconsView.delegate = self;
     
     [SIOSocket socketWithHost: @"http://localhost:3000" response: ^(SIOSocket *socket) {
@@ -66,12 +67,11 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    CBBeacon *b1 = [[CBBeacon alloc] initWithX:20 y:_beaconsView.bounds.size.height*0.5 distance:_beaconsView.bounds.size.width * 0.9];
-    CBBeacon *b2 = [[CBBeacon alloc] initWithX:_beaconsView.bounds.size.width/2 y:_beaconsView.bounds.size.height - 20 distance:_beaconsView.bounds.size.height * 0.6];
-    CBBeacon *b3 = [[CBBeacon alloc] initWithX:_beaconsView.bounds.size.width - 20 y:_beaconsView.bounds.size.height/2 distance:_beaconsView.bounds.size.height * 0.5];
-    CBBeacon *b4 = [[CBBeacon alloc] initWithX:_beaconsView.bounds.size.width/2 y:40 distance:_beaconsView.bounds.size.height * 0.6];
+    CBBeacon *b1 = [[CBBeacon alloc] initWithX:20 y:_beaconsView.bounds.size.height*0.5 distance:2.4];
+    CBBeacon *b2 = [[CBBeacon alloc] initWithX:_beaconsView.bounds.size.width/2 y:_beaconsView.bounds.size.height - 20 distance:2.0];
+    CBBeacon *b3 = [[CBBeacon alloc] initWithX:_beaconsView.bounds.size.width - 20 y:_beaconsView.bounds.size.height/2 distance:2.3];
     
-    _beaconsView.beacons = @[b1, b2, b3, b4];
+    _beaconsView.beacons = @[b1, b2, b3];
 }
 
 // Delegates

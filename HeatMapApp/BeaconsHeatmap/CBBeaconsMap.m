@@ -29,7 +29,8 @@ NSArray *_beacons;
             for (CBBeacon *beacon in _beacons) {
                 float dx = beacon.position.x - x;
                 float dy = beacon.position.y - y;
-                if (dx*dx + dy*dy <= beacon.distance * beacon.distance) {
+                float mappedDistance = [self mappedDistanceFor:beacon];
+                if (dx*dx + dy*dy <= mappedDistance * mappedDistance) {
                     intersectionCount++;
                 }
             }
@@ -62,6 +63,9 @@ NSArray *_beacons;
 }
 
 - (void)drawRect:(CGRect)rect {
+    NSAssert(_physicalSize.width != 0, @"physical width can't be zero");
+    NSAssert(_physicalSize.height != 0, @"physical height can't be zero");
+
     CGContextRef ctx= UIGraphicsGetCurrentContext();
     CGRect bounds = [self bounds];
     
@@ -103,10 +107,19 @@ NSArray *_beacons;
         
         CGContextSetLineWidth(ctx,1);
         CGContextSetRGBStrokeColor(ctx,0.8,0.8,0.8,1.0);
-
-        CGContextAddArc(ctx,beacon.position.x,beacon.position.y,beacon.distance,0.0,M_PI*2,YES);
+        
+        CGContextAddArc(ctx, beacon.position.x, beacon.position.y, [self mappedDistanceFor:beacon], 0.0, M_PI*2, YES);
         CGContextStrokePath(ctx);
     }
+}
+
+- (float)mappedScale {
+    return (self.bounds.size.width/_physicalSize.width + self.bounds.size.height/_physicalSize.height) / 2.0;
+}
+
+- (float)mappedDistanceFor:(CBBeacon *)beacon {
+    float scale = [self mappedScale];
+    return beacon.distance * scale;
 }
 
 - (void)updateBeacons {
@@ -153,7 +166,7 @@ NSArray *_beacons;
     if (_moveBeacon && _nearestBeacon) {
         _nearestBeacon.position = CGPointMake(_nearestBeacon.position.x - (prevLocation.x - location.x), _nearestBeacon.position.y - (prevLocation.y - location.y));
     } else { // move distance
-        _nearestBeacon.distance += prevLocation.y - location.y;
+        _nearestBeacon.distance += (prevLocation.y - location.y) / [self mappedScale];
     }
     
     [self calculateProbabilityPoints];
