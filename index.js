@@ -33,6 +33,7 @@ noble.on('scanStop', function() {
 });
 
 var lastRssiByUuid = {};
+var deviceNameByUuid = {};
 var waitFor = program.number;
 
 var distanceByUuid = {};
@@ -86,10 +87,12 @@ function calculateDistanceFor(uuid, rssi) {
 }
 
 noble.on('discover', function(peripheral) {
-    console.log('peripheral discovered (' + peripheral.uuid + '):');
+    console.log('peripheral discovered (' + peripheral.advertisement.localName + '):');
+
 
     peripheral.on('rssiUpdate', function(rssi) {
         lastRssiByUuid[peripheral.uuid] = rssi;
+        deviceNameByUuid[peripheral.uuid] = peripheral.advertisement.localName
 
         if (Object.keys(lastRssiByUuid).length == waitFor) {
             var log = "";
@@ -97,7 +100,7 @@ noble.on('discover', function(peripheral) {
             uuids.sort();
             charm.reset();
             uuids.forEach(function(uuid) {
-                charm.write("distance: " + calculateDistanceFor(uuid, lastRssiByUuid[uuid]).toFixed(2) + "m device: " + uuid + " (rssi:" +  rssi + ")" + "\n");
+                charm.write("distance: " + calculateDistanceFor(uuid, lastRssiByUuid[uuid]).toFixed(2) + "m device: " + deviceNameByUuid[uuid] + " (rssi:" +  lastRssiByUuid[uuid] + ")" + "\n");
             });
             lastRssiByUuid = {};
         }
