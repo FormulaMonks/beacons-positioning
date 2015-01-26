@@ -9,9 +9,11 @@
 #import "CBBeaconsMap.h"
 
 const float kGap = 10.0;
+const float kDistanceToRecognizeBeaconTouch = 50.0;
 
 @interface CBBeaconsMap()
 @property CBBeacon *nearestBeacon;
+@property BOOL moveBeacon;
 @end
 
 @implementation CBBeaconsMap
@@ -71,6 +73,12 @@ NSArray *_beacons;
     CGContextSetRGBStrokeColor(ctx,0.8,0.8,0.8,1.0);
     
     for (CBBeacon *beacon in _beacons) {
+        if (_moveBeacon && _nearestBeacon == beacon) {
+            CGContextSetFillColorWithColor(ctx, [[UIColor redColor] CGColor]);
+        } else {
+            CGContextSetFillColorWithColor(ctx, [[UIColor blackColor] CGColor]);
+        }
+        
         CGContextFillRect(ctx, CGRectMake(beacon.position.x - 10, beacon.position.y - 10, 20, 20));
         
         CGContextAddArc(ctx,beacon.position.x,beacon.position.y,beacon.distance,0.0,M_PI*2,YES);
@@ -102,19 +110,46 @@ NSArray *_beacons;
         }
     }
     
+    float ndx = nearest.position.x - location.x;
+    float ndy = nearest.position.y - location.y;
+    
+    if (sqrt(ndx*ndx + ndy*ndy) < kDistanceToRecognizeBeaconTouch) {
+        _moveBeacon = YES;
+    } else {
+        _moveBeacon = NO;
+    }
+    
     _nearestBeacon = nearest;
 }
 
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+- (void)processTouches:(NSSet *)touches withEvent:(UIEvent *)event {
     UITouch *touch = [touches anyObject];
     CGPoint location = [touch locationInView:self];
     CGPoint prevLocation = [touch previousLocationInView:self];
     
-    _nearestBeacon.distance += prevLocation.y - location.y;
+    if (_moveBeacon && _nearestBeacon) {
+        if (_nearestBeacon.position.x == 0 || _nearestBeacon.position.x == self.bounds.size.width) {
+            _nearestBeacon.position = CGPointMake(_nearestBeacon.position.x, _nearestBeacon.position.y - (prevLocation.y - location.y));
+        } else {
+            _nearestBeacon.position = CGPointMake(_nearestBeacon.position.x - (prevLocation.x - location.x), _nearestBeacon.position.y);
+        }
+    } else { // move distance
+        _nearestBeacon.distance += prevLocation.y - location.y;
+    }
     
     [self calculateProbabilityPoints];
     
     [self setNeedsDisplay];
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+    [self processTouches:touches withEvent:event];
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    _nearestBeacon = nil;
+
+    [self processTouches:touches withEvent:event];
 }
 
 @end

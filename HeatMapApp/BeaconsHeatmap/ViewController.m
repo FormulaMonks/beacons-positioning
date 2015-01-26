@@ -44,10 +44,10 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    CBBeacon *b1 = [[CBBeacon alloc] initWithX:0 y:_beaconsView.bounds.size.height*0.1 distance:_beaconsView.bounds.size.width * 0.9];
-    CBBeacon *b2 = [[CBBeacon alloc] initWithX:0 y:_beaconsView.bounds.size.height*0.93 distance:_beaconsView.bounds.size.height * 0.6];
+    CBBeacon *b1 = [[CBBeacon alloc] initWithX:0 y:_beaconsView.bounds.size.height*0.5 distance:_beaconsView.bounds.size.width * 0.9];
+    CBBeacon *b2 = [[CBBeacon alloc] initWithX:_beaconsView.bounds.size.width/2 y:_beaconsView.bounds.size.height distance:_beaconsView.bounds.size.height * 0.6];
     CBBeacon *b3 = [[CBBeacon alloc] initWithX:_beaconsView.bounds.size.width y:_beaconsView.bounds.size.height/2 distance:_beaconsView.bounds.size.height * 0.5];
-    CBBeacon *b4 = [[CBBeacon alloc] initWithX:_beaconsView.bounds.size.width/2 y:_beaconsView.bounds.size.height distance:_beaconsView.bounds.size.height * 0.6];
+    CBBeacon *b4 = [[CBBeacon alloc] initWithX:_beaconsView.bounds.size.width/2 y:0 distance:_beaconsView.bounds.size.height * 0.6];
     
     _beaconsView.beacons = @[b1, b2, b3, b4];
 }
