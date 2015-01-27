@@ -114,4 +114,6 @@ noble.on('discover', function(peripheral) {
 
 });
 
+ee.calculateDistanceFor = calculateDistanceFor;
+
 module.exports = ee;

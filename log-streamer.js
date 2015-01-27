@@ -45,7 +45,7 @@ var devicesBuffer = [];
 async.eachSeries(logJson, function(device, callback) {
     devicesBuffer.push(device);
 
-    charm.write("distance: " + device.distance + "m device: " + device.name + " (rssi:" +  device.rssi + ")" + "\n");
+    charm.write("distance: " + beacons.calculateDistanceFor(device.name, device.rssi).toFixed(2) + "m device: " + device.name + " (rssi:" +  device.rssi + ")" + "\n");
 
     if (devicesBuffer.length == buffer) {
         var after = device["timestamp"] - lastTime;
