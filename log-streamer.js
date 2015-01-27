@@ -42,18 +42,26 @@ io.listen(port);
 
 var lastTime = 0;
 var devicesBuffer = [];
+
+// override on message of worker
+beacons.worker.onmessage = function(event) {
+    charm.reset();
+    var devices = event.data;
+    devices.forEach(function(device) {
+        charm.write("distance: " + device.distance.toFixed(2) + "m device: " + device.name + " (rssi:" +  device.rssi + ")" + "\n");
+    });
+    io.emit("update", event.data);
+};
+
 async.eachSeries(logJson, function(device, callback) {
     devicesBuffer.push(device);
-
-    charm.write("distance: " + beacons.calculateDistanceFor(device.name, device.rssi).toFixed(2) + "m device: " + device.name + " (rssi:" +  device.rssi + ")" + "\n");
 
     if (devicesBuffer.length == buffer) {
         var after = device["timestamp"] - lastTime;
         lastTime = device["timestamp"];
         setTimeout(function() {
-            io.emit('update', devicesBuffer);
+            beacons.worker.postMessage(devicesBuffer);
             devicesBuffer = [];
-            charm.reset();
             callback();
         }, after);
     } else {
