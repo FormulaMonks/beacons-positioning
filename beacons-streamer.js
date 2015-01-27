@@ -27,8 +27,6 @@ io.on('connection', function(socket){
     });
 });
 
-var logFilename = 'log.txt';
-
 var startTime = new Date();
 
 beacons.waitForDevices = waitFor;
@@ -38,7 +36,7 @@ beacons.on('update', function(devices) {
         device.timestamp = (new Date() - startTime).toString();
 
         if (LOG) {
-            fs.appendFile(logFilename, JSON.stringify(device) + ", ");            
+            fs.appendFile("log.txt", JSON.stringify(device) + ", ");            
         }
         
         charm.write("distance: " + device.distance + "m device: " + device.name + " (rssi:" +  device.rssi + ")" + "\n");
