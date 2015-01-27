@@ -27,7 +27,6 @@ io.on('connection', function(socket){
 });
 
 // var logFilename = 'log.txt';
-// fs.writeFile(logFilename , '[');
 
 var startTime = new Date();
 
@@ -37,7 +36,7 @@ beacons.on('update', function(devices) {
     devices.forEach(function(device) {
         device["timestamp"] = (new Date() - startTime).toString();
 
-        // fs.appendFile(logFilename, JSON.stringify(device));
+        // fs.appendFile(logFilename, JSON.stringify(device) + ", ");
         
         charm.write("distance: " + device.distance + "m device: " + device.name + " (rssi:" +  device.rssi + ")" + "\n");
     });

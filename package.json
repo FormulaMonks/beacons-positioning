@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/citrusbyte/beacons-positioning",
   "dependencies": {
+    "async": "^0.9.0",
     "charm": "^1.0.0",
     "commander": "^2.6.0",
     "noble": "^0.3.7",
