@@ -1,12 +1,10 @@
+var Worker = require('webworker-threads').Worker;
 var noble = require('noble');
 var EventEmitter = require("events").EventEmitter;
 
 var lastRssiByUuid = {};
 var deviceNameByUuid = {};
 var distanceByUuid = {};
-
-var ee = new EventEmitter();
-ee.waitForNDevices = null;
 
 function calculateDistance(txPower, rssi) {
     if (rssi == 0) {
@@ -23,7 +21,6 @@ function calculateDistance(txPower, rssi) {
     }
 }
 
-// this function and similars should be executed by some thread of the pool of background threads.
 function calculateDistanceFor(uuid, rssi) {
     if (!distanceByUuid[uuid]) {
         distanceByUuid[uuid] = [];
@@ -57,6 +54,24 @@ function calculateDistanceFor(uuid, rssi) {
     return avg;
 }
 
+var worker = new Worker(function() {
+    this.onmessage = function(event) {
+        var devices = event.data;
+        devices.forEach(function(device) {
+            device.distance = calculateDistanceFor(device.name, device.rssi);
+        });
+        postMessage(devices);
+    };
+});
+
+var ee = new EventEmitter();
+ee.waitForNDevices = null;
+
+worker.emitter = ee;
+worker.onmessage = function(event) {
+    this.emitter.emit("update", event.data);
+};
+
 noble.on('stateChange', function(state) {
     if (state === 'poweredOn') {
         noble.startScanning();
@@ -78,7 +93,7 @@ noble.on('discover', function(peripheral) {
 
     peripheral.on('rssiUpdate', function(rssi) {
         lastRssiByUuid[peripheral.uuid] = rssi;
-        deviceNameByUuid[peripheral.uuid] = peripheral.advertisement.localName
+        deviceNameByUuid[peripheral.uuid] = peripheral.advertisement.localName;
 
         if (Object.keys(lastRssiByUuid).length == ee.waitForDevices) {
             var log = "";
@@ -88,12 +103,15 @@ noble.on('discover', function(peripheral) {
             uuids.forEach(function(uuid) {
                 var device = {
                     name: deviceNameByUuid[uuid], 
-                    distance: calculateDistanceFor(uuid, lastRssiByUuid[uuid]).toFixed(2),
+                    // distance: calculateDistanceFor(uuid, lastRssiByUuid[uuid]).toFixed(2),
                     rssi: lastRssiByUuid[uuid]
                 };
                 devices.push(device);
             });
-            ee.emit("update", devices);
+            // ee.emit("update", devices);
+            
+            worker.postMessage(devices);
+
             lastRssiByUuid = {};
         }
     });
