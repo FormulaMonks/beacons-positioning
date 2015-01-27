@@ -35,7 +35,7 @@ beacons.waitForDevices = waitFor;
 beacons.on('update', function(devices) {
     charm.reset();
     devices.forEach(function(device) {
-        device["timestamp"] = (new Date() - startTime).toString();
+        device.timestamp = (new Date() - startTime).toString();
 
         if (LOG) {
             fs.appendFile(logFilename, JSON.stringify(device) + ", ");            

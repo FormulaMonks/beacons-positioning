@@ -57,8 +57,12 @@ async.eachSeries(logJson, function(device, callback) {
     devicesBuffer.push(device);
 
     if (devicesBuffer.length == buffer) {
-        var after = device["timestamp"] - lastTime;
-        lastTime = device["timestamp"];
+        devicesBuffer.sort(function(a, b) {
+            return a.name > b.name;
+        });
+
+        var after = device.timestamp - lastTime;
+        lastTime = device.timestamp;
         setTimeout(function() {
             beacons.worker.postMessage(devicesBuffer);
             devicesBuffer = [];
