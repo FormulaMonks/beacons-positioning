@@ -12,6 +12,8 @@
 #import "CBBeaconsSimulator.h"
 #import "SIOSocket.h"
 
+static NSString *kBeaconsFilename = @"beacons.plist";
+
 @interface ViewController () <CBBeaconsMapDelegate, CBBeaconsSimulatorDelegate>
 
 @property IBOutlet UIImageView *imageView;
@@ -67,11 +69,19 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    CBBeacon *b1 = [[CBBeacon alloc] initWithX:20 y:_beaconsView.bounds.size.height*0.5 distance:2.4];
-    CBBeacon *b2 = [[CBBeacon alloc] initWithX:_beaconsView.bounds.size.width/2 y:_beaconsView.bounds.size.height - 20 distance:2.0];
-    CBBeacon *b3 = [[CBBeacon alloc] initWithX:_beaconsView.bounds.size.width - 20 y:_beaconsView.bounds.size.height/2 distance:2.3];
-    
-    _beaconsView.beacons = @[b1, b2, b3];
+    NSArray *documentPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *docDirectory = [documentPath objectAtIndex:0];
+
+    NSArray *savedBeacons = (NSArray *)[NSKeyedUnarchiver unarchiveObjectWithFile:[docDirectory stringByAppendingPathComponent:kBeaconsFilename]];
+    if (savedBeacons) {
+        _beaconsView.beacons = savedBeacons;
+    } else {
+        CBBeacon *b1 = [[CBBeacon alloc] initWithX:20 y:_beaconsView.bounds.size.height*0.5 distance:2.4];
+        CBBeacon *b2 = [[CBBeacon alloc] initWithX:_beaconsView.bounds.size.width/2 y:_beaconsView.bounds.size.height - 20 distance:2.0];
+        CBBeacon *b3 = [[CBBeacon alloc] initWithX:_beaconsView.bounds.size.width - 20 y:_beaconsView.bounds.size.height/2 distance:2.3];
+        
+        _beaconsView.beacons = @[b1, b2, b3];
+    }
 }
 
 // Delegates
@@ -83,6 +93,14 @@
     }
     UIImage *map = [LFHeatMap heatMapWithRect:_imageView.bounds boost:0.6 points:points weights:weights];
     _imageView.image = map;
+}
+
+- (void)beaconMap:(CBBeaconsMap *)beaconMap beaconsPropertiesChanged:(NSArray *)beacons {
+    NSArray *documentPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *docDirectory = [documentPath objectAtIndex:0];
+    
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:beacons];
+    [data writeToFile:[docDirectory stringByAppendingPathComponent:kBeaconsFilename] atomically:YES];
 }
 
 -(void)beaconSimulatorDidChange:(CBBeaconsSimulator *)simulator {

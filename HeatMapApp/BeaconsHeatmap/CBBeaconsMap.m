@@ -81,26 +81,28 @@ NSArray *_beacons;
         }
         
         float beaconSize = 20;
-        UIFont *font= [UIFont systemFontOfSize:12.0];
+        UIFont *font= [UIFont systemFontOfSize:11.0];
         if (beacon.name) {
             CGPoint nameLocation;
+            NSString *label = [NSString stringWithFormat:@"%@ (%.2fm)", beacon.name, beacon.distance];
+            CGSize labelSize = [label sizeWithAttributes:@{NSFontAttributeName:font}];
             if (beacon.position.x <= beaconSize * 2) {
                 nameLocation.x = beacon.position.x + beaconSize/2 + 2;
                 nameLocation.y = beacon.position.y - beaconSize/2;
             }
             else if (self.bounds.size.width - beacon.position.x <= beaconSize * 2) {
-                nameLocation.x = beacon.position.x - [beacon.name sizeWithAttributes:@{NSFontAttributeName:font}].width - beaconSize/2 -  2;
+                nameLocation.x = beacon.position.x - labelSize.width - beaconSize/2 -  2;
                 nameLocation.y = beacon.position.y - beaconSize/2;
             }
             else if (beacon.position.y <= beaconSize * 2) {
-                nameLocation.x = beacon.position.x - [beacon.name sizeWithAttributes:@{NSFontAttributeName:font}].width/2;
-                nameLocation.y = [beacon.name sizeWithAttributes:@{NSFontAttributeName:font}].height;
+                nameLocation.x = beacon.position.x - labelSize.width/2;
+                nameLocation.y = labelSize.height;
             }
             else if (self.bounds.size.height - beacon.position.y <= beaconSize * 2) {
-                nameLocation.x = beacon.position.x - [beacon.name sizeWithAttributes:@{NSFontAttributeName:font}].width/2;
-                nameLocation.y = beacon.position.y - [beacon.name sizeWithAttributes:@{NSFontAttributeName:font}].height - beaconSize/2 - 2;
+                nameLocation.x = beacon.position.x - labelSize.width/2;
+                nameLocation.y = beacon.position.y - labelSize.height - beaconSize/2 - 2;
             }
-            [beacon.name drawAtPoint:nameLocation withAttributes:@{NSFontAttributeName:font}];
+            [label drawAtPoint:nameLocation withAttributes:@{NSFontAttributeName:font}];
         }
         
         CGContextFillRect(ctx, CGRectMake(beacon.position.x - beaconSize/2, beacon.position.y - beaconSize/2, beaconSize, beaconSize));
@@ -181,6 +183,9 @@ NSArray *_beacons;
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     _nearestBeacon = nil;
+    _moveBeacon = NO;
+    
+    [_delegate beaconMap:self beaconsPropertiesChanged:_beacons];    
 
     [self processTouches:touches withEvent:event];
 }
@@ -198,6 +203,28 @@ NSArray *_beacons;
     }
     
     return self;
+}
+
+- (id)initWithCoder:(NSCoder *)decoder {
+    self = [super init];
+    if (self != nil) {
+        _name = [decoder decodeObjectForKey:@"name"];
+        _position = [[decoder decodeObjectForKey:@"position"] CGPointValue];
+        _distance = [[decoder decodeObjectForKey:@"distance"] floatValue];
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)encoder {
+    if (_name) {
+        [encoder encodeObject:_name forKey:@"name"];        
+    }
+    [encoder encodeObject:[NSValue valueWithCGPoint:_position] forKey:@"position"];
+    [encoder encodeObject:[NSNumber numberWithFloat:_distance] forKey:@"distance"];
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"%@ (%.1f, %1.f): %.2fm", _name, _position.x, _position.y, _distance];
 }
 
 @end

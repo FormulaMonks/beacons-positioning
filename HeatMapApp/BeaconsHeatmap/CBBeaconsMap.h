@@ -13,9 +13,12 @@
 @protocol CBBeaconsMapDelegate
 // array of CGPoints
 - (void)beaconMap:(CBBeaconsMap *)beaconMap probabilityPointsUpdated:(NSArray *)points;
+
+// array of CBBeacon
+- (void)beaconMap:(CBBeaconsMap *)beaconMap beaconsPropertiesChanged:(NSArray *)beacons;
 @end
 
-@interface CBBeacon : NSObject
+@interface CBBeacon : NSObject <NSCoding>
 @property CGPoint position;
 @property float distance;
 @property NSString *name;
