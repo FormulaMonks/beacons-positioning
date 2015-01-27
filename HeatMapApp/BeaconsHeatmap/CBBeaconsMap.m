@@ -9,7 +9,7 @@
 #import "CBBeaconsMap.h"
 
 const float kGap = 10.0;
-const float kDistanceToRecognizeBeaconTouch = 50.0;
+const float kDistanceToRecognizeBeaconTouch = 30.0;
 
 @interface CBBeaconsMap()
 @property CBBeacon *nearestBeacon;
@@ -185,7 +185,7 @@ NSArray *_beacons;
     _nearestBeacon = nil;
     _moveBeacon = NO;
     
-    [_delegate beaconMap:self beaconsPropertiesChanged:_beacons];    
+    [_delegate beaconMap:self beaconsPropertiesChanged:_beacons];
 
     [self processTouches:touches withEvent:event];
 }
