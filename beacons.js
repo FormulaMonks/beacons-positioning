@@ -23,6 +23,7 @@ function calculateDistance(txPower, rssi) {
     }
 }
 
+// this function and similars should be executed by some thread of the pool of background threads.
 function calculateDistanceFor(uuid, rssi) {
     if (!distanceByUuid[uuid]) {
         distanceByUuid[uuid] = [];
