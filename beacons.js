@@ -1,3 +1,5 @@
+"use strict";
+
 var Worker = require('webworker-threads').Worker;
 var EventEmitter = require("events").EventEmitter;
 var noble = require("noble");

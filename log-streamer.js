@@ -1,3 +1,5 @@
+"use strict";
+
 var program = require('commander');
 var async = require('async');
 var charm = require('charm')();

@@ -1,3 +1,5 @@
+"use strict";
+
 var program = require('commander');
 var charm = require('charm')();
 var path = require('path');

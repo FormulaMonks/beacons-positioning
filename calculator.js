@@ -1,3 +1,5 @@
+"use strict";
+
 var worker = function() {
     var distanceByUuid = {};
 
