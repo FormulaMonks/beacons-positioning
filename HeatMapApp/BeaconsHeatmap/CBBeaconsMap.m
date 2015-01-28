@@ -7,6 +7,7 @@
 //
 
 #import "CBBeaconsMap.h"
+#import "LocationManager.h"
 
 const float kGap = 10.0;
 const float kDistanceToRecognizeBeaconTouch = 30.0;
@@ -14,6 +15,7 @@ const float kDistanceToRecognizeBeaconTouch = 30.0;
 @interface CBBeaconsMap()
 @property CBBeacon *nearestBeacon;
 @property BOOL moveBeacon;
+@property CGPoint estimatedPosition;
 @end
 
 @implementation CBBeaconsMap
@@ -36,9 +38,9 @@ NSArray *_beacons;
             }
             
             if (intersectionCount == _beacons.count) {
-                [insidePoints addObject:[NSValue valueWithCGPoint:CGPointMake(x, y)]];
+//                [insidePoints addObject:[NSValue valueWithCGPoint:CGPointMake(x, y)]];
             } else if (intersectionCount == 0) {
-                [outsidePoints addObject:[NSValue valueWithCGPoint:CGPointMake(x, y)]];
+//                [outsidePoints addObject:[NSValue valueWithCGPoint:CGPointMake(x, y)]];
             }
         }
     }
@@ -48,6 +50,12 @@ NSArray *_beacons;
     } else {
         [_delegate beaconMap:self probabilityPointsUpdated:outsidePoints];
     }
+    
+    [LocationManager determine:_beacons success:^(CGPoint location) {
+        _estimatedPosition =location;
+    } failure:^(NSError *error) {
+        NSLog(@"error: %@", error);
+    }];
 }
 
 - (NSArray *)beacons {
@@ -112,6 +120,13 @@ NSArray *_beacons;
         
         CGContextAddArc(ctx, beacon.position.x, beacon.position.y, [self mappedDistanceFor:beacon], 0.0, M_PI*2, YES);
         CGContextStrokePath(ctx);
+    }
+    
+    float deviceSize = 10;
+    if (_estimatedPosition.x && _estimatedPosition.y) {
+        CGContextSetFillColorWithColor(ctx, [[UIColor greenColor] CGColor]);
+        
+        CGContextFillRect(ctx, CGRectMake(_estimatedPosition.x - deviceSize/2, _estimatedPosition.y - deviceSize/2, deviceSize, deviceSize));
     }
 }
 

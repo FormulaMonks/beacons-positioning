@@ -48,7 +48,6 @@ static NSString *kBeaconsFilename = @"beacons.plist";
                 
                 beacon.name = item[@"name"];
                 beacon.distance = [item[@"distance"] floatValue];
-                NSLog(@"distance to %@: %f", beacon.name, beacon.distance);
                 
                 [_beaconsView updateBeacons];
             }
