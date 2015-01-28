@@ -58,21 +58,22 @@ beacons.worker.onmessage = function(event) {
 async.eachSeries(logJson, function(device, callback) {
     devicesBuffer.push(device);
 
-    if (devicesBuffer.length == buffer) {
-        devicesBuffer.sort(function(a, b) {
-            return a.name > b.name;
-        });
-
-        var after = device.timestamp - lastTime;
-        lastTime = device.timestamp;
-        setTimeout(function() {
-            beacons.worker.postMessage(devicesBuffer);
-            devicesBuffer = [];
-            callback();
-        }, after);
-    } else {
+    if (devicesBuffer.length != buffer) {
         callback();
+        return;
     }
+
+    devicesBuffer.sort(function(a, b) {
+        return a.name > b.name;
+    });
+
+    var after = device.timestamp - lastTime;
+    lastTime = device.timestamp;
+    setTimeout(function() {
+        beacons.worker.postMessage(devicesBuffer);
+        devicesBuffer = [];
+        callback();
+    }, after);
 });
 
 console.log("listening web sockets on port " + port);

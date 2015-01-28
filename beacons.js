@@ -42,23 +42,25 @@ noble.on('discover', function(peripheral) {
         lastRssiByUuid[peripheral.uuid] = rssi;
         deviceNameByUuid[peripheral.uuid] = peripheral.advertisement.localName;
 
-        if (Object.keys(lastRssiByUuid).length == ee.waitForDevices) {
-            var log = "";
-            var devices = [];
-            var uuids = Object.keys(lastRssiByUuid);
-            uuids.sort();
-            uuids.forEach(function(uuid) {
-                var device = {
-                    name: deviceNameByUuid[uuid], 
-                    rssi: lastRssiByUuid[uuid]
-                };
-                devices.push(device);
-            });
-            
-            worker.postMessage(devices);
-
-            lastRssiByUuid = {};
+        if (Object.keys(lastRssiByUuid).length != ee.waitForDevices) {
+            return;
         }
+        
+        var log = "";
+        var devices = [];
+        var uuids = Object.keys(lastRssiByUuid);
+        uuids.sort();
+        uuids.forEach(function(uuid) {
+            var device = {
+                name: deviceNameByUuid[uuid], 
+                rssi: lastRssiByUuid[uuid]
+            };
+            devices.push(device);
+        });
+        
+        worker.postMessage(devices);
+
+        lastRssiByUuid = {};
     });
     peripheral.on('connect', function() {
         console.log('on -> connect');
