@@ -7,17 +7,23 @@ var io = require('socket.io')();
 var pkg = require(path.join(__dirname, 'package.json'));
 var beacons = require("./beacons");
 var fs = require("fs");
-var port = 3000;
+var defaultPort = 3000;
 
 program.version(pkg.version).
 option('-n, --number of <devices>', 'number of devices to listen to', parseInt).
 option('-l, --logfile <filename>', 'the log file to save received signals').
+option('-p, --port <port>', 'listening port', parseInt).
 parse(process.argv);
 
 var waitFor = program.number;
 if (!waitFor) {
     console.error("You need to specify the number of devices to listen to.");
     program.help();
+}
+
+var port = program.port;
+if (!port) {
+    port = defaultPort;
 }
 
 charm.pipe(process.stdout);

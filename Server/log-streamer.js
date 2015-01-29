@@ -8,11 +8,12 @@ var io = require('socket.io')();
 var pkg = require(path.join(__dirname, 'package.json'));
 var beacons = require("./beacons");
 var fs = require("fs");
-var port = 3000;
+var defaultPort = 3000;
 
 program.version(pkg.version).
 option('-l, --logfile <path>', 'path to the log file to stream').
 option('-n, --buffer <buffer>', 'number of devices to read until a value is streamed').
+option('-p, --port <port>', 'listening port', parseInt).
 parse(process.argv);
 
 var logfile = program.logfile;
@@ -25,6 +26,11 @@ var buffer = program.buffer;
 if (!buffer) {
     console.error("You need to specify number of devices to buffer before streaming.");
     program.help();
+}
+
+var port = program.port;
+if (!port) {
+    port = defaultPort;
 }
 
 charm.pipe(process.stdout);
