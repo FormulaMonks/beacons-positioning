@@ -55,7 +55,7 @@ var worker = function() {
 
         var avg = total / valuesToUse.length;
 
-        console.log(valuesToUse.length + " -> " + avg);            
+        // console.log(valuesToUse.length + " -> " + avg);            
 
         return avg;
     }
