@@ -10,6 +10,7 @@
 #import "LocationManager.h"
 
 const float kGap = 10.0;
+const float kOptimisticValue = 2.0; // 1.0 would be pessimist
 const float kDistanceToRecognizeBeaconTouch = 30.0;
 
 @interface CBBeaconsMap()
@@ -23,36 +24,31 @@ const float kDistanceToRecognizeBeaconTouch = 30.0;
 NSArray *_beacons;
 
 - (void)calculateProbabilityPoints {
-    NSMutableArray *insidePoints = [NSMutableArray array];
-    NSMutableArray *outsidePoints = [NSMutableArray array];
-    for (int x = 0; x < self.bounds.size.width; x += kGap) {
-        for (int y = 0; y < self.bounds.size.height; y += kGap) {
-            int intersectionCount = 0;
-            for (CBBeacon *beacon in _beacons) {
-                float dx = beacon.position.x - x;
-                float dy = beacon.position.y - y;
-                float mappedDistance = [self mappedDistanceFor:beacon];
-                if (dx*dx + dy*dy <= mappedDistance * mappedDistance) {
-                    intersectionCount++;
+    [LocationManager determine:_beacons success:^(CGPoint location) {
+        _estimatedPosition = location;
+        
+        float error = 0;
+        for (CBBeacon *beacon in _beacons) {
+            float dx = beacon.position.x - _estimatedPosition.x;
+            float dy = beacon.position.y - _estimatedPosition.y;
+            float beaconToEstimate = sqrt(dx*dx + dy*dy);
+            float diff = beaconToEstimate - [self pixelDistanceFor:beacon];
+            error = MAX(error, fabs(diff/kOptimisticValue));
+        }
+        
+        NSMutableArray *insidePoints = [NSMutableArray array];
+        for (int x = 0; x < self.bounds.size.width; x += kGap) {
+            for (int y = 0; y < self.bounds.size.height; y += kGap) {
+                float dx = _estimatedPosition.x - x;
+                float dy = _estimatedPosition.y - y;
+                if (sqrt(dx*dx + dy*dy) <= error) {
+                    [insidePoints addObject:[NSValue valueWithCGPoint:CGPointMake(x, y)]];
                 }
             }
-            
-            if (intersectionCount == _beacons.count) {
-//                [insidePoints addObject:[NSValue valueWithCGPoint:CGPointMake(x, y)]];
-            } else if (intersectionCount == 0) {
-//                [outsidePoints addObject:[NSValue valueWithCGPoint:CGPointMake(x, y)]];
-            }
         }
-    }
-    
-    if (insidePoints.count > 0) {
+
         [_delegate beaconMap:self probabilityPointsUpdated:insidePoints];
-    } else {
-        [_delegate beaconMap:self probabilityPointsUpdated:outsidePoints];
-    }
-    
-    [LocationManager determine:_beacons success:^(CGPoint location) {
-        _estimatedPosition =location;
+        
     } failure:^(NSError *error) {
         NSLog(@"error: %@", error);
     }];
@@ -118,7 +114,7 @@ NSArray *_beacons;
         CGContextSetLineWidth(ctx,1);
         CGContextSetRGBStrokeColor(ctx,0.8,0.8,0.8,1.0);
         
-        CGContextAddArc(ctx, beacon.position.x, beacon.position.y, [self mappedDistanceFor:beacon], 0.0, M_PI*2, YES);
+        CGContextAddArc(ctx, beacon.position.x, beacon.position.y, [self pixelDistanceFor:beacon], 0.0, M_PI*2, YES);
         CGContextStrokePath(ctx);
     }
     
@@ -130,13 +126,13 @@ NSArray *_beacons;
     }
 }
 
-- (float)mappedScale {
+- (float)pixelScale {
     return self.bounds.size.width/_physicalSize.width;
 //    return (self.bounds.size.width/_physicalSize.width + self.bounds.size.height/_physicalSize.height) / 2.0;
 }
 
-- (float)mappedDistanceFor:(CBBeacon *)beacon {
-    float scale = [self mappedScale];
+- (float)pixelDistanceFor:(CBBeacon *)beacon {
+    float scale = [self pixelScale];
     return beacon.distance * scale;
 }
 
@@ -184,7 +180,7 @@ NSArray *_beacons;
     if (_moveBeacon && _nearestBeacon) {
         _nearestBeacon.position = CGPointMake(_nearestBeacon.position.x - (prevLocation.x - location.x), _nearestBeacon.position.y - (prevLocation.y - location.y));
     } else { // move distance
-        _nearestBeacon.distance += (prevLocation.y - location.y) / [self mappedScale];
+        _nearestBeacon.distance += (prevLocation.y - location.y) / [self pixelScale];
     }
     
     [self calculateProbabilityPoints];
