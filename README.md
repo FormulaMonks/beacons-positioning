@@ -11,7 +11,7 @@ $ npm install
 
 and then you have 2 options:
 
-### Receive signals from bluetooth LE beacons and broadcast them through a socket.io API.
+### Receive signals from bluetooth LE beacons and broadcast them through a socket.io API
 
 ```
 $ node beacons-streamer.js
@@ -62,8 +62,9 @@ socket.emit('update', [
 ]);
 ```
 
-
 ## Client
+
+![](room.png)
 
 You can have a simulated beacons environment by using a computer (with bluetooth LE) that runs the server and 3 iOS devices emitting in the room (see Estimote Virtual Beacon app). Then on another device (or using the iOS simulator), you can connect to the server using this client to see a map of the room and the devices positions.
 
@@ -72,10 +73,14 @@ The iOS client is an app that initially puts 3 beacons on the screen and can per
 ### Play with a simulated room:
 
 * touching and dragging near the beacon will move its position.
-* touching (> 30 pixels) from a beacon and dragging up/down will make the measured distance (gray circle) to vary according.
+* touching (> 30 pixels away) from a beacon and dragging up/down will make the measured distance (gray circle) to vary according.
 * you can tap on the 'Start Simulation' button to see small random variations on measured distance and see how the estimated position looks like.
 
 ### Read and visualize (heat map) the values from the server:
 
 * The client will try to connect to the server on start to display the located devices on the map if successul. The bigger the heat map area, the more discrepancy there is between the measured distances, meaning the error is bigger.
+
+### Details
+
+In order to draw the heatmap ...
 
