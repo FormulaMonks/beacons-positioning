@@ -26,27 +26,36 @@ var worker = function() {
         var values = distanceByUuid[uuid];
 
         var distance = calculateDistance(-50, rssi);
-        if (values.length >= 10) {
-            var lastValue = values[0];
-            if (Math.abs(distance - lastValue) < 4) { // to avoid quick jumps in signal
-                values.unshift(distance);
-            }
-        } else {
-            values.unshift(distance);
+
+        if (distance < 150) { // avoid error values
+            values.push(distance);
+        }
+
+        if (values.length == 1) {
+            return distance;
         }
 
         if (values.length > 20) {
-            values = values.slice(0, -1);
+            values = values.slice(1);
             distanceByUuid[uuid] = values;
         }
 
-        var total = values.reduce(function(a, b) {
+        var valuesToUse = values.slice(0);
+        
+        valuesToUse.sort();
+
+        var ten = Math.floor(values.length * 0.1);
+        if (ten > 0) {
+            valuesToUse = valuesToUse.slice(ten, -ten); // discard top/bottom 10%                
+        }
+
+        var total = valuesToUse.reduce(function(a, b) {
             return a + b;
         });
 
-        var avg = total / values.length;
+        var avg = total / valuesToUse.length;
 
-        // console.log(values.length + " -> " + avg);
+        console.log(valuesToUse.length + " -> " + avg);            
 
         return avg;
     }
