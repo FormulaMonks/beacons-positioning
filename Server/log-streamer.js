@@ -12,7 +12,7 @@ var port = 3000;
 
 program.version(pkg.version).
 option('-l, --logfile <path>', 'path to the log file to stream').
-option('-b, --buffer <buffer>', 'number of devices to read until a value is streamed').
+option('-n, --buffer <buffer>', 'number of devices to read until a value is streamed').
 parse(process.argv);
 
 var logfile = program.logfile;

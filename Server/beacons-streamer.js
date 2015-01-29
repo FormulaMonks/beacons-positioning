@@ -8,10 +8,10 @@ var pkg = require(path.join(__dirname, 'package.json'));
 var beacons = require("./beacons");
 var fs = require("fs");
 var port = 3000;
-var LOG = false;
 
 program.version(pkg.version).
 option('-n, --number of <devices>', 'number of devices to listen to', parseInt).
+option('-l, --logfile <filename>', 'the log file to save received signals').
 parse(process.argv);
 
 var waitFor = program.number;
@@ -37,8 +37,8 @@ beacons.on('update', function(devices) {
     devices.forEach(function(device) {
         device.timestamp = (new Date() - startTime).toString();
 
-        if (LOG) {
-            fs.appendFile("log.txt", JSON.stringify(device) + ", ");            
+        if (program.logfile) {
+            fs.appendFile(output, JSON.stringify(device) + ", ");            
         }
         
         charm.write("distance: " + device.distance + "m device: " + device.name + " (rssi:" +  device.rssi + ")" + "\n");
