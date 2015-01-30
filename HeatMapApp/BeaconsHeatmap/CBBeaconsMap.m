@@ -23,35 +23,73 @@ const float kDistanceToRecognizeBeaconTouch = 30.0;
 
 NSArray *_beacons;
 
-- (void)calculateProbabilityPoints {
-    [LocationManager determine:_beacons success:^(CGPoint location) {
-        _estimatedPosition = location;
-        
-        float error = 0;
-        for (CBBeacon *beacon in _beacons) {
-            float dx = beacon.position.x - _estimatedPosition.x;
-            float dy = beacon.position.y - _estimatedPosition.y;
-            float beaconToEstimate = sqrt(dx*dx + dy*dy);
-            float diff = beaconToEstimate - [self pixelDistanceFor:beacon];
-            error = MAX(error, fabs(diff/kOptimisticValue));
-        }
-        
-        NSMutableArray *insidePoints = [NSMutableArray array];
-        for (int x = 0; x < self.bounds.size.width; x += kGap) {
-            for (int y = 0; y < self.bounds.size.height; y += kGap) {
-                float dx = _estimatedPosition.x - x;
-                float dy = _estimatedPosition.y - y;
-                if (sqrt(dx*dx + dy*dy) <= error) {
-                    [insidePoints addObject:[NSValue valueWithCGPoint:CGPointMake(x, y)]];
-                }
+- (void)calculateProbabilityPointsManual {
+    float delta = 0.05; // meters
+    CGPoint minErrorPoint;
+    float minError = 1000.0f;
+    
+    for (float x = 0; x < _physicalSize.width; x = x + delta) {
+        for (float y = 0; y < _physicalSize.height; y = y + delta) {
+            float error = 0.0;
+            for (CBBeacon *beacon in _beacons) {
+                float dx = beacon.position.x/[self pixelScaleX] - x;
+                float dy = beacon.position.y/[self pixelScaleY] - y;
+                float beaconToPoint = sqrt(dx*dx + dy*dy);
+                float diff = beaconToPoint - beacon.distance;
+                error += fabs(diff);
+            }
+            
+            if (error < minError) {
+                minError = error;
+                minErrorPoint = CGPointMake(x, y);
             }
         }
+    }
+    
+    _estimatedPosition = CGPointMake(minErrorPoint.x * [self pixelScaleX], minErrorPoint.y * [self pixelScaleY]);
+    
+    [_delegate beaconMap:self probabilityPointsUpdated:[self heatmapPoints]];
+}
+
+- (void)calculateProbabilityPointsLeastLibrary {
+    [LocationManager determine:_beacons success:^(CGPoint location) {
+        _estimatedPosition = location;
+
+        NSArray *insidePoints = [self heatmapPoints];
 
         [_delegate beaconMap:self probabilityPointsUpdated:insidePoints];
-        
+
     } failure:^(NSError *error) {
         NSLog(@"error: %@", error);
     }];
+}
+
+- (void)calculateProbabilityPoints {
+    [self calculateProbabilityPointsManual];
+}
+
+- (NSArray *)heatmapPoints {
+    float error = 0;
+    for (CBBeacon *beacon in _beacons) {
+        float dx = beacon.position.x - _estimatedPosition.x;
+        float dy = beacon.position.y - _estimatedPosition.y;
+        float beaconToEstimate = sqrt(dx*dx + dy*dy);
+        float diff = beaconToEstimate - [self pixelDistanceFor:beacon];
+        error = MAX(error, fabs(diff/kOptimisticValue));
+    }
+    
+    NSMutableArray *insidePoints = [NSMutableArray array];
+    for (int x = 0; x < self.bounds.size.width; x += kGap) {
+        for (int y = 0; y < self.bounds.size.height; y += kGap) {
+            float dx = _estimatedPosition.x - x;
+            float dy = _estimatedPosition.y - y;
+            if (sqrt(dx*dx + dy*dy) <= error) {
+                [insidePoints addObject:[NSValue valueWithCGPoint:CGPointMake(x, y)]];
+            }
+        }
+    }
+
+    return insidePoints;
 }
 
 - (NSArray *)beacons {
@@ -130,9 +168,16 @@ NSArray *_beacons;
     }
 }
 
+- (float)pixelScaleX {
+    return self.bounds.size.width/_physicalSize.width;
+}
+
+- (float)pixelScaleY {
+    return self.bounds.size.height/_physicalSize.height;
+}
+
 - (float)pixelScale {
-    return (self.bounds.size.width/_physicalSize.width + self.bounds.size.height/_physicalSize.height) / 2.0;
-//    return (self.bounds.size.width/_physicalSize.width + self.bounds.size.height/_physicalSize.height) / 2.0;
+    return ([self pixelScaleX] + [self pixelScaleY]) / 2.0;
 }
 
 - (float)pixelDistanceFor:(CBBeacon *)beacon {
