@@ -17,11 +17,47 @@ const float kDistanceToRecognizeBeaconTouch = 30.0;
 @property CBBeacon *nearestBeacon;
 @property BOOL moveBeacon;
 @property CGPoint estimatedPosition;
+@property NSMutableArray *previousEstimatedPositions;
 @end
 
 @implementation CBBeaconsMap
 
 NSArray *_beacons;
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    
+    _previousEstimatedPositions = [NSMutableArray array];
+}
+
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    
+    if (self) {
+        _previousEstimatedPositions = [NSMutableArray array];
+    }
+    
+    return self;
+}
+
+- (void)calculateAndSetEstimatedPosition:(CGPoint)lastEstimated {
+    [_previousEstimatedPositions addObject:[NSValue valueWithCGPoint:lastEstimated]];
+    
+    if ([_previousEstimatedPositions count] > 20) {
+        [_previousEstimatedPositions removeObjectAtIndex:0];
+    }
+    
+    CGPoint total = CGPointZero;
+    for (NSValue *value in _previousEstimatedPositions) {
+        CGPoint point = [value CGPointValue];
+        total.x += point.x;
+        total.y += point.y;
+    }
+    
+    CGPoint avg = CGPointMake(total.x / _previousEstimatedPositions.count, total.y / _previousEstimatedPositions.count);
+    
+    _estimatedPosition = avg;
+}
 
 - (void)calculateProbabilityPointsManual {
     float delta = 0.05; // meters
@@ -46,14 +82,14 @@ NSArray *_beacons;
         }
     }
     
-    _estimatedPosition = CGPointMake(minErrorPoint.x * [self pixelScaleX], minErrorPoint.y * [self pixelScaleY]);
+    [self calculateAndSetEstimatedPosition:CGPointMake(minErrorPoint.x * [self pixelScaleX], minErrorPoint.y * [self pixelScaleY])];
     
     [_delegate beaconMap:self probabilityPointsUpdated:[self heatmapPoints]];
 }
 
 - (void)calculateProbabilityPointsLeastLibrary {
     [LocationManager determine:_beacons success:^(CGPoint location) {
-        _estimatedPosition = location;
+        [self calculateAndSetEstimatedPosition:location];
 
         NSArray *insidePoints = [self heatmapPoints];
 
