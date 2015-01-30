@@ -77,6 +77,8 @@ NSArray *_beacons;
     center.x = bounds.origin.x + bounds.size.width / 2.0;
     center.y = bounds.origin.y + bounds.size.height / 2.0;
     
+    float beaconSize = 20;
+    UIFont *font= [UIFont systemFontOfSize:11.0];
     for (CBBeacon *beacon in _beacons) {
         if (_moveBeacon && _nearestBeacon == beacon) {
             CGContextSetFillColorWithColor(ctx, [[UIColor redColor] CGColor]);
@@ -84,8 +86,6 @@ NSArray *_beacons;
             CGContextSetFillColorWithColor(ctx, [[UIColor blackColor] CGColor]);
         }
         
-        float beaconSize = 20;
-        UIFont *font= [UIFont systemFontOfSize:11.0];
         if (beacon.name) {
             CGPoint nameLocation;
             NSString *label = [NSString stringWithFormat:@"%@ (%.2fm)", beacon.name, beacon.distance];
@@ -117,6 +117,10 @@ NSArray *_beacons;
         CGContextAddArc(ctx, beacon.position.x, beacon.position.y, [self pixelDistanceFor:beacon], 0.0, M_PI*2, YES);
         CGContextStrokePath(ctx);
     }
+    
+    CGContextSetAlpha(ctx, 0.5);
+    NSString *roomWidth = [NSString stringWithFormat:@"room size: %.2fm x %.2fm", _physicalSize.width, _physicalSize.height];
+    [roomWidth drawAtPoint:CGPointMake(5,  20) withAttributes:@{NSFontAttributeName:font}];
     
     float deviceSize = 10;
     if (_estimatedPosition.x && _estimatedPosition.y) {
