@@ -37,6 +37,8 @@ Options:
 -p, --port <port>      listening port
 ```
 
+you can find some logs on `Server/saved_logs`.
+
 ### Details
 
 The server behaves as a device (by capturing beacons signals, using the `noble` node module) and as an API that streams these values. In a future the server should only receive measured signals from the room beacons and expose an API allowing devices to see other devices around.
@@ -78,9 +80,9 @@ The iOS client is an app that initially puts 3 beacons on the screen and can per
 
 ### Read and visualize (heat map) the values from the server:
 
-* The client will try to connect to the server on start to display the located devices on the map if successul. The bigger the heat map area, the more discrepancy there is between the measured distances, meaning the error is bigger.
+* The client will try to connect to the server on start to display the located devices on the map if successful. The bigger the heat map area, the more discrepancy there is between the measured distances, meaning the error is bigger.
 
 ### Details
 
-In order to draw the heatmap ...
+In order to draw the heatmap, 
 
