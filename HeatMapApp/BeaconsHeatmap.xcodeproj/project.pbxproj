@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		E2D8E9541A72726400CB4B18 /* CBBeaconsMap.m in Sources */ = {isa = PBXBuildFile; fileRef = E2D8E9531A72726400CB4B18 /* CBBeaconsMap.m */; };
 		E2D8E9571A72B6B500CB4B18 /* CBBeaconsSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = E2D8E9561A72B6B500CB4B18 /* CBBeaconsSimulator.m */; };
+		E2E5DE8F1A7BD0EC00D0C27A /* CBSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2E5DE8E1A7BD0EC00D0C27A /* CBSettingsViewController.m */; };
 		E2FF007B1A7930ED00AE3506 /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E2FFFE811A7930ED00AE3506 /* LocationManager.m */; };
 		E2FF007C1A7930ED00AE3506 /* Array in Resources */ = {isa = PBXBuildFile; fileRef = E2FFFE841A7930ED00AE3506 /* Array */; };
 		E2FF007D1A7930ED00AE3506 /* Cholesky in Resources */ = {isa = PBXBuildFile; fileRef = E2FFFE851A7930ED00AE3506 /* Cholesky */; };
@@ -128,7 +129,7 @@
 		FA6A61941A719EFF00701CAD /* LFHeatMap.m in Sources */ = {isa = PBXBuildFile; fileRef = FA6A61931A719EFF00701CAD /* LFHeatMap.m */; };
 		FA75B5F51A718DE500CA6DA8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FA75B5F41A718DE500CA6DA8 /* main.m */; };
 		FA75B5F81A718DE500CA6DA8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FA75B5F71A718DE500CA6DA8 /* AppDelegate.m */; };
-		FA75B5FB1A718DE500CA6DA8 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA75B5FA1A718DE500CA6DA8 /* ViewController.m */; };
+		FA75B5FB1A718DE500CA6DA8 /* CBMainController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA75B5FA1A718DE500CA6DA8 /* CBMainController.m */; };
 		FA75B5FE1A718DE500CA6DA8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA75B5FC1A718DE500CA6DA8 /* Main.storyboard */; };
 		FA75B6001A718DE500CA6DA8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA75B5FF1A718DE500CA6DA8 /* Images.xcassets */; };
 		FA75B6031A718DE500CA6DA8 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA75B6011A718DE500CA6DA8 /* LaunchScreen.xib */; };
@@ -155,6 +156,8 @@
 		E2D8E9531A72726400CB4B18 /* CBBeaconsMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBBeaconsMap.m; sourceTree = "<group>"; };
 		E2D8E9551A72B6B500CB4B18 /* CBBeaconsSimulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBBeaconsSimulator.h; sourceTree = "<group>"; };
 		E2D8E9561A72B6B500CB4B18 /* CBBeaconsSimulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBBeaconsSimulator.m; sourceTree = "<group>"; };
+		E2E5DE8D1A7BD0EC00D0C27A /* CBSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBSettingsViewController.h; sourceTree = "<group>"; };
+		E2E5DE8E1A7BD0EC00D0C27A /* CBSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBSettingsViewController.m; sourceTree = "<group>"; };
 		E2FF00001A7930ED00AE3506 /* NumericalDiff */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NumericalDiff; sourceTree = "<group>"; };
 		E2FF00011A7930ED00AE3506 /* OpenGLSupport */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OpenGLSupport; sourceTree = "<group>"; };
 		E2FF00021A7930ED00AE3506 /* Polynomials */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Polynomials; sourceTree = "<group>"; };
@@ -602,8 +605,8 @@
 		FA75B5F41A718DE500CA6DA8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		FA75B5F61A718DE500CA6DA8 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FA75B5F71A718DE500CA6DA8 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		FA75B5F91A718DE500CA6DA8 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		FA75B5FA1A718DE500CA6DA8 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		FA75B5F91A718DE500CA6DA8 /* CBMainController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBMainController.h; sourceTree = "<group>"; };
+		FA75B5FA1A718DE500CA6DA8 /* CBMainController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CBMainController.m; sourceTree = "<group>"; };
 		FA75B5FD1A718DE500CA6DA8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FA75B5FF1A718DE500CA6DA8 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		FA75B6021A718DE500CA6DA8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -1621,8 +1624,8 @@
 				FA75B6181A718E2800CA6DA8 /* libs */,
 				FA75B5F61A718DE500CA6DA8 /* AppDelegate.h */,
 				FA75B5F71A718DE500CA6DA8 /* AppDelegate.m */,
-				FA75B5F91A718DE500CA6DA8 /* ViewController.h */,
-				FA75B5FA1A718DE500CA6DA8 /* ViewController.m */,
+				FA75B5F91A718DE500CA6DA8 /* CBMainController.h */,
+				FA75B5FA1A718DE500CA6DA8 /* CBMainController.m */,
 				E2D8E9521A72726400CB4B18 /* CBBeaconsMap.h */,
 				E2D8E9531A72726400CB4B18 /* CBBeaconsMap.m */,
 				E2D8E9551A72B6B500CB4B18 /* CBBeaconsSimulator.h */,
@@ -1631,6 +1634,8 @@
 				FA75B5FF1A718DE500CA6DA8 /* Images.xcassets */,
 				FA75B6011A718DE500CA6DA8 /* LaunchScreen.xib */,
 				FA75B5F21A718DE500CA6DA8 /* Supporting Files */,
+				E2E5DE8D1A7BD0EC00D0C27A /* CBSettingsViewController.h */,
+				E2E5DE8E1A7BD0EC00D0C27A /* CBSettingsViewController.m */,
 			);
 			path = BeaconsHeatmap;
 			sourceTree = "<group>";
@@ -1904,12 +1909,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2E5DE8F1A7BD0EC00D0C27A /* CBSettingsViewController.m in Sources */,
 				E2FF00F91A7931BE00AE3506 /* NSDate+Print.m in Sources */,
 				E2FF00EB1A7930ED00AE3506 /* Trilateration.m in Sources */,
 				FA6A61941A719EFF00701CAD /* LFHeatMap.m in Sources */,
 				FABF908E1A769C0A00255342 /* SIOSocket.m in Sources */,
 				E2D8E9571A72B6B500CB4B18 /* CBBeaconsSimulator.m in Sources */,
-				FA75B5FB1A718DE500CA6DA8 /* ViewController.m in Sources */,
+				FA75B5FB1A718DE500CA6DA8 /* CBMainController.m in Sources */,
 				E2FF00FB1A7931BE00AE3506 /* UIView+Additions.m in Sources */,
 				FA75B5F81A718DE500CA6DA8 /* AppDelegate.m in Sources */,
 				E2FF007B1A7930ED00AE3506 /* LocationManager.m in Sources */,

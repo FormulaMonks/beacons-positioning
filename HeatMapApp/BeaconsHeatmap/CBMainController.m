@@ -6,15 +6,19 @@
 //  Copyright (c) 2015 Citrusbyte LLC. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "CBMainController.h"
 #import "LFHeatMap.h"
 #import "CBBeaconsMap.h"
 #import "CBBeaconsSimulator.h"
 #import "SIOSocket.h"
+#import "CBSettingsViewController.h"
+
+const float kRoomWidth = 3.15;
+const float kRoomHeight = 4.7;
 
 static NSString *kBeaconsFilename = @"beacons.plist";
 
-@interface ViewController () <CBBeaconsMapDelegate, CBBeaconsSimulatorDelegate>
+@interface CBMainController () <CBBeaconsMapDelegate, CBBeaconsSimulatorDelegate>
 
 @property IBOutlet UIImageView *imageView;
 @property IBOutlet CBBeaconsMap *beaconsView;
@@ -24,7 +28,7 @@ static NSString *kBeaconsFilename = @"beacons.plist";
 
 @end
 
-@implementation ViewController
+@implementation CBMainController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -32,7 +36,7 @@ static NSString *kBeaconsFilename = @"beacons.plist";
     _simulator = [CBBeaconsSimulator new];
     _simulator.delegate = self;
     
-    _beaconsView.physicalSize = CGSizeMake(3.15, 4.7);
+    _beaconsView.physicalSize = [self roomSize];
     _beaconsView.delegate = self;
     
     [SIOSocket socketWithHost: @"http://localhost:3000" response: ^(SIOSocket *socket) {
@@ -55,6 +59,27 @@ static NSString *kBeaconsFilename = @"beacons.plist";
     }];
 }
 
+- (CGSize)roomSize {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+
+    NSNumber *width = [defaults objectForKey:@"room_width"];
+    NSNumber *height = [defaults objectForKey:@"room_height"];
+    
+    if (!width && !height) {
+        [defaults setObject:[NSNumber numberWithFloat:kRoomWidth] forKey:@"room_width"];
+        [defaults setObject:[NSNumber numberWithFloat:kRoomHeight] forKey:@"room_height"];
+        [defaults synchronize];
+    }
+    
+    width = [defaults objectForKey:@"room_width"];
+    height = [defaults objectForKey:@"room_height"];
+    
+    NSAssert(width != 0, @"room width can't be zero");
+    NSAssert(height != 0, @"room height can't be zero");
+
+    return CGSizeMake([width floatValue], [height floatValue]);
+}
+
 - (IBAction)changeSimulation:(UIButton *)sender {
     if ([sender.titleLabel.text hasPrefix:@"Start"]) {
         [sender setTitle:@"Stop Simulation" forState:UIControlStateNormal];
@@ -63,6 +88,17 @@ static NSString *kBeaconsFilename = @"beacons.plist";
         [sender setTitle:@"Start Simulation" forState:UIControlStateNormal];
         [_simulator stopSimulation];
     }
+}
+
+- (IBAction)dismissViewController:(UIStoryboardSegue *)segue {
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    CBSettingsViewController *settingsVC = (CBSettingsViewController *)segue.sourceViewController;
+    [settingsVC save];
+    
+    // update room size
+    _beaconsView.physicalSize = [self roomSize];
+    [_beaconsView updateBeacons];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
