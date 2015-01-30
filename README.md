@@ -37,7 +37,7 @@ Options:
 -p, --port <port>      listening port
 ```
 
-you can find some logs on `Server/saved_logs`.
+you can find some logs on `Server/saved-logs`.
 
 ### Details
 
@@ -84,5 +84,8 @@ The iOS client is an app that initially puts 3 beacons on the screen and can per
 
 ### Details
 
-In order to draw the heatmap, 
+In order to draw the heat map, there are two steps:
 
+1. Determine the estimated position (x, y): This will be the center of the heat map and we're using a non-linear optimization method called [Levenberg Marquadt](http://eigen.tuxfamily.org/dox/unsupported/classEigen_1_1LevenbergMarquardt.html).
+
+2. The above step will return an estimated position. By measuring the difference between this value and the distance that each beacon indicates, we can measure an estimated error. The bigger the error the bigger the heat map area. 
