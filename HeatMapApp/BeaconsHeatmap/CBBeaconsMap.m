@@ -131,7 +131,7 @@ NSArray *_beacons;
 }
 
 - (float)pixelScale {
-    return self.bounds.size.width/_physicalSize.width;
+    return (self.bounds.size.width/_physicalSize.width + self.bounds.size.height/_physicalSize.height) / 2.0;
 //    return (self.bounds.size.width/_physicalSize.width + self.bounds.size.height/_physicalSize.height) / 2.0;
 }
 
