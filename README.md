@@ -19,7 +19,6 @@ Usage: beacons-streamer [options]
 
 Options:
 
--n, --number of <devices>  number of devices to listen to
 -l, --logfile <filename>   the log file to save received signals
 -p, --port <port>          listening port
 ```
@@ -33,7 +32,6 @@ Usage: log-streamer [options]
 Options:
 
 -l, --logfile <path>   path to the log file to stream
--n, --buffer <buffer>  number of devices to read until a value is streamed
 -p, --port <port>      listening port
 ```
 
