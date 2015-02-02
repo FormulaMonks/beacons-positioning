@@ -5,13 +5,12 @@ var EventEmitter = require("events").EventEmitter;
 var noble = require("noble");
 var calculator = require("./calculator");
 
-var lastRssiByUuid = {};
-var deviceNameByUuid = {};
+// var lastRssiByUuid = {};
+// var deviceNameByUuid = {};
 
 var worker = new Worker(calculator);
 
 var ee = new EventEmitter();
-ee.waitForNDevices = null;
 ee.worker = worker;
 
 worker.emitter = ee;
@@ -39,28 +38,12 @@ noble.on('discover', function(peripheral) {
     console.log('peripheral discovered (' + peripheral.advertisement.localName + '):');
 
     peripheral.on('rssiUpdate', function(rssi) {
-        lastRssiByUuid[peripheral.uuid] = rssi;
-        deviceNameByUuid[peripheral.uuid] = peripheral.advertisement.localName;
-
-        if (Object.keys(lastRssiByUuid).length != ee.waitForDevices) {
-            return;
-        }
+        var device = {
+            name: peripheral.advertisement.localName, 
+            rssi: rssi
+        };
         
-        var log = "";
-        var devices = [];
-        var uuids = Object.keys(lastRssiByUuid);
-        uuids.sort();
-        uuids.forEach(function(uuid) {
-            var device = {
-                name: deviceNameByUuid[uuid], 
-                rssi: lastRssiByUuid[uuid]
-            };
-            devices.push(device);
-        });
-        
-        worker.postMessage(devices);
-
-        lastRssiByUuid = {};
+        worker.postMessage([device]);
     });
     peripheral.on('connect', function() {
         console.log('on -> connect');

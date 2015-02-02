@@ -12,19 +12,12 @@ var defaultPort = 3000;
 
 program.version(pkg.version).
 option('-l, --logfile <path>', 'path to the log file to stream').
-option('-n, --buffer <buffer>', 'number of devices to read until a value is streamed').
 option('-p, --port <port>', 'listening port', parseInt).
 parse(process.argv);
 
 var logfile = program.logfile;
 if (!logfile) {
     console.error("You need to specify the log file to stream.");
-    program.help();
-}
-
-var buffer = program.buffer;
-if (!buffer) {
-    console.error("You need to specify number of devices to buffer before streaming.");
     program.help();
 }
 
@@ -53,33 +46,21 @@ var devicesBuffer = [];
 
 // override on message of worker
 beacons.worker.onmessage = function(event) {
-    charm.reset();
+    // charm.reset();
     var devices = event.data;
     devices.forEach(function(device) {
         charm.write("distance: " + device.distance.toFixed(2) + "m device: " + device.name + " (rssi:" +  device.rssi + ")" + "\n");
     });
-    io.emit("update", event.data);
+    io.emit("update", devices);
 };
 
 async.eachSeries(logJson, function(device, callback) {
-    devicesBuffer.push(device);
-
-    if (devicesBuffer.length != buffer) {
-        callback();
-        return;
-    }
-
-    devicesBuffer.sort(function(a, b) {
-        return a.name > b.name;
-    });
-
-    var after = device.timestamp - lastTime;
+    var delay = device.timestamp - lastTime;
     lastTime = device.timestamp;
     setTimeout(function() {
-        beacons.worker.postMessage(devicesBuffer);
-        devicesBuffer = [];
+        beacons.worker.postMessage([device]);
         callback();
-    }, after);
+    }, delay);
 });
 
 console.log("listening web sockets on port " + port);

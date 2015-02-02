@@ -10,7 +10,6 @@ var fs = require("fs");
 var defaultPort = 3000;
 
 program.version(pkg.version).
-option('-n, --number of <devices>', 'number of devices to listen to', parseInt).
 option('-l, --logfile <filename>', 'the log file to save received signals').
 option('-p, --port <port>', 'listening port', parseInt).
 parse(process.argv);
@@ -37,9 +36,8 @@ io.on('connection', function(socket){
 
 var startTime = new Date();
 
-beacons.waitForDevices = waitFor;
 beacons.on('update', function(devices) {
-    charm.reset();
+    // charm.reset();
     devices.forEach(function(device) {
         device.timestamp = (new Date() - startTime).toString();
 

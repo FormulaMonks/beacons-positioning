@@ -46,12 +46,13 @@ static NSString *kBeaconsFilename = @"beacons.plist";
         };
         [_socket on:@"update" callback:^(NSArray *args) {
             NSArray *devices = args[0];
-            for (int i = 0; i < devices.count; i++) {
-                NSDictionary *item = devices[i];
-                CBBeacon *beacon = _beaconsView.beacons[i];
-                
-                beacon.name = item[@"name"];
-                beacon.distance = [item[@"distance"] floatValue];
+            for (CBBeacon *beacon in _beaconsView.beacons) {
+                for (NSDictionary *item in devices) {                    
+                    if (beacon.name == nil || [beacon.name isEqualToString:item[@"name"]]) { // in case it's empty assign the first empty
+                        beacon.name = item[@"name"];
+                        beacon.distance = [item[@"distance"] floatValue];
+                    }
+                }
                 
                 [_beaconsView updateBeacons];
             }
