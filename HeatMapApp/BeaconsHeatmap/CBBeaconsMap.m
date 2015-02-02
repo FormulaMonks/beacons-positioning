@@ -12,12 +12,14 @@
 const float kGap = 10.0;
 const float kOptimisticValue = 2.0; // 1.0 would be pessimist
 const float kDistanceToRecognizeBeaconTouch = 30.0;
+const int kAverageElements = 20;
 
 @interface CBBeaconsMap()
 @property CBBeacon *nearestBeacon;
 @property BOOL moveBeacon;
 @property CGPoint estimatedPosition;
 @property NSMutableArray *previousEstimatedPositions;
+@property NSMutableArray *previousEstimatedErrors;
 @end
 
 @implementation CBBeaconsMap
@@ -26,24 +28,29 @@ NSArray *_beacons;
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    
-    _previousEstimatedPositions = [NSMutableArray array];
+
+    [self initData];
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     
     if (self) {
-        _previousEstimatedPositions = [NSMutableArray array];
+        [self initData];
     }
     
     return self;
 }
 
+- (void)initData {
+    _previousEstimatedPositions = [NSMutableArray array];
+    _previousEstimatedErrors = [NSMutableArray array];
+}
+
 - (void)calculateAndSetEstimatedPosition:(CGPoint)lastEstimated {
     [_previousEstimatedPositions addObject:[NSValue valueWithCGPoint:lastEstimated]];
     
-    if ([_previousEstimatedPositions count] > 20) {
+    if ([_previousEstimatedPositions count] > kAverageElements) {
         [_previousEstimatedPositions removeObjectAtIndex:0];
     }
     
@@ -57,6 +64,33 @@ NSArray *_beacons;
     CGPoint avg = CGPointMake(total.x / _previousEstimatedPositions.count, total.y / _previousEstimatedPositions.count);
     
     _estimatedPosition = avg;
+}
+
+- (float)calculateErrorUsingEstimatedPosition {
+    float currentError = 0;
+    for (CBBeacon *beacon in _beacons) {
+        float dx = beacon.position.x - _estimatedPosition.x;
+        float dy = beacon.position.y - _estimatedPosition.y;
+        float beaconToEstimate = sqrt(dx*dx + dy*dy);
+        float diff = beaconToEstimate - [self pixelDistanceFor:beacon];
+        currentError = MAX(currentError, fabs(diff/kOptimisticValue));
+    }
+    
+    [_previousEstimatedErrors addObject:[NSNumber numberWithFloat:currentError]];
+    
+    if ([_previousEstimatedErrors count] > kAverageElements) {
+        [_previousEstimatedErrors removeObjectAtIndex:0];
+    }
+    
+    float total = 0;
+    for (NSNumber *value in _previousEstimatedErrors) {
+        float point = [value floatValue];
+        total += point;
+    }
+    
+    float avg = total/_previousEstimatedErrors.count;
+
+    return avg;
 }
 
 - (void)calculateProbabilityPointsManual {
@@ -84,14 +118,14 @@ NSArray *_beacons;
     
     [self calculateAndSetEstimatedPosition:CGPointMake(minErrorPoint.x * [self pixelScaleX], minErrorPoint.y * [self pixelScaleY])];
     
-    [_delegate beaconMap:self probabilityPointsUpdated:[self heatmapPoints]];
+    [_delegate beaconMap:self probabilityPointsUpdated:[self heatmapPointsUsingEstimatedPosition]];
 }
 
 - (void)calculateProbabilityPointsLeastLibrary {
     [LocationManager determine:_beacons success:^(CGPoint location) {
         [self calculateAndSetEstimatedPosition:location];
 
-        NSArray *insidePoints = [self heatmapPoints];
+        NSArray *insidePoints = [self heatmapPointsUsingEstimatedPosition];
 
         [_delegate beaconMap:self probabilityPointsUpdated:insidePoints];
 
@@ -104,15 +138,8 @@ NSArray *_beacons;
     [self calculateProbabilityPointsManual];
 }
 
-- (NSArray *)heatmapPoints {
-    float error = 0;
-    for (CBBeacon *beacon in _beacons) {
-        float dx = beacon.position.x - _estimatedPosition.x;
-        float dy = beacon.position.y - _estimatedPosition.y;
-        float beaconToEstimate = sqrt(dx*dx + dy*dy);
-        float diff = beaconToEstimate - [self pixelDistanceFor:beacon];
-        error = MAX(error, fabs(diff/kOptimisticValue));
-    }
+- (NSArray *)heatmapPointsUsingEstimatedPosition {
+    float error = [self calculateErrorUsingEstimatedPosition];
     
     NSMutableArray *insidePoints = [NSMutableArray array];
     for (int x = 0; x < self.bounds.size.width; x += kGap) {
