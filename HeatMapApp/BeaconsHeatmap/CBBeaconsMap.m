@@ -102,8 +102,8 @@ NSArray *_beacons;
         for (float y = 0; y < _physicalSize.height; y = y + delta) {
             float error = 0.0;
             for (CBBeacon *beacon in _beacons) {
-                float dx = beacon.position.x/[self pixelScaleX] - x;
-                float dy = beacon.position.y/[self pixelScaleY] - y;
+                float dx = beacon.position.x/[self pixelScale] - x;
+                float dy = beacon.position.y/[self pixelScale] - y;
                 float beaconToPoint = sqrt(dx*dx + dy*dy);
                 float diff = beaconToPoint - beacon.distance;
                 error += fabs(diff);
@@ -116,7 +116,7 @@ NSArray *_beacons;
         }
     }
     
-    [self calculateAndSetEstimatedPosition:CGPointMake(minErrorPoint.x * [self pixelScaleX], minErrorPoint.y * [self pixelScaleY])];
+    [self calculateAndSetEstimatedPosition:CGPointMake(minErrorPoint.x * [self pixelScale], minErrorPoint.y * [self pixelScale])];
     
     [_delegate beaconMap:self probabilityPointsUpdated:[self heatmapPointsUsingEstimatedPosition]];
 }
@@ -178,6 +178,7 @@ NSArray *_beacons;
     center.x = bounds.origin.x + bounds.size.width / 2.0;
     center.y = bounds.origin.y + bounds.size.height / 2.0;
     
+    // DRAW BEACONS AND ITS RANGE
     float beaconSize = 20;
     UIFont *font= [UIFont systemFontOfSize:11.0];
     for (CBBeacon *beacon in _beacons) {
@@ -191,11 +192,7 @@ NSArray *_beacons;
             CGPoint nameLocation;
             NSString *label = [NSString stringWithFormat:@"%@ (%.2fm)", beacon.name, beacon.distance];
             CGSize labelSize = [label sizeWithAttributes:@{NSFontAttributeName:font}];
-            if (beacon.position.x <= beaconSize * 2) {
-                nameLocation.x = beacon.position.x + beaconSize/2 + 2;
-                nameLocation.y = beacon.position.y - beaconSize/2;
-            }
-            else if (self.bounds.size.width - beacon.position.x <= beaconSize * 2) {
+            if (self.bounds.size.width - beacon.position.x <= beaconSize * 2) {
                 nameLocation.x = beacon.position.x - labelSize.width - beaconSize/2 -  2;
                 nameLocation.y = beacon.position.y - beaconSize/2;
             }
@@ -206,7 +203,11 @@ NSArray *_beacons;
             else if (self.bounds.size.height - beacon.position.y <= beaconSize * 2) {
                 nameLocation.x = beacon.position.x - labelSize.width/2;
                 nameLocation.y = beacon.position.y - labelSize.height - beaconSize/2 - 2;
+            } else {
+                nameLocation.x = beacon.position.x + beaconSize/2 + 2;
+                nameLocation.y = beacon.position.y - beaconSize/2;
             }
+            
             [label drawAtPoint:nameLocation withAttributes:@{NSFontAttributeName:font}];
         }
         
@@ -219,15 +220,29 @@ NSArray *_beacons;
         CGContextStrokePath(ctx);
     }
     
+    // ROOM SIZE
     CGContextSetAlpha(ctx, 0.5);
     NSString *roomWidth = [NSString stringWithFormat:@"room size: %.2fm x %.2fm", _physicalSize.width, _physicalSize.height];
     [roomWidth drawAtPoint:CGPointMake(5,  20) withAttributes:@{NSFontAttributeName:font}];
     
+    // ESTIMATED POSITION
     float deviceSize = 10;
     if (_estimatedPosition.x && _estimatedPosition.y) {
         CGContextSetFillColorWithColor(ctx, [[UIColor greenColor] CGColor]);
         
         CGContextFillRect(ctx, CGRectMake(_estimatedPosition.x - deviceSize/2, _estimatedPosition.y - deviceSize/2, deviceSize, deviceSize));
+    }
+    
+    // ROOM BORDERS
+    CGContextSetLineWidth(ctx, 6);
+    CGContextStrokeRect(ctx, CGRectInset([self pixelRoomRect], 3, 3));
+}
+
+- (CGRect)pixelRoomRect {
+    if ([self pixelScaleX] > [self pixelScaleY]) {
+        return CGRectMake((self.bounds.size.width - _physicalSize.width * [self pixelScaleY])/2, 0, _physicalSize.width * [self pixelScaleY], _physicalSize.height * [self pixelScaleY]);
+    } else {
+        return CGRectMake(0, (self.bounds.size.height - _physicalSize.height * [self pixelScaleX])/2, _physicalSize.width * [self pixelScaleX], _physicalSize.height * [self pixelScaleX]);
     }
 }
 
@@ -240,7 +255,7 @@ NSArray *_beacons;
 }
 
 - (float)pixelScale {
-    return ([self pixelScaleX] + [self pixelScaleY]) / 2.0;
+    return [self pixelScaleX] > [self pixelScaleY] ? [self pixelScaleY] : [self pixelScaleX];
 }
 
 - (float)pixelDistanceFor:(CBBeacon *)beacon {
