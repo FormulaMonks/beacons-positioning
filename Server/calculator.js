@@ -2,6 +2,8 @@
 
 var worker = function() {
     var distanceByUuid = {};
+    var AVERAGE_ITEMS = 40;
+    var MAX_DISTANCE = 150;
 
     function calculateDistance(txPower, rssi) {
         if (rssi == 0) {
@@ -27,7 +29,7 @@ var worker = function() {
 
         var distance = calculateDistance(-50, rssi);
 
-        if (distance < 150) { // avoid error values
+        if (distance < MAX_DISTANCE) { // avoid error values
             values.push(distance);
         }
 
@@ -35,7 +37,7 @@ var worker = function() {
             return distance;
         }
 
-        if (values.length > 20) {
+        if (values.length > AVERAGE_ITEMS) {
             values = values.slice(1);
             distanceByUuid[uuid] = values;
         }
