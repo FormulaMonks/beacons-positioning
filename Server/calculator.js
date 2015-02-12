@@ -4,8 +4,21 @@ var worker = function() {
     var distanceByUuid = {};
     var AVERAGE_ITEMS = 40;
     var MAX_DISTANCE = 150;
+    var calculateDistanceAlgo = _calculateDistanceInverse;
 
-    function calculateDistance(txPower, rssi) {
+    function _calculateDistanceInverse(txPower, rssi) {
+        if (rssi == 0) {
+            return -1.0;
+        }
+
+        var n = 5.0;
+        var rssiAt1m = -37.0;
+
+        var exp = (rssiAt1m - rssi)/(10 * n);
+        return Math.pow(10.0, exp);
+    }
+
+    function _calculateDistanceEmpiric(txPower, rssi) {
         if (rssi == 0) {
             return -1.0;
         }
@@ -27,7 +40,7 @@ var worker = function() {
 
         var values = distanceByUuid[uuid];
 
-        var distance = calculateDistance(-50, rssi);
+        var distance = calculateDistanceAlgo(-50, rssi);
 
         if (distance < MAX_DISTANCE) { // avoid error values
             values.push(distance);
