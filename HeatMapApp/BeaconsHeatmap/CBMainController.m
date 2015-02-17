@@ -10,21 +10,21 @@
 #import "LFHeatMap.h"
 #import "CBBeaconsMap.h"
 #import "CBBeaconsSimulator.h"
-#import "SIOSocket.h"
 #import "CBSettingsViewController.h"
+#import "CBBeaconsRanger.h"
 
 const float kRoomWidth = 3.15;
 const float kRoomHeight = 4.7;
 
 static NSString *kBeaconsFilename = @"beacons.plist";
 
-@interface CBMainController () <CBBeaconsMapDelegate, CBBeaconsSimulatorDelegate>
+@interface CBMainController () <CBBeaconsMapDelegate, CBBeaconsSimulatorDelegate, CBBeaconsRangerDelegate>
 
 @property IBOutlet UIImageView *imageView;
 @property IBOutlet CBBeaconsMap *beaconsView;
 
 @property CBBeaconsSimulator *simulator;
-@property SIOSocket *socket;
+@property CBBeaconsRanger *ranger;
 
 @end
 
@@ -36,28 +36,11 @@ static NSString *kBeaconsFilename = @"beacons.plist";
     _simulator = [CBBeaconsSimulator new];
     _simulator.delegate = self;
     
+    _ranger = [CBBeaconsRanger new];
+    _ranger.delegate = self;
+    
     _beaconsView.physicalSize = [self roomSize];
     _beaconsView.delegate = self;
-    
-    [SIOSocket socketWithHost: @"http://localhost:3000" response: ^(SIOSocket *socket) {
-        _socket = socket;
-        _socket.onConnect = ^(void) {
-            NSLog(@"socket connected.");
-        };
-        [_socket on:@"update" callback:^(NSArray *args) {
-            NSArray *devices = args[0];
-            for (CBBeacon *beacon in _beaconsView.beacons) {
-                for (NSDictionary *item in devices) {                    
-                    if (beacon.name == nil || [beacon.name isEqualToString:item[@"name"]]) { // in case it's empty assign the first empty
-                        beacon.name = item[@"name"];
-                        beacon.distance = [item[@"distance"] floatValue];
-                    }
-                }
-                
-                [_beaconsView updateBeacons];
-            }
-        }];
-    }];
 }
 
 - (CGSize)roomSize {
@@ -113,14 +96,30 @@ static NSString *kBeaconsFilename = @"beacons.plist";
         _beaconsView.beacons = savedBeacons;
     } else {
         CBBeacon *b1 = [[CBBeacon alloc] initWithX:20 y:_beaconsView.bounds.size.height*0.5 distance:2.4];
+        b1.name = @"6132";
         CBBeacon *b2 = [[CBBeacon alloc] initWithX:_beaconsView.bounds.size.width/2 y:_beaconsView.bounds.size.height - 20 distance:2.0];
+        b2.name = @"6133";
         CBBeacon *b3 = [[CBBeacon alloc] initWithX:_beaconsView.bounds.size.width - 20 y:_beaconsView.bounds.size.height/2 distance:2.3];
+        b3.name = @"6134";
         
         _beaconsView.beacons = @[b1, b2, b3];
     }
 }
 
 // Delegates
+
+- (void)beaconsRanger:(CBBeaconsRanger *)ranger didRangeBeacons:(NSArray *)beacons {
+    for (CBBeacon *beaconView in _beaconsView.beacons) {
+        for (CLBeacon *beacon in beacons) {
+            if (beaconView.name == nil || [beaconView.name isEqualToString:[beacon.minor stringValue]]) { // in case it's empty assign the first empty
+                beaconView.name = [beacon.minor stringValue];
+                beaconView.distance = (float)beacon.accuracy;
+            }
+        }
+
+        [_beaconsView updateBeacons];
+    }
+}
 
 - (void)beaconMap:(CBBeaconsMap *)beaconMap probabilityPointsUpdated:(NSArray *)points {
     NSMutableArray *weights = [NSMutableArray arrayWithCapacity:points.count];
