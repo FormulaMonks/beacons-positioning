@@ -70,12 +70,12 @@
         // create a identifier for the major|minor that we can use to compare beacons
         beaconIdentifier = (beacon.major.unsignedIntegerValue << 16) | (beacon.minor.unsignedIntegerValue);
         
-        NSLog(@"beacon %@: %fm", beacon.minor, beacon.accuracy);
+//        NSLog(@"beacon %@: %fm", beacon.minor, beacon.accuracy);
     }
     
     [_delegate beaconsRanger:self didRangeBeacons:beacons];
     
-    NSLog(@"-");
+//    NSLog(@"-");
 }
 
 //- (void)initSocket {

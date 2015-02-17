@@ -10,7 +10,6 @@
 #import "LocationManager.h"
 
 const float kGap = 10.0;
-const float kOptimisticValue = 2.0; // 1.0 would be pessimist
 const float kDistanceToRecognizeBeaconTouch = 30.0;
 const int kAverageElements = 20;
 
@@ -63,7 +62,9 @@ NSArray *_beacons;
     
     CGPoint avg = CGPointMake(total.x / _previousEstimatedPositions.count, total.y / _previousEstimatedPositions.count);
     
-    _estimatedPosition = avg;
+    CGRect room = CGRectInset([self pixelRoomRect], 10, 10);
+    CGPoint maxPoint = CGPointMake(MAX(room.origin.x, avg.x), MAX(room.origin.y, avg.y));
+    _estimatedPosition = CGPointMake(MIN(maxPoint.x, room.origin.x + room.size.width), MIN(maxPoint.y, room.origin.y + room.size.height));
 }
 
 - (float)calculateErrorUsingEstimatedPosition {
@@ -73,7 +74,7 @@ NSArray *_beacons;
         float dy = beacon.position.y - _estimatedPosition.y;
         float beaconToEstimate = sqrt(dx*dx + dy*dy);
         float diff = beaconToEstimate - [self pixelDistanceFor:beacon];
-        currentError = MAX(currentError, fabs(diff/kOptimisticValue));
+        currentError = MAX(currentError, fabs(diff));
     }
     
     [_previousEstimatedErrors addObject:[NSNumber numberWithFloat:currentError]];
@@ -125,9 +126,7 @@ NSArray *_beacons;
     [LocationManager determine:_beacons success:^(CGPoint location) {
         [self calculateAndSetEstimatedPosition:location];
 
-        NSArray *insidePoints = [self heatmapPointsUsingEstimatedPosition];
-
-        [_delegate beaconMap:self probabilityPointsUpdated:insidePoints];
+        [_delegate beaconMap:self probabilityPointsUpdated:[self heatmapPointsUsingEstimatedPosition]];
 
     } failure:^(NSError *error) {
         NSLog(@"error: %@", error);
@@ -226,9 +225,19 @@ NSArray *_beacons;
     [roomWidth drawAtPoint:CGPointMake(5,  20) withAttributes:@{NSFontAttributeName:font}];
     
     // ESTIMATED POSITION
-    float deviceSize = 10;
+    float deviceSize = 15;
+    float error = [self calculateErrorUsingEstimatedPosition] / [self pixelScale];
+    NSLog(@"estimated error: %f", error);
     if (_estimatedPosition.x && _estimatedPosition.y) {
-        CGContextSetFillColorWithColor(ctx, [[UIColor greenColor] CGColor]);
+        UIColor *color;
+        if (error <= 2) {
+            color = [UIColor greenColor];
+        } else if (error <= 5) {
+            color = [UIColor yellowColor];
+        } else {
+            color = [UIColor redColor];
+        }
+        CGContextSetFillColorWithColor(ctx, [color CGColor]);
         
         CGContextFillRect(ctx, CGRectMake(_estimatedPosition.x - deviceSize/2, _estimatedPosition.y - deviceSize/2, deviceSize, deviceSize));
     }
