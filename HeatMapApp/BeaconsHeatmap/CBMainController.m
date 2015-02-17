@@ -64,22 +64,22 @@ static NSString *kBeaconsFilename = @"beacons.plist";
     return CGSizeMake([width floatValue], [height floatValue]);
 }
 
-- (IBAction)changeSimulation:(UIButton *)sender {
-    if ([sender.titleLabel.text hasPrefix:@"Start"]) {
-        [sender setTitle:@"Stop Simulation" forState:UIControlStateNormal];
+- (IBAction)changeSimulation:(UIBarButtonItem *)sender {
+    if ([sender.title hasPrefix:@"Start"]) {
+        [sender setTitle:@"Stop Simulation"];
         [_simulator simulateBeacons:_beaconsView.beacons noise:0.05];
     } else {
-        [sender setTitle:@"Start Simulation" forState:UIControlStateNormal];
+        [sender setTitle:@"Start Simulation"];
         [_simulator stopSimulation];
     }
 }
 
-- (IBAction)changeRanging:(UIButton *)sender {
-    if ([sender.titleLabel.text hasPrefix:@"Start"]) {
-        [sender setTitle:@"Stop Ranging" forState:UIControlStateNormal];
+- (IBAction)changeRanging:(UIBarButtonItem *)sender {
+    if ([sender.title hasPrefix:@"Start"]) {
+        [sender setTitle:@"Stop Ranging"];
         [_ranger startRanging];
     } else {
-        [sender setTitle:@"Start Ranging" forState:UIControlStateNormal];
+        [sender setTitle:@"Start Ranging"];
         [_ranger stopRanging];
     }
 }

@@ -134,7 +134,8 @@ NSArray *_beacons;
 }
 
 - (void)calculateProbabilityPoints {
-    [self calculateProbabilityPointsManual];
+//    [self calculateProbabilityPointsManual];
+    [self calculateProbabilityPointsLeastLibrary];
 }
 
 - (NSArray *)heatmapPointsUsingEstimatedPosition {
@@ -222,7 +223,7 @@ NSArray *_beacons;
     // ROOM SIZE
     CGContextSetAlpha(ctx, 0.5);
     NSString *roomWidth = [NSString stringWithFormat:@"room size: %.2fm x %.2fm", _physicalSize.width, _physicalSize.height];
-    [roomWidth drawAtPoint:CGPointMake(5,  20) withAttributes:@{NSFontAttributeName:font}];
+    [roomWidth drawAtPoint:CGPointMake(10, 10) withAttributes:@{NSFontAttributeName:font}];
     
     // ESTIMATED POSITION
     float deviceSize = 15;

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CBSettingsViewController : UIViewController
+@interface CBSettingsViewController : UITableViewController
 
 - (void)save;
 
