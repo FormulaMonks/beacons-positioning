@@ -13,8 +13,8 @@
 #import "CBSettingsViewController.h"
 #import "CBBeaconsRanger.h"
 
-const float kRoomWidth = 3.15;
-const float kRoomHeight = 4.7;
+const float kRoomWidth = 3.5;
+const float kRoomHeight = 5.5;
 
 static NSString *kBeaconsFilename = @"beacons.plist";
 
@@ -74,6 +74,16 @@ static NSString *kBeaconsFilename = @"beacons.plist";
     }
 }
 
+- (IBAction)changeRanging:(UIButton *)sender {
+    if ([sender.titleLabel.text hasPrefix:@"Start"]) {
+        [sender setTitle:@"Stop Ranging" forState:UIControlStateNormal];
+        [_ranger startRanging];
+    } else {
+        [sender setTitle:@"Start Ranging" forState:UIControlStateNormal];
+        [_ranger stopRanging];
+    }
+}
+
 - (IBAction)dismissViewController:(UIStoryboardSegue *)segue {
     [self dismissViewControllerAnimated:YES completion:nil];
     
@@ -95,6 +105,8 @@ static NSString *kBeaconsFilename = @"beacons.plist";
     if (savedBeacons) {
         _beaconsView.beacons = savedBeacons;
     } else {
+        CBBeacon *b0 = [[CBBeacon alloc] initWithX:_beaconsView.bounds.size.width - 20 y:_beaconsView.bounds.size.height/3 distance:2.0];
+        b0.name = @"6131";
         CBBeacon *b1 = [[CBBeacon alloc] initWithX:20 y:_beaconsView.bounds.size.height*0.5 distance:2.4];
         b1.name = @"6132";
         CBBeacon *b2 = [[CBBeacon alloc] initWithX:_beaconsView.bounds.size.width/2 y:_beaconsView.bounds.size.height - 20 distance:2.0];
@@ -102,7 +114,7 @@ static NSString *kBeaconsFilename = @"beacons.plist";
         CBBeacon *b3 = [[CBBeacon alloc] initWithX:_beaconsView.bounds.size.width - 20 y:_beaconsView.bounds.size.height/2 distance:2.3];
         b3.name = @"6134";
         
-        _beaconsView.beacons = @[b1, b2, b3];
+        _beaconsView.beacons = @[b0, b1, b2, b3];
     }
 }
 
@@ -126,8 +138,13 @@ static NSString *kBeaconsFilename = @"beacons.plist";
     for (int i = 0; i < points.count; i++) {
         [weights addObject:[NSNumber numberWithFloat:10.0]];
     }
-    UIImage *map = [LFHeatMap heatMapWithRect:_imageView.bounds boost:0.6 points:points weights:weights];
-    _imageView.image = map;
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        UIImage *map = [LFHeatMap heatMapWithRect:_imageView.bounds boost:0.6 points:points weights:weights];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            _imageView.image = map;
+        });
+    });
 }
 
 - (void)beaconMap:(CBBeaconsMap *)beaconMap beaconsPropertiesChanged:(NSArray *)beacons {

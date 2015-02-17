@@ -30,11 +30,17 @@
         
         NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:@kGeLoProfileUUID];
         self.beaconRegion = [[CLBeaconRegion alloc] initWithProximityUUID:uuid identifier:@"com.gelosite"];
-        
-        [self.locationManager startMonitoringForRegion:self.beaconRegion];
     }
     
     return self;
+}
+
+- (void)startRanging {
+    [self.locationManager startMonitoringForRegion:self.beaconRegion];
+}
+
+- (void)stopRanging {
+    [self.locationManager stopRangingBeaconsInRegion:self.beaconRegion];
 }
 
 # pragma mark CLLocationManagerDelegate

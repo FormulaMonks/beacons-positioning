@@ -19,4 +19,7 @@
 
 @property (nonatomic, weak) id<CBBeaconsRangerDelegate> delegate;
 
+- (void)startRanging;
+- (void)stopRanging;
+
 @end

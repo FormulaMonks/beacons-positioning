@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -24,8 +24,19 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LWj-rd-VQp">
+                                <rect key="frame" x="259" y="563" width="83" height="28"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <state key="normal" title="Start Ranging">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="changeRanging:" destination="BYZ-38-t0r" eventType="touchUpInside" id="279-zq-w4W"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F2P-LA-CLG">
-                                <rect key="frame" x="9" y="561" width="110" height="30"/>
+                                <rect key="frame" x="9" y="563" width="97" height="28"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <state key="normal" title="Start Simulation">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -34,7 +45,8 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pxR-qE-2CJ">
-                                <rect key="frame" x="534" y="561" width="57" height="30"/>
+                                <rect key="frame" x="541" y="563" width="50" height="28"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <state key="normal" title="Settings">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -51,13 +63,21 @@
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="F2P-LA-CLG" secondAttribute="bottom" constant="9" id="HyS-hk-csg"/>
                             <constraint firstItem="6ge-tE-gAq" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-16" id="OXx-Fr-mZs"/>
                             <constraint firstItem="6ge-tE-gAq" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="-20" id="Tf2-gz-uvc"/>
+                            <constraint firstAttribute="centerX" secondItem="LWj-rd-VQp" secondAttribute="centerX" id="a00-rR-YtI"/>
                             <constraint firstItem="m3P-S7-1hX" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-16" id="cJG-P6-TOU"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="LWj-rd-VQp" secondAttribute="bottom" constant="9" id="fMP-mp-KeC"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="LWj-rd-VQp" secondAttribute="trailing" constant="229" id="fSc-lw-KGW"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="m3P-S7-1hX" secondAttribute="bottom" id="lRW-C3-YlL"/>
                             <constraint firstAttribute="trailingMargin" secondItem="pxR-qE-2CJ" secondAttribute="trailing" constant="-7" id="ssv-FU-6LB"/>
                             <constraint firstAttribute="trailingMargin" secondItem="6ge-tE-gAq" secondAttribute="trailing" constant="-16" id="uS1-4F-fso"/>
                             <constraint firstItem="m3P-S7-1hX" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="-20" id="vLi-fj-gFC"/>
                             <constraint firstItem="F2P-LA-CLG" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-7" id="zJ8-BL-VGZ"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="fSc-lw-KGW"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
                         <outlet property="beaconsView" destination="m3P-S7-1hX" id="nY2-bU-ODX"/>
