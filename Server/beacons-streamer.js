@@ -14,12 +14,6 @@ option('-l, --logfile <filename>', 'the log file to save received signals').
 option('-p, --port <port>', 'listening port', parseInt).
 parse(process.argv);
 
-var waitFor = program.number;
-if (!waitFor) {
-    console.error("You need to specify the number of devices to listen to.");
-    program.help();
-}
-
 var port = program.port;
 if (!port) {
     port = defaultPort;
@@ -53,4 +47,3 @@ beacons.on('update', function(devices) {
 io.listen(port);
 
 console.log("listening web sockets on port " + port);
-console.log("waiting for " + waitFor + " devices to connect...");
