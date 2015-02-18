@@ -43,6 +43,16 @@ static NSString *kBeaconsFilename = @"beacons.plist";
     _beaconsView.delegate = self;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    CBEstimationMethod method = [[defaults objectForKey:@"estimation"] integerValue];
+    
+    _beaconsView.method = method;
+}
+
 - (CGSize)roomSize {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 

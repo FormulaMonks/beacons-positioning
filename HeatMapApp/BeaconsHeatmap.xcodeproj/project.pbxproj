@@ -10,6 +10,7 @@
 		E2D8E9541A72726400CB4B18 /* CBBeaconsMap.m in Sources */ = {isa = PBXBuildFile; fileRef = E2D8E9531A72726400CB4B18 /* CBBeaconsMap.m */; };
 		E2D8E9571A72B6B500CB4B18 /* CBBeaconsSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = E2D8E9561A72B6B500CB4B18 /* CBBeaconsSimulator.m */; };
 		E2E5DE8F1A7BD0EC00D0C27A /* CBSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2E5DE8E1A7BD0EC00D0C27A /* CBSettingsViewController.m */; };
+		E2F45E891A94B37B000E18C7 /* CBEstimationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F45E881A94B37B000E18C7 /* CBEstimationViewController.m */; };
 		E2F891961A93787D00C59419 /* CBBeaconsRanger.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F891951A93787D00C59419 /* CBBeaconsRanger.m */; };
 		E2F891981A937DA800C59419 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2F891971A937DA800C59419 /* CoreLocation.framework */; };
 		E2FF007B1A7930ED00AE3506 /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E2FFFE811A7930ED00AE3506 /* LocationManager.m */; };
@@ -160,6 +161,9 @@
 		E2D8E9561A72B6B500CB4B18 /* CBBeaconsSimulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBBeaconsSimulator.m; sourceTree = "<group>"; };
 		E2E5DE8D1A7BD0EC00D0C27A /* CBSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBSettingsViewController.h; sourceTree = "<group>"; };
 		E2E5DE8E1A7BD0EC00D0C27A /* CBSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBSettingsViewController.m; sourceTree = "<group>"; };
+		E2F45E871A94B37B000E18C7 /* CBEstimationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBEstimationViewController.h; sourceTree = "<group>"; };
+		E2F45E881A94B37B000E18C7 /* CBEstimationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBEstimationViewController.m; sourceTree = "<group>"; };
+		E2F45E8A1A94C0EC000E18C7 /* CBEstimationMethod.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBEstimationMethod.h; sourceTree = "<group>"; };
 		E2F891941A93787D00C59419 /* CBBeaconsRanger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBBeaconsRanger.h; sourceTree = "<group>"; };
 		E2F891951A93787D00C59419 /* CBBeaconsRanger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBBeaconsRanger.m; sourceTree = "<group>"; };
 		E2F891971A937DA800C59419 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -1638,8 +1642,11 @@
 				E2D8E9561A72B6B500CB4B18 /* CBBeaconsSimulator.m */,
 				E2E5DE8D1A7BD0EC00D0C27A /* CBSettingsViewController.h */,
 				E2E5DE8E1A7BD0EC00D0C27A /* CBSettingsViewController.m */,
+				E2F45E871A94B37B000E18C7 /* CBEstimationViewController.h */,
+				E2F45E881A94B37B000E18C7 /* CBEstimationViewController.m */,
 				E2F891941A93787D00C59419 /* CBBeaconsRanger.h */,
 				E2F891951A93787D00C59419 /* CBBeaconsRanger.m */,
+				E2F45E8A1A94C0EC000E18C7 /* CBEstimationMethod.h */,
 				FA75B5FC1A718DE500CA6DA8 /* Main.storyboard */,
 				FA75B5FF1A718DE500CA6DA8 /* Images.xcassets */,
 				FA75B6011A718DE500CA6DA8 /* LaunchScreen.xib */,
@@ -1926,6 +1933,7 @@
 				E2D8E9571A72B6B500CB4B18 /* CBBeaconsSimulator.m in Sources */,
 				FA75B5FB1A718DE500CA6DA8 /* CBMainController.m in Sources */,
 				E2FF00FB1A7931BE00AE3506 /* UIView+Additions.m in Sources */,
+				E2F45E891A94B37B000E18C7 /* CBEstimationViewController.m in Sources */,
 				FA75B5F81A718DE500CA6DA8 /* AppDelegate.m in Sources */,
 				E2FF007B1A7930ED00AE3506 /* LocationManager.m in Sources */,
 				E2D8E9541A72726400CB4B18 /* CBBeaconsMap.m in Sources */,

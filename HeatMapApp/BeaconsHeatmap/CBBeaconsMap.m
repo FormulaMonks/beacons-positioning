@@ -134,8 +134,11 @@ NSArray *_beacons;
 }
 
 - (void)calculateProbabilityPoints {
-//    [self calculateProbabilityPointsManual];
-    [self calculateProbabilityPointsLeastLibrary];
+    if (_method == CBEstimationMethodHeuristic) {
+        [self calculateProbabilityPointsManual];
+    } else {
+        [self calculateProbabilityPointsLeastLibrary];        
+    }
 }
 
 - (NSArray *)heatmapPointsUsingEstimatedPosition {

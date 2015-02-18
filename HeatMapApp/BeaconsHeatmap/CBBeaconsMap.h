@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CBEstimationMethod.h"
 
 @class CBBeaconsMap;
 
@@ -34,6 +35,8 @@
 @property (weak) id<CBBeaconsMapDelegate> delegate;
 
 @property NSArray *beacons;
+
+@property CBEstimationMethod method;
 
 // will look for updates
 - (void)updateBeacons;

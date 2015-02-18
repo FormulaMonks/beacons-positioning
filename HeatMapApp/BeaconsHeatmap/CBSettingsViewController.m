@@ -11,6 +11,7 @@
 @interface CBSettingsViewController () <UITextFieldDelegate>
 @property IBOutlet UITextField *widthField;
 @property IBOutlet UITextField *heightField;
+@property IBOutlet UILabel *estimationMethodLabel;
 @end
 
 @implementation CBSettingsViewController
@@ -24,6 +25,16 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     _widthField.text = [NSString stringWithFormat:@"%.2f", [[defaults objectForKey:@"room_width"] floatValue]];
     _heightField.text = [NSString stringWithFormat:@"%.2f", [[defaults objectForKey:@"room_height"] floatValue]];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    NSArray *methods = @[@"heuristic", @"levenberg"];
+
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSNumber *index = [defaults objectForKey:@"estimation"];
+    _estimationMethodLabel.text = methods[[index integerValue]];
 }
 
 - (void)save {
