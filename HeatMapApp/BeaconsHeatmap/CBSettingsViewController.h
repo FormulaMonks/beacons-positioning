@@ -8,7 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+@class CBSettingsViewController;
+
+@protocol CBSettingsViewControllerDelegate
+- (void)settingsViewControllerDeleteBeacons:(CBSettingsViewController *)viewController;
+@end
+
 @interface CBSettingsViewController : UITableViewController
+
+@property (nonatomic, weak) id<CBSettingsViewControllerDelegate> delegate;
 
 - (void)save;
 

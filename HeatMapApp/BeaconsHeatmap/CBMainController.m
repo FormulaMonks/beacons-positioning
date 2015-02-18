@@ -13,14 +13,12 @@
 #import "CBSettingsViewController.h"
 #import "CBBeaconsRanger.h"
 
-const int kMinorStartValue = 6131;
-
 const float kRoomWidth = 3.5;
 const float kRoomHeight = 5.5;
 
 static NSString *kBeaconsFilename = @"beacons.plist";
 
-@interface CBMainController () <CBBeaconsMapDelegate, CBBeaconsSimulatorDelegate, CBBeaconsRangerDelegate>
+@interface CBMainController () <CBBeaconsMapDelegate, CBBeaconsSimulatorDelegate, CBBeaconsRangerDelegate, CBSettingsViewControllerDelegate>
 
 @property IBOutlet UIImageView *imageView;
 @property IBOutlet CBBeaconsMap *beaconsView;
@@ -122,7 +120,7 @@ static NSString *kBeaconsFilename = @"beacons.plist";
     
     NSMutableArray *beacons = [NSMutableArray array];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    int minorStart = kMinorStartValue;
+    int minorStart = [[defaults objectForKey:@"minor"] intValue];
     for (int i = 0; i < [[defaults objectForKey:@"beacons"] intValue]; i++) {
         CBBeacon *beacon = [[CBBeacon alloc] initWithX:20 + i * 20 y:20 + i * 25 distance:2.0];
         beacon.name = [NSString stringWithFormat:@"%d", minorStart + i];
@@ -137,13 +135,13 @@ static NSString *kBeaconsFilename = @"beacons.plist";
         }
         
         if (savedBeacons.count < beacons.count) {
-            for (int i = savedBeacons.count; i < beacons.count; i++) {
+            for (NSUInteger i = savedBeacons.count; i < beacons.count; i++) {
                 CBBeacon *beacon = beacons[i];
                 [_beaconsView.beacons addObject:beacon];
                 [_beaconsView updateBeacons];
             }
         } else {
-            for (int i = savedBeacons.count - 1; i >= beacons.count; i--) {
+            for (NSUInteger i = savedBeacons.count - 1; i >= beacons.count; i--) {
                 CBBeacon *beacon = savedBeacons[i];
                 [_beaconsView.beacons removeObject:beacon];
                 [_beaconsView updateBeacons];
@@ -156,6 +154,14 @@ static NSString *kBeaconsFilename = @"beacons.plist";
     }
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.destinationViewController isKindOfClass:[UINavigationController class]]) {
+        UINavigationController *vc = (UINavigationController *)segue.destinationViewController;
+        CBSettingsViewController *settings = (CBSettingsViewController *)(vc.viewControllers[0]);
+        settings.delegate = self;
+    }
+}
+
 - (void)saveBeacons:(NSArray *)beacons {
     NSArray *documentPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *docDirectory = [documentPath objectAtIndex:0];
@@ -164,7 +170,19 @@ static NSString *kBeaconsFilename = @"beacons.plist";
     [data writeToFile:[docDirectory stringByAppendingPathComponent:kBeaconsFilename] atomically:YES];
 }
 
+- (void)deleteBeacons {
+    NSArray *documentPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *docDirectory = [documentPath objectAtIndex:0];
+
+    NSFileManager *manager = [NSFileManager defaultManager];
+    [manager removeItemAtPath:[docDirectory stringByAppendingPathComponent:kBeaconsFilename] error:nil];
+}
+
 // Delegates
+
+- (void)settingsViewControllerDeleteBeacons:(CBSettingsViewController *)viewController {
+    [self deleteBeacons];
+}
 
 - (void)beaconsRanger:(CBBeaconsRanger *)ranger didRangeBeacons:(NSArray *)beacons {
     for (CBBeacon *beaconView in _beaconsView.beacons) {

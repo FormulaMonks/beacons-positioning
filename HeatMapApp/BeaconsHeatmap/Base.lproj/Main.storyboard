@@ -27,16 +27,12 @@
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hzE-KE-FVE">
                                 <rect key="frame" x="0.0" y="436" width="320" height="44"/>
                                 <items>
-                                    <barButtonItem title="Start Simulation" id="xyc-ZD-ryX">
-                                        <connections>
-                                            <action selector="changeSimulation:" destination="BYZ-38-t0r" id="iZM-z1-AyB"/>
-                                        </connections>
-                                    </barButtonItem>
                                     <barButtonItem title="Start Ranging" id="Dn8-vt-igD">
                                         <connections>
                                             <action selector="changeRanging:" destination="BYZ-38-t0r" id="KJc-a9-Ewy"/>
                                         </connections>
                                     </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="d4x-l5-ed4"/>
                                     <barButtonItem title="Settings" id="M19-qc-Eek">
                                         <connections>
                                             <segue destination="aHV-1P-NLp" kind="presentation" id="CaM-ue-7aF"/>
@@ -230,6 +226,56 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="hKU-At-lkb">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hKU-At-lkb" id="1cj-Tc-mcP">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Starting Minor" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b1n-4J-1tn">
+                                                    <rect key="frame" x="12" y="11" width="109" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="6131" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ggf-yb-xce">
+                                                    <rect key="frame" x="215" y="15" width="97" height="17"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="97" id="Ufh-Jb-r9s"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="centerY" secondItem="b1n-4J-1tn" secondAttribute="centerY" id="J8Y-uv-LDg"/>
+                                                <constraint firstItem="b1n-4J-1tn" firstAttribute="leading" secondItem="1cj-Tc-mcP" secondAttribute="leadingMargin" constant="4" id="Q5C-xL-gdU"/>
+                                                <constraint firstAttribute="centerY" secondItem="Ggf-yb-xce" secondAttribute="centerY" constant="-1.5" id="Xho-IO-hBd"/>
+                                                <constraint firstItem="Ggf-yb-xce" firstAttribute="trailing" secondItem="1cj-Tc-mcP" secondAttribute="trailingMargin" id="smI-95-ovn"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="gmS-y1-7CV">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gmS-y1-7CV" id="gj8-kn-ks9">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d8N-nK-d7Z">
+                                                    <rect key="frame" x="107" y="7" width="108" height="30"/>
+                                                    <state key="normal" title="Delete Beacons">
+                                                        <color key="titleColor" red="0.89608134920000004" green="0.0" blue="0.068997121110000004" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="deleteBeacons:" destination="qBh-r1-QCj" eventType="touchUpInside" id="pjJ-4B-vuw"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="centerX" secondItem="d8N-nK-d7Z" secondAttribute="centerX" constant="-0.5" id="34X-8H-FWm"/>
+                                                <constraint firstAttribute="centerY" secondItem="d8N-nK-d7Z" secondAttribute="centerY" id="xXu-f9-ZZ8"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -252,13 +298,14 @@
                         <outlet property="estimationMethodLabel" destination="4CS-xv-HDA" id="Bdz-vi-W5e"/>
                         <outlet property="heatmapSwitch" destination="6sX-Dq-u5U" id="6Ld-AC-jEb"/>
                         <outlet property="heightField" destination="DCI-ZC-peR" id="kA2-8a-Mny"/>
+                        <outlet property="minorField" destination="Ggf-yb-xce" id="p6Z-v8-hqM"/>
                         <outlet property="widthField" destination="zyA-Wt-9J3" id="NSr-IA-NeE"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="j9A-Gm-ema" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="Sz2-f8-T97" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="872" y="6"/>
+            <point key="canvasLocation" x="872" y="3"/>
         </scene>
         <!--Estimation Method-->
         <scene sceneID="OOt-6Z-YpQ">
