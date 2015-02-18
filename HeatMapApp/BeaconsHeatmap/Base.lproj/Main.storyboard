@@ -215,6 +215,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="estimationMethodLabel" destination="4CS-xv-HDA" id="Bdz-vi-W5e"/>
+                        <outlet property="heatmapSwitch" destination="6sX-Dq-u5U" id="6Ld-AC-jEb"/>
                         <outlet property="heightField" destination="DCI-ZC-peR" id="kA2-8a-Mny"/>
                         <outlet property="widthField" destination="zyA-Wt-9J3" id="NSr-IA-NeE"/>
                     </connections>

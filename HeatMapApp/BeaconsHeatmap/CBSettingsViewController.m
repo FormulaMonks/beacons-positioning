@@ -12,6 +12,7 @@
 @property IBOutlet UITextField *widthField;
 @property IBOutlet UITextField *heightField;
 @property IBOutlet UILabel *estimationMethodLabel;
+@property IBOutlet UISwitch *heatmapSwitch;
 @end
 
 @implementation CBSettingsViewController
@@ -35,6 +36,7 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSNumber *index = [defaults objectForKey:@"estimation"];
     _estimationMethodLabel.text = methods[[index integerValue]];
+    _heatmapSwitch.on = [[defaults objectForKey:@"heatmap"] boolValue];
 }
 
 - (void)save {
@@ -46,6 +48,8 @@
     if (_heightField.text.length > 0) {
         [defaults setObject:_heightField.text forKey:@"room_height"];
     }
+    
+    [defaults setObject:[NSNumber numberWithBool:_heatmapSwitch.on] forKey:@"heatmap"];
     
     [defaults synchronize];
 }

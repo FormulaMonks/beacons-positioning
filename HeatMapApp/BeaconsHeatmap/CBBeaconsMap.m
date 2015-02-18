@@ -12,6 +12,7 @@
 const float kGap = 10.0;
 const float kDistanceToRecognizeBeaconTouch = 30.0;
 const int kAverageElements = 20;
+const int kErrorHeatmapRadiusAttenuation = 2.0;
 
 @interface CBBeaconsMap()
 @property CBBeacon *nearestBeacon;
@@ -149,7 +150,7 @@ NSArray *_beacons;
         for (int y = 0; y < self.bounds.size.height; y += kGap) {
             float dx = _estimatedPosition.x - x;
             float dy = _estimatedPosition.y - y;
-            if (sqrt(dx*dx + dy*dy) <= error) {
+            if (sqrt(dx*dx + dy*dy) <= error/kErrorHeatmapRadiusAttenuation) {
                 [insidePoints addObject:[NSValue valueWithCGPoint:CGPointMake(x, y)]];
             }
         }
@@ -237,7 +238,7 @@ NSArray *_beacons;
         if (error <= 2) {
             color = [UIColor greenColor];
         } else if (error <= 5) {
-            color = [UIColor yellowColor];
+            color = [UIColor blueColor];
         } else {
             color = [UIColor redColor];
         }

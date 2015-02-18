@@ -26,6 +26,8 @@ static NSString *kBeaconsFilename = @"beacons.plist";
 @property CBBeaconsSimulator *simulator;
 @property CBBeaconsRanger *ranger;
 
+@property BOOL heatmap;
+
 @end
 
 @implementation CBMainController
@@ -51,6 +53,9 @@ static NSString *kBeaconsFilename = @"beacons.plist";
     CBEstimationMethod method = [[defaults objectForKey:@"estimation"] integerValue];
     
     _beaconsView.method = method;
+    
+    _heatmap = [[defaults objectForKey:@"heatmap"] boolValue];
+    _imageView.alpha = _heatmap ? 1.0 : 0.0;
 }
 
 - (CGSize)roomSize {
@@ -144,17 +149,19 @@ static NSString *kBeaconsFilename = @"beacons.plist";
 }
 
 - (void)beaconMap:(CBBeaconsMap *)beaconMap probabilityPointsUpdated:(NSArray *)points {
-//    NSMutableArray *weights = [NSMutableArray arrayWithCapacity:points.count];
-//    for (int i = 0; i < points.count; i++) {
-//        [weights addObject:[NSNumber numberWithFloat:10.0]];
-//    }
-//    
-//    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-//        UIImage *map = [LFHeatMap heatMapWithRect:_imageView.bounds boost:0.6 points:points weights:weights];
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            _imageView.image = map;
-//        });
-//    });
+    if (_heatmap) {
+        NSMutableArray *weights = [NSMutableArray arrayWithCapacity:points.count];
+        for (int i = 0; i < points.count; i++) {
+            [weights addObject:[NSNumber numberWithFloat:10.0]];
+        }
+        
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            UIImage *map = [LFHeatMap heatMapWithRect:_imageView.bounds boost:0.6 points:points weights:weights];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                _imageView.image = map;
+            });
+        });
+    }
 }
 
 - (void)beaconMap:(CBBeaconsMap *)beaconMap beaconsPropertiesChanged:(NSArray *)beacons {
