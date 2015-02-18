@@ -13,6 +13,8 @@
 #import "CBSettingsViewController.h"
 #import "CBBeaconsRanger.h"
 
+const int kMinorStartValue = 6131;
+
 const float kRoomWidth = 3.5;
 const float kRoomHeight = 5.5;
 
@@ -120,10 +122,10 @@ static NSString *kBeaconsFilename = @"beacons.plist";
     
     NSMutableArray *beacons = [NSMutableArray array];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    int idStart = 6131;
+    int minorStart = kMinorStartValue;
     for (int i = 0; i < [[defaults objectForKey:@"beacons"] intValue]; i++) {
         CBBeacon *beacon = [[CBBeacon alloc] initWithX:20 + i * 20 y:20 + i * 25 distance:2.0];
-        beacon.name = [NSString stringWithFormat:@"%d", idStart + i];
+        beacon.name = [NSString stringWithFormat:@"%d", minorStart + i];
         [beacons addObject:beacon];
     }
     
