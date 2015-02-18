@@ -25,6 +25,11 @@
         [defaults setObject:@"heuristic" forKey:@"estimation"];
         [defaults synchronize];
     }
+    NSNumber *beacons = [defaults objectForKey:@"beacons"];
+    if (!beacons) {
+        [defaults setObject:@4 forKey:@"beacons"];
+        [defaults synchronize];
+    }
 
     return YES;
 }

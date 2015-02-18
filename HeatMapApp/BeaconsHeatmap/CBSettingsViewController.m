@@ -13,6 +13,8 @@
 @property IBOutlet UITextField *heightField;
 @property IBOutlet UILabel *estimationMethodLabel;
 @property IBOutlet UISwitch *heatmapSwitch;
+@property IBOutlet UILabel *beaconsLabel;
+@property IBOutlet UIStepper *beaconsStepper;
 @end
 
 @implementation CBSettingsViewController
@@ -26,6 +28,9 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     _widthField.text = [NSString stringWithFormat:@"%.2f", [[defaults objectForKey:@"room_width"] floatValue]];
     _heightField.text = [NSString stringWithFormat:@"%.2f", [[defaults objectForKey:@"room_height"] floatValue]];
+    _beaconsLabel.text = [NSString stringWithFormat:@"%d", [[defaults objectForKey:@"beacons"] intValue]];
+    _beaconsStepper.minimumValue = 1;
+    _beaconsStepper.value = [_beaconsLabel.text doubleValue];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -39,6 +44,10 @@
     _heatmapSwitch.on = [[defaults objectForKey:@"heatmap"] boolValue];
 }
 
+- (IBAction)stepperChanged:(UIStepper *)sender {
+    _beaconsLabel.text = [NSString stringWithFormat:@"%d", (int)sender.value];
+}
+
 - (void)save {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
@@ -50,6 +59,7 @@
     }
     
     [defaults setObject:[NSNumber numberWithBool:_heatmapSwitch.on] forKey:@"heatmap"];
+    [defaults setObject:[NSNumber numberWithInt:[_beaconsLabel.text intValue]] forKey:@"beacons"];
     
     [defaults synchronize];
 }

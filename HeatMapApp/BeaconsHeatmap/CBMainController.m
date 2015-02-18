@@ -117,20 +117,49 @@ static NSString *kBeaconsFilename = @"beacons.plist";
     NSString *docDirectory = [documentPath objectAtIndex:0];
 
     NSArray *savedBeacons = (NSArray *)[NSKeyedUnarchiver unarchiveObjectWithFile:[docDirectory stringByAppendingPathComponent:kBeaconsFilename]];
-    if (savedBeacons) {
-        _beaconsView.beacons = savedBeacons;
-    } else {
-        CBBeacon *b0 = [[CBBeacon alloc] initWithX:_beaconsView.bounds.size.width - 20 y:_beaconsView.bounds.size.height/3 distance:2.0];
-        b0.name = @"6131";
-        CBBeacon *b1 = [[CBBeacon alloc] initWithX:20 y:_beaconsView.bounds.size.height*0.5 distance:2.4];
-        b1.name = @"6132";
-        CBBeacon *b2 = [[CBBeacon alloc] initWithX:_beaconsView.bounds.size.width/2 y:_beaconsView.bounds.size.height - 20 distance:2.0];
-        b2.name = @"6133";
-        CBBeacon *b3 = [[CBBeacon alloc] initWithX:_beaconsView.bounds.size.width - 20 y:_beaconsView.bounds.size.height/2 distance:2.3];
-        b3.name = @"6134";
-        
-        _beaconsView.beacons = @[b0, b1, b2, b3];
+    
+    NSMutableArray *beacons = [NSMutableArray array];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    int idStart = 6131;
+    for (int i = 0; i < [[defaults objectForKey:@"beacons"] intValue]; i++) {
+        CBBeacon *beacon = [[CBBeacon alloc] initWithX:20 + i * 20 y:20 + i * 25 distance:2.0];
+        beacon.name = [NSString stringWithFormat:@"%d", idStart + i];
+        [beacons addObject:beacon];
     }
+    
+    if (savedBeacons.count != beacons.count) {
+        if (savedBeacons) {
+            _beaconsView.beacons = [savedBeacons mutableCopy];
+        } else {
+            _beaconsView.beacons = [NSMutableArray array];
+        }
+        
+        if (savedBeacons.count < beacons.count) {
+            for (int i = savedBeacons.count; i < beacons.count; i++) {
+                CBBeacon *beacon = beacons[i];
+                [_beaconsView.beacons addObject:beacon];
+                [_beaconsView updateBeacons];
+            }
+        } else {
+            for (int i = savedBeacons.count - 1; i >= beacons.count; i--) {
+                CBBeacon *beacon = savedBeacons[i];
+                [_beaconsView.beacons removeObject:beacon];
+                [_beaconsView updateBeacons];
+            }
+        }
+        
+        [self saveBeacons:_beaconsView.beacons];
+    } else {
+        _beaconsView.beacons = [savedBeacons mutableCopy];
+    }
+}
+
+- (void)saveBeacons:(NSArray *)beacons {
+    NSArray *documentPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *docDirectory = [documentPath objectAtIndex:0];
+    
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:beacons];
+    [data writeToFile:[docDirectory stringByAppendingPathComponent:kBeaconsFilename] atomically:YES];
 }
 
 // Delegates
@@ -165,11 +194,7 @@ static NSString *kBeaconsFilename = @"beacons.plist";
 }
 
 - (void)beaconMap:(CBBeaconsMap *)beaconMap beaconsPropertiesChanged:(NSArray *)beacons {
-    NSArray *documentPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *docDirectory = [documentPath objectAtIndex:0];
-    
-    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:beacons];
-    [data writeToFile:[docDirectory stringByAppendingPathComponent:kBeaconsFilename] atomically:YES];
+    [self saveBeacons:beacons];
 }
 
 -(void)beaconSimulatorDidChange:(CBBeaconsSimulator *)simulator {

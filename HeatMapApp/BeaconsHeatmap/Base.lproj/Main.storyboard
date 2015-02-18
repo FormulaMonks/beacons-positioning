@@ -174,7 +174,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Estimation method" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="67o-za-yIt">
-                                                    <rect key="frame" x="8" y="11" width="145" height="21"/>
+                                                    <rect key="frame" x="12" y="11" width="145" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
@@ -188,7 +188,7 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="trailingMargin" secondItem="4CS-xv-HDA" secondAttribute="trailing" constant="-6" id="GQs-87-KDE"/>
-                                                <constraint firstItem="67o-za-yIt" firstAttribute="leading" secondItem="zcn-oK-EeB" secondAttribute="leadingMargin" id="KvU-5O-TAn"/>
+                                                <constraint firstItem="67o-za-yIt" firstAttribute="leading" secondItem="zcn-oK-EeB" secondAttribute="leadingMargin" constant="4" id="KvU-5O-TAn"/>
                                                 <constraint firstAttribute="centerY" secondItem="67o-za-yIt" secondAttribute="centerY" id="QlB-04-iTv"/>
                                                 <constraint firstAttribute="centerY" secondItem="4CS-xv-HDA" secondAttribute="centerY" id="ryM-81-UMK"/>
                                             </constraints>
@@ -196,6 +196,39 @@
                                         <connections>
                                             <segue destination="xBA-Bz-St5" kind="show" id="a3X-Fy-agg"/>
                                         </connections>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="TGi-kG-fSN">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="TGi-kG-fSN" id="9JX-N8-qLe">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Beacons:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jop-UP-p6c">
+                                                    <rect key="frame" x="12" y="11" width="73" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="Qsl-uv-jfM">
+                                                    <rect key="frame" x="218" y="7" width="94" height="29"/>
+                                                    <connections>
+                                                        <action selector="stepperChanged:" destination="qBh-r1-QCj" eventType="valueChanged" id="Ux5-FK-Agb"/>
+                                                    </connections>
+                                                </stepper>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B4Y-Qf-JK2">
+                                                    <rect key="frame" x="92" y="11" width="10" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="centerY" secondItem="Qsl-uv-jfM" secondAttribute="centerY" id="Lsd-lX-ab6"/>
+                                                <constraint firstItem="B4Y-Qf-JK2" firstAttribute="leading" secondItem="jop-UP-p6c" secondAttribute="trailing" constant="7" id="Mzp-7k-AAX"/>
+                                                <constraint firstAttribute="centerY" secondItem="B4Y-Qf-JK2" secondAttribute="centerY" id="O2f-d2-wfQ"/>
+                                                <constraint firstItem="jop-UP-p6c" firstAttribute="leading" secondItem="9JX-N8-qLe" secondAttribute="leadingMargin" constant="4" id="aLy-R2-WN0"/>
+                                                <constraint firstAttribute="centerY" secondItem="jop-UP-p6c" secondAttribute="centerY" id="inY-T5-QoX"/>
+                                                <constraint firstItem="Qsl-uv-jfM" firstAttribute="trailing" secondItem="9JX-N8-qLe" secondAttribute="trailingMargin" id="s7I-FQ-bhV"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -214,6 +247,8 @@
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
+                        <outlet property="beaconsLabel" destination="B4Y-Qf-JK2" id="NoB-tS-2KF"/>
+                        <outlet property="beaconsStepper" destination="Qsl-uv-jfM" id="GoA-HP-hzC"/>
                         <outlet property="estimationMethodLabel" destination="4CS-xv-HDA" id="Bdz-vi-W5e"/>
                         <outlet property="heatmapSwitch" destination="6sX-Dq-u5U" id="6Ld-AC-jEb"/>
                         <outlet property="heightField" destination="DCI-ZC-peR" id="kA2-8a-Mny"/>
@@ -223,7 +258,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="j9A-Gm-ema" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="Sz2-f8-T97" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="813" y="6"/>
+            <point key="canvasLocation" x="872" y="6"/>
         </scene>
         <!--Estimation Method-->
         <scene sceneID="OOt-6Z-YpQ">

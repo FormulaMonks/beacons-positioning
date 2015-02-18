@@ -34,7 +34,7 @@
 
 @property (weak) id<CBBeaconsMapDelegate> delegate;
 
-@property NSArray *beacons;
+@property NSMutableArray *beacons;
 
 @property CBEstimationMethod method;
 

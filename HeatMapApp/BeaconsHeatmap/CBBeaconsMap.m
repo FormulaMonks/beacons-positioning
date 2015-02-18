@@ -24,7 +24,7 @@ const int kErrorHeatmapRadiusAttenuation = 2.0;
 
 @implementation CBBeaconsMap
 
-NSArray *_beacons;
+NSMutableArray *_beacons;
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -159,11 +159,11 @@ NSArray *_beacons;
     return insidePoints;
 }
 
-- (NSArray *)beacons {
+- (NSMutableArray *)beacons {
     return _beacons;
 }
 
-- (void)setBeacons:(NSArray *)beacons {
+- (void)setBeacons:(NSMutableArray *)beacons {
     _beacons = beacons;
     
     [self calculateProbabilityPoints];
