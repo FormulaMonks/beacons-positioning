@@ -82,6 +82,7 @@ static NSString *kBeaconsFilename = @"beacons.plist";
             [_playLogTimer invalidate];
             _playLogTime = 0;
             _logButton.title = @"Logs";
+            _logButton.tintColor = nil;
             return NO;
         }
     }
@@ -137,12 +138,14 @@ static NSString *kBeaconsFilename = @"beacons.plist";
 - (IBAction)changeRanging:(UIBarButtonItem *)sender {
     if ([sender.title hasPrefix:@"Start"]) {
         [self startLog];
-        [sender setTitle:@"Stop Ranging"];
+        sender.title = @"Stop Ranging";
+        sender.tintColor = [UIColor greenColor];
         [_beaconsView resetPreviousData];
         [_ranger startRanging];
     } else {
         [self saveLog];
-        [sender setTitle:@"Start Ranging"];
+        sender.title = @"Start Ranging";
+        sender.tintColor = nil;
         [_ranger stopRanging];
     }
 }
@@ -242,6 +245,7 @@ static NSString *kBeaconsFilename = @"beacons.plist";
 
 - (void)logsViewController:(CBLogsViewController *)viewController didSelectLog:(NSMutableArray *)logItems {
     _logButton.title = @"Stop Log";
+    _logButton.tintColor = [UIColor greenColor];
     
     [_beaconsView resetPreviousData];
     
