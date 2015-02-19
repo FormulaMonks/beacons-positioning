@@ -35,7 +35,7 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="Nn8-7T-9cM"/>
                                     <barButtonItem title="Logs" id="Qaf-AA-cQL">
                                         <connections>
-                                            <segue destination="AK4-NN-yZq" kind="presentation" id="LDz-Is-aRD"/>
+                                            <segue destination="AK4-NN-yZq" kind="presentation" identifier="logSegue" id="LDz-Is-aRD"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="P5A-sF-y5z"/>
@@ -74,6 +74,7 @@
                     <connections>
                         <outlet property="beaconsView" destination="m3P-S7-1hX" id="nY2-bU-ODX"/>
                         <outlet property="imageView" destination="6ge-tE-gAq" id="Ipg-gO-jdt"/>
+                        <outlet property="logButton" destination="Qaf-AA-cQL" id="Re3-hz-1ST"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

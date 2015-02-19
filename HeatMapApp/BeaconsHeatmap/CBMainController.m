@@ -12,6 +12,7 @@
 #import "CBBeaconsSimulator.h"
 #import "CBSettingsViewController.h"
 #import "CBBeaconsRanger.h"
+#import "CBLogsViewController.h"
 
 const float kRoomWidth = 3.5;
 const float kRoomHeight = 5.5;
@@ -20,16 +21,20 @@ const int kMaxLogValues = 3000;
 
 static NSString *kBeaconsFilename = @"beacons.plist";
 
-@interface CBMainController () <CBBeaconsMapDelegate, CBBeaconsSimulatorDelegate, CBBeaconsRangerDelegate, CBSettingsViewControllerDelegate>
+@interface CBMainController () <CBBeaconsMapDelegate, CBBeaconsSimulatorDelegate, CBBeaconsRangerDelegate, CBSettingsViewControllerDelegate, CBLogsViewControllerDelegate>
 
 @property IBOutlet UIImageView *imageView;
 @property IBOutlet CBBeaconsMap *beaconsView;
+@property IBOutlet UIBarButtonItem *logButton;
 
 @property CBBeaconsSimulator *simulator;
 @property CBBeaconsRanger *ranger;
 
-@property NSMutableArray *log;
-@property NSDate *startLoggingTime;
+@property NSMutableArray *recordingLog;
+@property NSDate *startRecordingTime;
+
+@property NSTimer *playLogTimer;
+@property NSTimeInterval playLogTime;
 
 @property BOOL heatmap;
 
@@ -40,7 +45,7 @@ static NSString *kBeaconsFilename = @"beacons.plist";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    _log = [NSMutableArray array];
+    _recordingLog = [NSMutableArray array];
     
     _simulator = [CBBeaconsSimulator new];
     _simulator.delegate = self;
@@ -117,8 +122,8 @@ static NSString *kBeaconsFilename = @"beacons.plist";
 }
 
 - (void)startLog {
-    [_log removeAllObjects];
-    _startLoggingTime = [NSDate date];
+    [_recordingLog removeAllObjects];
+    _startRecordingTime = [NSDate date];
 }
 
 - (void)saveLog {
@@ -126,27 +131,25 @@ static NSString *kBeaconsFilename = @"beacons.plist";
     NSString *docDirectory = [documentPath objectAtIndex:0];
 
     NSString *logFile = [NSString stringWithFormat:@"log-%@.plist", [[NSDate date] description]];
-    [_log writeToFile:[docDirectory stringByAppendingPathComponent:logFile] atomically:YES];
+    [_recordingLog writeToFile:[docDirectory stringByAppendingPathComponent:logFile] atomically:YES];
 }
 
 - (void)appendToLog:(NSArray *)beacons {
-    if (kLogValues && _log.count < kMaxLogValues) {
-        for (CLBeacon *beacon in beacons) {
-            NSTimeInterval diff = [[NSDate date] timeIntervalSinceDate:_startLoggingTime];
-            [_log addObject:@{@"minor": beacon.minor,
-                              @"rssi": [NSNumber numberWithInteger:beacon.rssi],
-                              @"distance": [NSNumber numberWithDouble:beacon.accuracy],
+    if (kLogValues && ![_playLogTimer isValid] && _recordingLog.count < kMaxLogValues) {
+        for (NSDictionary *beacon in beacons) {
+            NSTimeInterval diff = [[NSDate date] timeIntervalSinceDate:_startRecordingTime];
+            [_recordingLog addObject:@{@"minor": beacon[@"minor"],
+                              @"rssi": beacon[@"rssi"],
+                              @"distance": beacon[@"distance"],
                               @"time": [NSNumber numberWithDouble:diff]}];
         }
     }
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    
+- (void)loadBeacons {
     NSArray *documentPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *docDirectory = [documentPath objectAtIndex:0];
-
+    
     NSArray *savedBeacons = (NSArray *)[NSKeyedUnarchiver unarchiveObjectWithFile:[docDirectory stringByAppendingPathComponent:kBeaconsFilename]];
     
     NSMutableArray *beacons = [NSMutableArray array];
@@ -185,13 +188,36 @@ static NSString *kBeaconsFilename = @"beacons.plist";
     }
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [self loadBeacons];
+}
+
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
+    if ([identifier isEqualToString:@"logSegue"]) {
+        if ([_logButton.title isEqualToString:@"Stop Log"]) {
+            [_playLogTimer invalidate];
+            _playLogTime = 0;
+            _logButton.title = @"Logs";
+            return NO;
+        }
+    }
+    
+    return YES;
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.destinationViewController isKindOfClass:[UINavigationController class]]) {
         UINavigationController *vc = (UINavigationController *)segue.destinationViewController;
         if ([vc.viewControllers[0] isKindOfClass:[CBSettingsViewController class]]) {
             CBSettingsViewController *settings = (CBSettingsViewController *)(vc.viewControllers[0]);
             settings.delegate = self;            
+        } else if ([vc.viewControllers[0] isKindOfClass:[CBLogsViewController class]]) {
+            CBLogsViewController *logs = (CBLogsViewController *)(vc.viewControllers[0]);
+            logs.delegate = self;
         }
+
     }
 }
 
@@ -213,6 +239,53 @@ static NSString *kBeaconsFilename = @"beacons.plist";
 
 // Delegates
 
+- (void)logsViewController:(CBLogsViewController *)viewController didSelectLog:(NSMutableArray *)logItems {
+    _logButton.title = @"Stop Log";
+    
+    [_playLogTimer invalidate];
+    _playLogTimer = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(logTick:) userInfo:logItems repeats:YES];
+    [_playLogTimer fire];
+}
+
+- (void)logTick:(NSTimer *)timer {
+    _playLogTime += timer.timeInterval;
+    
+    NSMutableArray *logs = (NSMutableArray *)timer.userInfo;
+    
+    if (logs.count == 0) {
+        [timer invalidate];
+        _playLogTime = 0;
+        _logButton.title = @"Logs";
+        
+        return;
+    }
+    
+    NSLog(@"%d %f", logs.count, _playLogTime);
+    
+    NSMutableIndexSet *toRemove = [NSMutableIndexSet indexSet];
+    NSMutableArray *currentBeacons = [NSMutableArray array];
+    [logs enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        NSDictionary *item = (NSDictionary *)obj;
+        
+        if ([item[@"time"] doubleValue] <= _playLogTime) {
+            [toRemove addIndex:idx];
+            
+            NSMutableDictionary *beacon = [NSMutableDictionary new];
+            beacon[@"minor"] = item[@"minor"];
+            beacon[@"distance"] = item[@"distance"];
+            [currentBeacons addObject:beacon];
+        } else {
+            *stop = YES;
+        }
+        
+        if (currentBeacons.count > 0) {
+            [self beaconsRanger:nil didRangeBeacons:currentBeacons];
+        }
+    }];
+
+    [logs removeObjectsAtIndexes:toRemove];
+}
+
 - (void)settingsViewControllerDeleteBeacons:(CBSettingsViewController *)viewController {
     [self deleteBeacons];
 }
@@ -221,15 +294,15 @@ static NSString *kBeaconsFilename = @"beacons.plist";
     [self appendToLog:beacons];
     
     for (CBBeacon *beaconView in _beaconsView.beacons) {
-        for (CLBeacon *beacon in beacons) {
-            if (beaconView.name == nil || [beaconView.name isEqualToString:[beacon.minor stringValue]]) { // in case it's empty assign the first empty
-                beaconView.name = [beacon.minor stringValue];
-                beaconView.distance = (float)beacon.accuracy;
+        for (NSDictionary *beacon in beacons) {
+            if (beaconView.name == nil || [beaconView.name isEqualToString:[beacon[@"minor"] stringValue]]) { // in case it's empty assign the first empty
+                beaconView.name = [beacon[@"minor"] stringValue];
+                beaconView.distance = [beacon[@"distance"] floatValue];
             }
         }
-
-        [_beaconsView updateBeacons];
     }
+    
+    [_beaconsView updateBeacons];
 }
 
 - (void)beaconMap:(CBBeaconsMap *)beaconMap probabilityPointsUpdated:(NSArray *)points {

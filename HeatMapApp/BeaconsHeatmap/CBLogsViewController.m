@@ -17,6 +17,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self loadLogs];
+}
+
+- (void)loadLogs {
     NSArray *documentPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *docDirectory = [documentPath objectAtIndex:0];
     
@@ -34,6 +38,25 @@
     return [_logFiles count];
 }
 
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        
+        NSArray *documentPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *docDirectory = [documentPath objectAtIndex:0];
+        NSFileManager *fm = [NSFileManager defaultManager];
+
+        [fm removeItemAtPath:[docDirectory stringByAppendingPathComponent:_logFiles[indexPath.row]] error:nil];
+        
+        [self loadLogs];
+        
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     
@@ -45,6 +68,13 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSArray *documentPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *docDirectory = [documentPath objectAtIndex:0];
+    
+    NSMutableArray *logs = [NSMutableArray arrayWithContentsOfFile:[docDirectory stringByAppendingPathComponent:_logFiles[indexPath.row]]];
+        
+    [_delegate logsViewController:self didSelectLog:logs];
+    
     [self performSegueWithIdentifier:@"unwind" sender:nil];
 }
 

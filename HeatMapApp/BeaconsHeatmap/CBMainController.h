@@ -10,6 +10,5 @@
 
 @interface CBMainController : UIViewController
 
-
 @end
 

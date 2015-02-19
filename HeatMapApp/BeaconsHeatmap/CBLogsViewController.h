@@ -9,6 +9,14 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+@class CBLogsViewController;
+
+@protocol CBLogsViewControllerDelegate
+- (void)logsViewController:(CBLogsViewController *)viewController didSelectLog:(NSMutableArray *)logItems;
+@end
+
 @interface CBLogsViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate>
+
+@property(nonatomic, weak) id<CBLogsViewControllerDelegate> delegate;
 
 @end

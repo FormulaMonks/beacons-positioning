@@ -11,7 +11,7 @@
 @class CBBeaconsRanger;
 
 @protocol CBBeaconsRangerDelegate
-// array of CLBeacon instances
+// array of NSDictionary (distance, minor, major, rssi) instances
 - (void)beaconsRanger:(CBBeaconsRanger *)ranger didRangeBeacons:(NSArray *)beacons;
 @end
 

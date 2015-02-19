@@ -69,15 +69,16 @@
 
 - (void) locationManager:(CLLocationManager *)manager didRangeBeacons:(NSArray *)beacons inRegion:(CLBeaconRegion *)region
 {
-    NSUInteger beaconIdentifier;
-    for(CLBeacon *beacon in beacons){
-        // create a identifier for the major|minor that we can use to compare beacons
-        beaconIdentifier = (beacon.major.unsignedIntegerValue << 16) | (beacon.minor.unsignedIntegerValue);
-        
-//        NSLog(@"beacon %@: %fm", beacon.minor, beacon.accuracy);
+    NSMutableArray *beaconsArray = [NSMutableArray array];
+    for(CLBeacon *beacon in beacons) {
+        [beaconsArray addObject:@{@"minor": beacon.minor,
+                                  @"major": beacon.major,
+                                  @"rssi": [NSNumber numberWithInteger:beacon.rssi],
+                                  @"distance": [NSNumber numberWithDouble:beacon.accuracy],
+                                  }];
     }
     
-    [_delegate beaconsRanger:self didRangeBeacons:beacons];
+    [_delegate beaconsRanger:self didRangeBeacons:beaconsArray];
     
 //    NSLog(@"-");
 }
