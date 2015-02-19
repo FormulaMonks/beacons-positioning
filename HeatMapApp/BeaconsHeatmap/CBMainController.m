@@ -53,7 +53,7 @@ static NSString *kBeaconsFilename = @"beacons.plist";
     CBEstimationMethod method = [[defaults objectForKey:@"estimation"] integerValue];
     
     _beaconsView.method = method;
-    
+    _ranger.uuid = [defaults objectForKey:@"uuid"];
     _heatmap = [[defaults objectForKey:@"heatmap"] boolValue];
     _imageView.alpha = _heatmap ? 1.0 : 0.0;
 }

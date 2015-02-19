@@ -12,6 +12,7 @@
 @property IBOutlet UITextField *widthField;
 @property IBOutlet UITextField *heightField;
 @property IBOutlet UITextField *minorField;
+@property IBOutlet UITextField *uuidField;
 @property IBOutlet UILabel *estimationMethodLabel;
 @property IBOutlet UISwitch *heatmapSwitch;
 @property IBOutlet UILabel *beaconsLabel;
@@ -32,6 +33,7 @@
     _widthField.text = [NSString stringWithFormat:@"%.2f", [[defaults objectForKey:@"room_width"] floatValue]];
     _heightField.text = [NSString stringWithFormat:@"%.2f", [[defaults objectForKey:@"room_height"] floatValue]];
     _minorField.text = [NSString stringWithFormat:@"%d", [[defaults objectForKey:@"minor"] intValue]];
+    _uuidField.text = [defaults objectForKey:@"uuid"];
     _beaconsLabel.text = [NSString stringWithFormat:@"%d", [[defaults objectForKey:@"beacons"] intValue]];
     _beaconsStepper.minimumValue = 1;
     _beaconsStepper.value = [_beaconsLabel.text doubleValue];
@@ -69,6 +71,7 @@
     [defaults setObject:[NSNumber numberWithBool:_heatmapSwitch.on] forKey:@"heatmap"];
     [defaults setObject:[NSNumber numberWithInt:[_beaconsLabel.text intValue]] forKey:@"beacons"];
     [defaults setObject:[NSNumber numberWithInt:[_minorField.text intValue]] forKey:@"minor"];
+    [defaults setObject:_uuidField.text forKey:@"uuid"];
     
     [defaults synchronize];
 }

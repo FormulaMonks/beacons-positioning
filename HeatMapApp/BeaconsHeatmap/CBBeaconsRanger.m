@@ -27,20 +27,24 @@
         self.locationManager = [[CLLocationManager alloc] init];
         self.locationManager.delegate = self;
         [self.locationManager requestAlwaysAuthorization];
-        
-        NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:@kGeLoProfileUUID];
-        self.beaconRegion = [[CLBeaconRegion alloc] initWithProximityUUID:uuid identifier:@"com.gelosite"];
     }
     
     return self;
 }
 
 - (void)startRanging {
-    [self.locationManager startMonitoringForRegion:self.beaconRegion];
+    NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:_uuid];
+    self.beaconRegion = [[CLBeaconRegion alloc] initWithProximityUUID:uuid identifier:@"com.citrusbyte"];
+
+    if (self.beaconRegion) {
+        [self.locationManager startMonitoringForRegion:self.beaconRegion];
+    }
 }
 
 - (void)stopRanging {
-    [self.locationManager stopRangingBeaconsInRegion:self.beaconRegion];
+    if (self.beaconRegion) {
+        [self.locationManager stopRangingBeaconsInRegion:self.beaconRegion];
+    }
 }
 
 # pragma mark CLLocationManagerDelegate

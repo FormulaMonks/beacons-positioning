@@ -18,6 +18,7 @@
 @interface CBBeaconsRanger : NSObject
 
 @property (nonatomic, weak) id<CBBeaconsRangerDelegate> delegate;
+@property NSString *uuid;
 
 - (void)startRanging;
 - (void)stopRanging;
