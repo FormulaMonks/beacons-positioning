@@ -263,6 +263,7 @@ static NSString *kBeaconsFilename = @"beacons.plist";
         [timer invalidate];
         _playLogTime = 0;
         _logButton.title = @"Logs";
+        _logButton.tintColor = nil;
         
         return;
     }
@@ -314,13 +315,13 @@ static NSString *kBeaconsFilename = @"beacons.plist";
 
 - (void)beaconMap:(CBBeaconsMap *)beaconMap lastMeasuredPoints:(NSArray *)points {
     if (_heatmap) {
-        NSMutableArray *weights = [NSMutableArray arrayWithCapacity:points.count];
-        for (int i = 0; i < points.count; i++) {
-            [weights addObject:[NSNumber numberWithFloat:10.0 + i]]; // we give more weight to newest ones
-        }
-        
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
-            UIImage *map = [LFHeatMap heatMapWithRect:_imageView.bounds boost:0.6 points:points weights:weights];
+            NSMutableArray *weights = [NSMutableArray arrayWithCapacity:points.count];
+            for (int i = 0; i < points.count; i++) {
+                [weights addObject:[NSNumber numberWithFloat:10.0 + i]]; // we give more weight to newest ones
+            }
+
+            UIImage *map = [LFHeatMap heatMapWithRect:_imageView.bounds boost:0.6 points:[points copy] weights:weights];
             dispatch_async(dispatch_get_main_queue(), ^{
                 _imageView.image = map;
             });
