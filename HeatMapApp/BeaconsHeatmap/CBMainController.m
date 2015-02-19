@@ -16,6 +16,7 @@
 const float kRoomWidth = 3.5;
 const float kRoomHeight = 5.5;
 const BOOL kLogValues = YES;
+const int kMaxLogValues = 3000;
 
 static NSString *kBeaconsFilename = @"beacons.plist";
 
@@ -110,9 +111,6 @@ static NSString *kBeaconsFilename = @"beacons.plist";
 - (IBAction)dismissViewController:(UIStoryboardSegue *)segue {
     [self dismissViewControllerAnimated:YES completion:nil];
     
-    CBSettingsViewController *settingsVC = (CBSettingsViewController *)segue.sourceViewController;
-    [settingsVC save];
-    
     // update room size
     _beaconsView.physicalSize = [self roomSize];
     [_beaconsView updateBeacons];
@@ -132,12 +130,14 @@ static NSString *kBeaconsFilename = @"beacons.plist";
 }
 
 - (void)appendToLog:(NSArray *)beacons {
-    for (CLBeacon *beacon in beacons) {
-        NSTimeInterval diff = [[NSDate date] timeIntervalSinceDate:_startLoggingTime];
-        [_log addObject:@{@"minor": beacon.minor,
-                          @"rssi": [NSNumber numberWithInteger:beacon.rssi],
-                          @"distance": [NSNumber numberWithDouble:beacon.accuracy],
-                          @"time": [NSNumber numberWithDouble:diff]}];
+    if (kLogValues && _log.count < kMaxLogValues) {
+        for (CLBeacon *beacon in beacons) {
+            NSTimeInterval diff = [[NSDate date] timeIntervalSinceDate:_startLoggingTime];
+            [_log addObject:@{@"minor": beacon.minor,
+                              @"rssi": [NSNumber numberWithInteger:beacon.rssi],
+                              @"distance": [NSNumber numberWithDouble:beacon.accuracy],
+                              @"time": [NSNumber numberWithDouble:diff]}];
+        }
     }
 }
 
@@ -188,8 +188,10 @@ static NSString *kBeaconsFilename = @"beacons.plist";
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.destinationViewController isKindOfClass:[UINavigationController class]]) {
         UINavigationController *vc = (UINavigationController *)segue.destinationViewController;
-        CBSettingsViewController *settings = (CBSettingsViewController *)(vc.viewControllers[0]);
-        settings.delegate = self;
+        if ([vc.viewControllers[0] isKindOfClass:[CBSettingsViewController class]]) {
+            CBSettingsViewController *settings = (CBSettingsViewController *)(vc.viewControllers[0]);
+            settings.delegate = self;            
+        }
     }
 }
 
@@ -216,9 +218,7 @@ static NSString *kBeaconsFilename = @"beacons.plist";
 }
 
 - (void)beaconsRanger:(CBBeaconsRanger *)ranger didRangeBeacons:(NSArray *)beacons {
-    if (kLogValues) {
-        [self appendToLog:beacons];
-    }
+    [self appendToLog:beacons];
     
     for (CBBeacon *beaconView in _beaconsView.beacons) {
         for (CLBeacon *beacon in beacons) {

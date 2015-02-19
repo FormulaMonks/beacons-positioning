@@ -47,6 +47,12 @@
     _heatmapSwitch.on = [[defaults objectForKey:@"heatmap"] boolValue];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    [self save];
+}
+
 - (IBAction)stepperChanged:(UIStepper *)sender {
     _beaconsLabel.text = [NSString stringWithFormat:@"%d", (int)sender.value];
 }

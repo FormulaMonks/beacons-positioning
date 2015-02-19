@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E2C2E4761A9626BC0075D6F2 /* CBLogsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C2E4751A9626BC0075D6F2 /* CBLogsViewController.m */; };
 		E2D8E9541A72726400CB4B18 /* CBBeaconsMap.m in Sources */ = {isa = PBXBuildFile; fileRef = E2D8E9531A72726400CB4B18 /* CBBeaconsMap.m */; };
 		E2D8E9571A72B6B500CB4B18 /* CBBeaconsSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = E2D8E9561A72B6B500CB4B18 /* CBBeaconsSimulator.m */; };
 		E2E5DE8F1A7BD0EC00D0C27A /* CBSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2E5DE8E1A7BD0EC00D0C27A /* CBSettingsViewController.m */; };
@@ -155,6 +156,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E2C2E4741A9626BC0075D6F2 /* CBLogsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBLogsViewController.h; sourceTree = "<group>"; };
+		E2C2E4751A9626BC0075D6F2 /* CBLogsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBLogsViewController.m; sourceTree = "<group>"; };
 		E2D8E9521A72726400CB4B18 /* CBBeaconsMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBBeaconsMap.h; sourceTree = "<group>"; };
 		E2D8E9531A72726400CB4B18 /* CBBeaconsMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBBeaconsMap.m; sourceTree = "<group>"; };
 		E2D8E9551A72B6B500CB4B18 /* CBBeaconsSimulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBBeaconsSimulator.h; sourceTree = "<group>"; };
@@ -1644,6 +1647,8 @@
 				E2E5DE8E1A7BD0EC00D0C27A /* CBSettingsViewController.m */,
 				E2F45E871A94B37B000E18C7 /* CBEstimationViewController.h */,
 				E2F45E881A94B37B000E18C7 /* CBEstimationViewController.m */,
+				E2C2E4741A9626BC0075D6F2 /* CBLogsViewController.h */,
+				E2C2E4751A9626BC0075D6F2 /* CBLogsViewController.m */,
 				E2F891941A93787D00C59419 /* CBBeaconsRanger.h */,
 				E2F891951A93787D00C59419 /* CBBeaconsRanger.m */,
 				E2F45E8A1A94C0EC000E18C7 /* CBEstimationMethod.h */,
@@ -1941,6 +1946,7 @@
 				E2F891961A93787D00C59419 /* CBBeaconsRanger.m in Sources */,
 				E2FF00FA1A7931BE00AE3506 /* UIColor+Random.m in Sources */,
 				E2FF00C21A7930ED00AE3506 /* NonLinear.mm in Sources */,
+				E2C2E4761A9626BC0075D6F2 /* CBLogsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
