@@ -312,11 +312,11 @@ static NSString *kBeaconsFilename = @"beacons.plist";
     [_beaconsView updateBeacons];
 }
 
-- (void)beaconMap:(CBBeaconsMap *)beaconMap probabilityPointsUpdated:(NSArray *)points {
+- (void)beaconMap:(CBBeaconsMap *)beaconMap lastMeasuredPoints:(NSArray *)points {
     if (_heatmap) {
         NSMutableArray *weights = [NSMutableArray arrayWithCapacity:points.count];
         for (int i = 0; i < points.count; i++) {
-            [weights addObject:[NSNumber numberWithFloat:10.0]];
+            [weights addObject:[NSNumber numberWithFloat:10.0 + i]]; // we give more weight to newest ones
         }
         
         dispatch_async(dispatch_get_global_queue(0, 0), ^{

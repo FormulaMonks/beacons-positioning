@@ -13,7 +13,7 @@
 
 @protocol CBBeaconsMapDelegate
 // array of CGPoints
-- (void)beaconMap:(CBBeaconsMap *)beaconMap probabilityPointsUpdated:(NSArray *)points;
+- (void)beaconMap:(CBBeaconsMap *)beaconMap lastMeasuredPoints:(NSArray *)points;
 
 // array of CBBeacon
 - (void)beaconMap:(CBBeaconsMap *)beaconMap beaconsPropertiesChanged:(NSArray *)beacons;

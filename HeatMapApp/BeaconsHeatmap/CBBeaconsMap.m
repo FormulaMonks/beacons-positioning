@@ -124,14 +124,14 @@ NSMutableArray *_beacons;
     
     [self calculateAndSetEstimatedPosition:CGPointMake(minErrorPoint.x * [self pixelScale], minErrorPoint.y * [self pixelScale])];
     
-    [_delegate beaconMap:self probabilityPointsUpdated:[self heatmapPointsUsingEstimatedPosition]];
+    [_delegate beaconMap:self lastMeasuredPoints:_previousEstimatedPositions];
 }
 
 - (void)calculateProbabilityPointsLeastLibrary {
     [LocationManager determine:_beacons success:^(CGPoint location) {
         [self calculateAndSetEstimatedPosition:location];
 
-        [_delegate beaconMap:self probabilityPointsUpdated:[self heatmapPointsUsingEstimatedPosition]];
+        [_delegate beaconMap:self lastMeasuredPoints:_previousEstimatedPositions];
 
     } failure:^(NSError *error) {
         NSLog(@"error: %@", error);
@@ -248,7 +248,7 @@ NSMutableArray *_beacons;
         }
         CGContextSetFillColorWithColor(ctx, [color CGColor]);
         
-        CGContextFillRect(ctx, CGRectMake(_estimatedPosition.x - deviceSize/2, _estimatedPosition.y - deviceSize/2, deviceSize, deviceSize));
+        CGContextFillEllipseInRect(ctx, CGRectMake(_estimatedPosition.x - deviceSize/2, _estimatedPosition.y - deviceSize/2, deviceSize, deviceSize));
     }
     
     // ROOM BORDERS
