@@ -41,4 +41,7 @@
 // will look for updates
 - (void)updateBeacons;
 
+// to clean any noise cancelling history
+- (void)resetPreviousData;
+
 @end

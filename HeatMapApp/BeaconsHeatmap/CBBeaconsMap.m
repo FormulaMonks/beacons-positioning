@@ -47,6 +47,10 @@ NSMutableArray *_beacons;
     _previousEstimatedErrors = [NSMutableArray array];
 }
 
+- (void)resetPreviousData {
+    [self initData];
+}
+
 - (void)calculateAndSetEstimatedPosition:(CGPoint)lastEstimated {
     [_previousEstimatedPositions addObject:[NSValue valueWithCGPoint:lastEstimated]];
     

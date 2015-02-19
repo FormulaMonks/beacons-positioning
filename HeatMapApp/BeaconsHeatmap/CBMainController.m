@@ -70,6 +70,39 @@ static NSString *kBeaconsFilename = @"beacons.plist";
     _imageView.alpha = _heatmap ? 1.0 : 0.0;
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [self loadBeacons];
+}
+
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
+    if ([identifier isEqualToString:@"logSegue"]) {
+        if ([_logButton.title isEqualToString:@"Stop Log"]) {
+            [_playLogTimer invalidate];
+            _playLogTime = 0;
+            _logButton.title = @"Logs";
+            return NO;
+        }
+    }
+    
+    return YES;
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.destinationViewController isKindOfClass:[UINavigationController class]]) {
+        UINavigationController *vc = (UINavigationController *)segue.destinationViewController;
+        if ([vc.viewControllers[0] isKindOfClass:[CBSettingsViewController class]]) {
+            CBSettingsViewController *settings = (CBSettingsViewController *)(vc.viewControllers[0]);
+            settings.delegate = self;
+        } else if ([vc.viewControllers[0] isKindOfClass:[CBLogsViewController class]]) {
+            CBLogsViewController *logs = (CBLogsViewController *)(vc.viewControllers[0]);
+            logs.delegate = self;
+        }
+        
+    }
+}
+
 - (CGSize)roomSize {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
@@ -105,6 +138,7 @@ static NSString *kBeaconsFilename = @"beacons.plist";
     if ([sender.title hasPrefix:@"Start"]) {
         [self startLog];
         [sender setTitle:@"Stop Ranging"];
+        [_beaconsView resetPreviousData];
         [_ranger startRanging];
     } else {
         [self saveLog];
@@ -188,39 +222,6 @@ static NSString *kBeaconsFilename = @"beacons.plist";
     }
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    
-    [self loadBeacons];
-}
-
-- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
-    if ([identifier isEqualToString:@"logSegue"]) {
-        if ([_logButton.title isEqualToString:@"Stop Log"]) {
-            [_playLogTimer invalidate];
-            _playLogTime = 0;
-            _logButton.title = @"Logs";
-            return NO;
-        }
-    }
-    
-    return YES;
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.destinationViewController isKindOfClass:[UINavigationController class]]) {
-        UINavigationController *vc = (UINavigationController *)segue.destinationViewController;
-        if ([vc.viewControllers[0] isKindOfClass:[CBSettingsViewController class]]) {
-            CBSettingsViewController *settings = (CBSettingsViewController *)(vc.viewControllers[0]);
-            settings.delegate = self;            
-        } else if ([vc.viewControllers[0] isKindOfClass:[CBLogsViewController class]]) {
-            CBLogsViewController *logs = (CBLogsViewController *)(vc.viewControllers[0]);
-            logs.delegate = self;
-        }
-
-    }
-}
-
 - (void)saveBeacons:(NSArray *)beacons {
     NSArray *documentPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *docDirectory = [documentPath objectAtIndex:0];
@@ -241,6 +242,8 @@ static NSString *kBeaconsFilename = @"beacons.plist";
 
 - (void)logsViewController:(CBLogsViewController *)viewController didSelectLog:(NSMutableArray *)logItems {
     _logButton.title = @"Stop Log";
+    
+    [_beaconsView resetPreviousData];
     
     [_playLogTimer invalidate];
     _playLogTimer = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(logTick:) userInfo:logItems repeats:YES];
