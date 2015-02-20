@@ -11,7 +11,7 @@
 @class CBBeaconsRanger;
 
 @protocol CBBeaconsRangerDelegate
-// array of CBSignal
+// NSArray of CBSignal
 - (void)beaconsRanger:(CBBeaconsRanger *)ranger didRangeBeacons:(NSArray *)signals;
 @end
 

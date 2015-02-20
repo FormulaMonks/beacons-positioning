@@ -185,7 +185,7 @@ static NSString *kBeaconsFilename = @"beacons.plist";
         }
         
         if (currentBeacons.count > 0) {
-            [_delegate helper:self didRangeBeacons:currentBeacons];
+            [_delegate helper:self didReadBeaconsFromLog:currentBeacons];
         }
     }];
     

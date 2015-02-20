@@ -1659,13 +1659,13 @@
 				E2C2E4751A9626BC0075D6F2 /* CBLogsViewController.m */,
 				E2F891941A93787D00C59419 /* CBBeaconsRanger.h */,
 				E2F891951A93787D00C59419 /* CBBeaconsRanger.m */,
+				E20B49951A976E2B00B05D65 /* CBBeacon.h */,
+				E20B49961A976E2B00B05D65 /* CBBeacon.m */,
 				E2F45E8A1A94C0EC000E18C7 /* CBEstimationMethod.h */,
 				FA75B5FC1A718DE500CA6DA8 /* Main.storyboard */,
 				FA75B5FF1A718DE500CA6DA8 /* Images.xcassets */,
 				FA75B6011A718DE500CA6DA8 /* LaunchScreen.xib */,
 				FA75B5F21A718DE500CA6DA8 /* Supporting Files */,
-				E20B49951A976E2B00B05D65 /* CBBeacon.h */,
-				E20B49961A976E2B00B05D65 /* CBBeacon.m */,
 			);
 			path = BeaconsHeatmap;
 			sourceTree = "<group>";

@@ -2,7 +2,7 @@
 //  ViewController.m
 //  BeaconsHeatmap
 //
-//  Created by Eleonora on 22/1/15.
+//  Created by Luis Floreani on 22/1/15.
 //  Copyright (c) 2015 Citrusbyte LLC. All rights reserved.
 //
 
@@ -22,7 +22,6 @@
 @property IBOutlet CBBeaconsMap *beaconsView;
 @property IBOutlet UIBarButtonItem *logButton;
 
-@property CBBeaconsSimulator *simulator;
 @property CBBeaconsRanger *ranger;
 
 @property CBBeaconsHelper *helper;
@@ -38,9 +37,6 @@
     
     _helper = [CBBeaconsHelper new];
     _helper.delegate = self;
-    
-    _simulator = [CBBeaconsSimulator new];
-    _simulator.delegate = self;
     
     _ranger = [CBBeaconsRanger new];
     _ranger.delegate = self;
@@ -66,9 +62,7 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    NSMutableArray *beacons = [_helper loadBeacons];
-    
-    _beaconsView.beacons = beacons;
+    _beaconsView.beacons = [_helper loadBeacons];
     
     [_beaconsView updateBeacons];
 }
@@ -130,7 +124,7 @@
     _logButton.tintColor = nil;
 }
 
-- (void)helper:(CBBeaconsHelper *)helper didRangeBeacons:(NSArray *)signals {
+- (void)helper:(CBBeaconsHelper *)helper didReadBeaconsFromLog:(NSArray *)signals {
     [self beaconsRanger:nil didRangeBeacons:signals];
 }
 

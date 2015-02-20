@@ -12,7 +12,9 @@
 
 @protocol CBBeaconsHelperDelegate
 - (void)helperDidFinishLog:(CBBeaconsHelper *)helper;
-- (void)helper:(CBBeaconsHelper *)helper didRangeBeacons:(NSArray *)signals;
+
+// NSArray of CBSignal
+- (void)helper:(CBBeaconsHelper *)helper didReadBeaconsFromLog:(NSArray *)signals;
 @end
 
 @interface CBBeaconsHelper : NSObject
@@ -23,8 +25,8 @@
 - (NSMutableArray *)loadBeacons;
 
 - (void)initLogTimers;
-- (void)saveLog;
 - (void)appendToLog:(NSArray *)signals;
+- (void)saveLog;
 
 - (void)saveBeacons:(NSArray *)beacons;
 - (void)deleteBeacons;

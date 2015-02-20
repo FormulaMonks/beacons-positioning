@@ -11,8 +11,6 @@
 #import <CoreLocation/CoreLocation.h>
 #import "CBBeacon.h"
 
-#define kGeLoProfileUUID "11E44F09-4EC4-407E-9203-CF57A50FBCE0"
-
 @interface CBBeaconsRanger() <CLLocationManagerDelegate>
 //@property SIOSocket *socket;
 @property CLLocationManager *locationManager;
