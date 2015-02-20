@@ -32,7 +32,12 @@
     if (!minor) {
         [defaults setObject:@6131 forKey:@"minor"];
     }
-    
+
+    NSNumber *heatmap = [defaults objectForKey:@"heatmap"];
+    if (!heatmap) {
+        [defaults setObject:@YES forKey:@"heatmap"];
+    }
+
     NSString *uuid = [defaults objectForKey:@"uuid"];
     if (!uuid) {
         [defaults setObject:@"11E44F09-4EC4-407E-9203-CF57A50FBCE0" forKey:@"uuid"];
