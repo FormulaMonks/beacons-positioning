@@ -8,11 +8,18 @@
 
 #import <Foundation/Foundation.h>
 
+@interface CBSignal : NSObject
+@property NSNumber *distance;
+@property NSNumber *minor;
+@property NSNumber *major;
+@property NSNumber *rssi;
+@end
+
 @class CBBeaconsRanger;
 
 @protocol CBBeaconsRangerDelegate
-// array of NSDictionary (distance, minor, major, rssi) instances
-- (void)beaconsRanger:(CBBeaconsRanger *)ranger didRangeBeacons:(NSArray *)beacons;
+// array of CBSignal
+- (void)beaconsRanger:(CBBeaconsRanger *)ranger didRangeBeacons:(NSArray *)signals;
 @end
 
 @interface CBBeaconsRanger : NSObject

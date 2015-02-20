@@ -175,13 +175,13 @@ static NSString *kBeaconsFilename = @"beacons.plist";
     [_recordingLog writeToFile:[docDirectory stringByAppendingPathComponent:logFile] atomically:YES];
 }
 
-- (void)appendToLog:(NSArray *)beacons {
+- (void)appendToLog:(NSArray *)signals {
     if (kLogValues && ![_playLogTimer isValid] && _recordingLog.count < kMaxLogValues) {
-        for (NSDictionary *beacon in beacons) {
+        for (CBSignal *signal in signals) {
             NSTimeInterval diff = [[NSDate date] timeIntervalSinceDate:_startRecordingTime];
-            [_recordingLog addObject:@{@"minor": beacon[@"minor"],
-                              @"rssi": beacon[@"rssi"],
-                              @"distance": beacon[@"distance"],
+            [_recordingLog addObject:@{@"minor": signal.minor,
+                              @"rssi": signal.rssi,
+                              @"distance": signal.distance,
                               @"time": [NSNumber numberWithDouble:diff]}];
         }
     }
@@ -283,10 +283,10 @@ static NSString *kBeaconsFilename = @"beacons.plist";
         if ([item[@"time"] doubleValue] <= _playLogTime) {
             [toRemove addIndex:idx];
             
-            NSMutableDictionary *beacon = [NSMutableDictionary new];
-            beacon[@"minor"] = item[@"minor"];
-            beacon[@"distance"] = item[@"distance"];
-            [currentBeacons addObject:beacon];
+            CBSignal *signal = [CBSignal new];
+            signal.minor = item[@"minor"];
+            signal.distance = item[@"distance"];
+            [currentBeacons addObject:signal];
         } else {
             *stop = YES;
         }
@@ -303,14 +303,14 @@ static NSString *kBeaconsFilename = @"beacons.plist";
     [self deleteBeacons];
 }
 
-- (void)beaconsRanger:(CBBeaconsRanger *)ranger didRangeBeacons:(NSArray *)beacons {
-    [self appendToLog:beacons];
+- (void)beaconsRanger:(CBBeaconsRanger *)ranger didRangeBeacons:(NSArray *)signals {
+    [self appendToLog:signals];
     
     for (CBBeacon *beaconView in _beaconsView.beacons) {
-        for (NSDictionary *beacon in beacons) {
-            if (beaconView.name == nil || [beaconView.name isEqualToString:[beacon[@"minor"] stringValue]]) { // in case it's empty assign the first empty
-                beaconView.name = [beacon[@"minor"] stringValue];
-                beaconView.distance = [beacon[@"distance"] floatValue];
+        for (CBSignal *signal in signals) {
+            if (beaconView.name == nil || [beaconView.name isEqualToString:[signal.minor stringValue]]) { // in case it's empty assign the first empty
+                beaconView.name = [signal.minor stringValue];
+                beaconView.distance = [signal.distance floatValue];
             }
         }
     }

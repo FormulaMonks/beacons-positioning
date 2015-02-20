@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E20B49941A97688600B05D65 /* CBBeaconsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = E20B49931A97688600B05D65 /* CBBeaconsHelper.m */; };
 		E2C2E4761A9626BC0075D6F2 /* CBLogsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C2E4751A9626BC0075D6F2 /* CBLogsViewController.m */; };
 		E2D8E9541A72726400CB4B18 /* CBBeaconsMap.m in Sources */ = {isa = PBXBuildFile; fileRef = E2D8E9531A72726400CB4B18 /* CBBeaconsMap.m */; };
 		E2D8E9571A72B6B500CB4B18 /* CBBeaconsSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = E2D8E9561A72B6B500CB4B18 /* CBBeaconsSimulator.m */; };
@@ -156,6 +157,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E20B49921A97688600B05D65 /* CBBeaconsHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBBeaconsHelper.h; sourceTree = "<group>"; };
+		E20B49931A97688600B05D65 /* CBBeaconsHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBBeaconsHelper.m; sourceTree = "<group>"; };
 		E2C2E4741A9626BC0075D6F2 /* CBLogsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBLogsViewController.h; sourceTree = "<group>"; };
 		E2C2E4751A9626BC0075D6F2 /* CBLogsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBLogsViewController.m; sourceTree = "<group>"; };
 		E2D8E9521A72726400CB4B18 /* CBBeaconsMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBBeaconsMap.h; sourceTree = "<group>"; };
@@ -1639,6 +1642,8 @@
 				FA75B5F71A718DE500CA6DA8 /* AppDelegate.m */,
 				FA75B5F91A718DE500CA6DA8 /* CBMainController.h */,
 				FA75B5FA1A718DE500CA6DA8 /* CBMainController.m */,
+				E20B49921A97688600B05D65 /* CBBeaconsHelper.h */,
+				E20B49931A97688600B05D65 /* CBBeaconsHelper.m */,
 				E2D8E9521A72726400CB4B18 /* CBBeaconsMap.h */,
 				E2D8E9531A72726400CB4B18 /* CBBeaconsMap.m */,
 				E2D8E9551A72B6B500CB4B18 /* CBBeaconsSimulator.h */,
@@ -1930,6 +1935,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E20B49941A97688600B05D65 /* CBBeaconsHelper.m in Sources */,
 				E2E5DE8F1A7BD0EC00D0C27A /* CBSettingsViewController.m in Sources */,
 				E2FF00F91A7931BE00AE3506 /* NSDate+Print.m in Sources */,
 				E2FF00EB1A7930ED00AE3506 /* Trilateration.m in Sources */,
