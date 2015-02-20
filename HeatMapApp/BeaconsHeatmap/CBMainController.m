@@ -99,16 +99,6 @@
     }
 }
 
-//- (IBAction)changeSimulation:(UIBarButtonItem *)sender {
-//    if ([sender.title hasPrefix:@"Start"]) {
-//        [sender setTitle:@"Stop Simulation"];
-//        [_simulator simulateBeacons:_beaconsView.beacons noise:0.05];
-//    } else {
-//        [sender setTitle:@"Start Simulation"];
-//        [_simulator stopSimulation];
-//    }
-//}
-
 - (IBAction)changeRanging:(UIBarButtonItem *)sender {
     if ([sender.title hasPrefix:@"Start"]) {
         [_helper initLogTimers];

@@ -23,24 +23,22 @@
     NSString *method = [defaults objectForKey:@"estimation"];
     if (!method) {
         [defaults setObject:@"heuristic" forKey:@"estimation"];
-        [defaults synchronize];
     }
     NSNumber *beacons = [defaults objectForKey:@"beacons"];
     if (!beacons) {
         [defaults setObject:@4 forKey:@"beacons"];
-        [defaults synchronize];
     }
     NSNumber *minor = [defaults objectForKey:@"minor"];
     if (!minor) {
         [defaults setObject:@6131 forKey:@"minor"];
-        [defaults synchronize];
     }
     
     NSString *uuid = [defaults objectForKey:@"uuid"];
     if (!uuid) {
         [defaults setObject:@"11E44F09-4EC4-407E-9203-CF57A50FBCE0" forKey:@"uuid"];
-        [defaults synchronize];
     }
+    
+    [defaults synchronize];
 
     return YES;
 }
