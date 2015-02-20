@@ -9,9 +9,9 @@
 #import "CBBeaconsMap.h"
 #import "LocationManager.h"
 
-const float kGap = 10.0;
 const float kDistanceToRecognizeBeaconTouch = 30.0;
 const int kAverageElements = 20;
+const float kGapDistance = 0.05; // meters
 const int kErrorHeatmapRadiusAttenuation = 2.0;
 
 @interface CBBeaconsMap()
@@ -100,7 +100,7 @@ NSMutableArray *_beacons;
 }
 
 - (void)calculateProbabilityPointsManual {
-    float delta = 0.05; // meters
+    float delta = kGapDistance; // meters
     CGPoint minErrorPoint;
     float minError = 1000.0f;
     
@@ -144,23 +144,6 @@ NSMutableArray *_beacons;
     } else {
         [self calculateProbabilityPointsLeastLibrary];        
     }
-}
-
-- (NSArray *)heatmapPointsUsingEstimatedPosition {
-    float error = [self calculateErrorUsingEstimatedPosition];
-    
-    NSMutableArray *insidePoints = [NSMutableArray array];
-    for (int x = 0; x < self.bounds.size.width; x += kGap) {
-        for (int y = 0; y < self.bounds.size.height; y += kGap) {
-            float dx = _estimatedPosition.x - x;
-            float dy = _estimatedPosition.y - y;
-            if (sqrt(dx*dx + dy*dy) <= error/kErrorHeatmapRadiusAttenuation) {
-                [insidePoints addObject:[NSValue valueWithCGPoint:CGPointMake(x, y)]];
-            }
-        }
-    }
-
-    return insidePoints;
 }
 
 - (NSMutableArray *)beacons {
