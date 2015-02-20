@@ -217,21 +217,23 @@ NSMutableArray *_beacons;
     [roomWidth drawAtPoint:CGPointMake(10, 10) withAttributes:@{NSFontAttributeName:font}];
     
     // ESTIMATED POSITION
-    float deviceSize = 15;
-    float error = [self calculateErrorUsingEstimatedPosition] / [self pixelScale];
-    NSLog(@"estimated error: %f", error);
-    if (_estimatedPosition.x && _estimatedPosition.y) {
-        UIColor *color;
-        if (error <= 2) {
-            color = [UIColor greenColor];
-        } else if (error <= 5) {
-            color = [UIColor blueColor];
-        } else {
-            color = [UIColor redColor];
+    if (_drawPosition) {
+        float deviceSize = 15;
+        float error = [self calculateErrorUsingEstimatedPosition] / [self pixelScale];
+        NSLog(@"estimated error: %f", error);
+        if (_estimatedPosition.x && _estimatedPosition.y) {
+            UIColor *color;
+            if (error <= 2) {
+                color = [UIColor greenColor];
+            } else if (error <= 5) {
+                color = [UIColor blueColor];
+            } else {
+                color = [UIColor redColor];
+            }
+            CGContextSetFillColorWithColor(ctx, [color CGColor]);
+            
+            CGContextFillEllipseInRect(ctx, CGRectMake(_estimatedPosition.x - deviceSize/2, _estimatedPosition.y - deviceSize/2, deviceSize, deviceSize));
         }
-        CGContextSetFillColorWithColor(ctx, [color CGColor]);
-        
-        CGContextFillEllipseInRect(ctx, CGRectMake(_estimatedPosition.x - deviceSize/2, _estimatedPosition.y - deviceSize/2, deviceSize, deviceSize));
     }
     
     // ROOM BORDERS

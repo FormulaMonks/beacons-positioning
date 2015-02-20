@@ -14,17 +14,17 @@ Touching and dragging near the beacon will move it position. On the settings pan
 
 ### Logs
 
-Each time you start ranging, the session will be logged. By accessing the logs panel you can select a log to re-play the session or swipe to left to delete it.
+Each time you start ranging, the session will be logged. By accessing the logs panel you can select a log to re-play the session or swipeleft to delete it.
 
 ### Estimation
 
-In order to calculate the estimated position the app use different methods as well as a noise filter based on past measures.
+In order to calculate the estimated position, the app uses different methods as well as a noise filter based on past measures.
 
-To calculate the estimated position (x, y) the app uses a non-linear optimization method called [Levenberg Marquadt](http://eigen.tuxfamily.org/dox/unsupported/classEigen_1_1LevenbergMarquardt.html) and a heuristic method based on searching the whole room for the position where measurement error is minimum. The method can be changed from the settings panel.
+To calculate the estimated position (x, y) two options are available: a non-linear optimization method called [Levenberg Marquadt](http://eigen.tuxfamily.org/dox/unsupported/classEigen_1_1LevenbergMarquardt.html) and an ad-hoc heuristic method based on searching the whole room for the position where measurement error is minimum. The method can be changed from the settings panel.
 
 ### Heatmap
 
-Since the real position of the device in a room is quite hard to figure out due to signal noise and attenuation, it's more realistic to draw a heatmap of last measured positions. This way you can have a probability area of where you may be positioned. You can enable the heatmap from the settings panel.
+Since the real position of the device in a room is quite hard to figure out due to signal noise and attenuation, it's more realistic to draw a heatmap of last measured positions. This way you can have a probability area of your position. You can enable the heatmap from the settings panel.
 
 ## Server
 

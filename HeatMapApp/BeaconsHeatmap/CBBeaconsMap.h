@@ -29,6 +29,8 @@
 
 @property CBEstimationMethod method;
 
+@property BOOL drawPosition;
+
 // will look for updates
 - (void)updateBeacons;
 

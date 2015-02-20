@@ -59,6 +59,7 @@
     _beaconsView.method = method;
     _ranger.uuid = [defaults objectForKey:@"uuid"];
     _heatmap = [[defaults objectForKey:@"heatmap"] boolValue];
+    _beaconsView.drawPosition = !_heatmap;
     _imageView.alpha = _heatmap ? 1.0 : 0.0;
 }
 
