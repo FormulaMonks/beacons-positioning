@@ -28,12 +28,16 @@
 
 @property BOOL heatmap;
 
+@property dispatch_queue_t queue;
+
 @end
 
 @implementation CBMainController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    _queue = dispatch_queue_create("com.citrusbyte.heatmap", NULL);
     
     _helper = [CBBeaconsHelper new];
     _helper.delegate = self;
@@ -158,7 +162,7 @@
 
 - (void)beaconMap:(CBBeaconsMap *)beaconMap lastMeasuredPoints:(NSArray *)points {
     if (_heatmap) {
-        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        dispatch_async(_queue, ^{
             NSMutableArray *weights = [NSMutableArray arrayWithCapacity:points.count];
             for (int i = 0; i < points.count; i++) {
                 [weights addObject:[NSNumber numberWithFloat:10.0 + i]]; // we give more weight to newest ones
