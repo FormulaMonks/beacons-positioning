@@ -100,12 +100,11 @@ NSMutableArray *_beacons;
 }
 
 - (void)calculateProbabilityPointsManual {
-    float delta = kGapDistance; // meters
     CGPoint minErrorPoint;
     float minError = 1000.0f;
     
-    for (float x = 0; x < _physicalSize.width; x = x + delta) {
-        for (float y = 0; y < _physicalSize.height; y = y + delta) {
+    for (float x = 0; x < _physicalSize.width; x = x + kGapDistance) {
+        for (float y = 0; y < _physicalSize.height; y = y + kGapDistance) {
             float error = 0.0;
             for (CBBeacon *beacon in _beacons) {
                 float dx = beacon.position.x/[self pixelScale] - x;

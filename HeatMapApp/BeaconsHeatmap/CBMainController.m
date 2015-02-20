@@ -268,7 +268,7 @@ static NSString *kBeaconsFilename = @"beacons.plist";
         return;
     }
     
-    NSLog(@"%d %f", logs.count, _playLogTime);
+    NSLog(@"%d %f", (int)logs.count, _playLogTime);
     
     NSMutableIndexSet *toRemove = [NSMutableIndexSet indexSet];
     NSMutableArray *currentBeacons = [NSMutableArray array];

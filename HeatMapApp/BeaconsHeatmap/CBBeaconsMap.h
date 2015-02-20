@@ -20,8 +20,8 @@
 @end
 
 @interface CBBeacon : NSObject <NSCoding>
-@property CGPoint position;
-@property float distance;
+@property CGPoint position; // pixels
+@property float distance; // meters
 @property NSString *name;
 
 - (instancetype)initWithX:(float)x y:(float)y distance:(float)distance;
