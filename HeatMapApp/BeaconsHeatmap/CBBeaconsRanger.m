@@ -70,12 +70,14 @@
 {
     NSMutableArray *beaconsArray = [NSMutableArray array];
     for(CLBeacon *beacon in beacons) {
-        CBSignal *signal = [CBSignal new];
-        signal.minor = beacon.minor;
-        signal.major = beacon.major;
-        signal.rssi = [NSNumber numberWithInteger:beacon.rssi];
-        signal.distance = [NSNumber numberWithDouble:beacon.accuracy];
-        [beaconsArray addObject:signal];
+        if (beacon.accuracy > 0) {
+            CBSignal *signal = [CBSignal new];
+            signal.minor = beacon.minor;
+            signal.major = beacon.major;
+            signal.rssi = [NSNumber numberWithInteger:beacon.rssi];
+            signal.distance = [NSNumber numberWithDouble:beacon.accuracy];
+            [beaconsArray addObject:signal];
+        }
     }
     
     [_delegate beaconsRanger:self didRangeBeacons:beaconsArray];

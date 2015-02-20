@@ -174,12 +174,14 @@ static NSString *kBeaconsFilename = @"beacons.plist";
         NSDictionary *item = (NSDictionary *)obj;
         
         if ([item[@"time"] doubleValue] <= _playLogTime) {
-            [toRemove addIndex:idx];
-            
-            CBSignal *signal = [CBSignal new];
-            signal.minor = item[@"minor"];
-            signal.distance = item[@"distance"];
-            [currentBeacons addObject:signal];
+            if ([item[@"distance"] floatValue] > 0) {
+                [toRemove addIndex:idx];
+                
+                CBSignal *signal = [CBSignal new];
+                signal.minor = item[@"minor"];
+                signal.distance = item[@"distance"];
+                [currentBeacons addObject:signal];
+            }
         } else {
             *stop = YES;
         }
