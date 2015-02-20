@@ -11,7 +11,7 @@
 #include <iostream>
 
 #include "LevenbergMarquardt.h"
-#import "CBBeaconsMap.h"
+#import "CBBeacon.h"
 
 @implementation NonLinear
 

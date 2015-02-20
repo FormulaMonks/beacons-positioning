@@ -13,15 +13,10 @@
 #import "CBSettingsViewController.h"
 #import "CBBeaconsRanger.h"
 #import "CBLogsViewController.h"
+#import "CBBeaconsHelper.h"
+#import "CBBeacon.h"
 
-const float kRoomWidth = 3.5;
-const float kRoomHeight = 5.5;
-const BOOL kLogValues = YES;
-const int kMaxLogValues = 3000;
-
-static NSString *kBeaconsFilename = @"beacons.plist";
-
-@interface CBMainController () <CBBeaconsMapDelegate, CBBeaconsSimulatorDelegate, CBBeaconsRangerDelegate, CBSettingsViewControllerDelegate, CBLogsViewControllerDelegate>
+@interface CBMainController () <CBBeaconsMapDelegate, CBBeaconsSimulatorDelegate, CBBeaconsRangerDelegate, CBSettingsViewControllerDelegate, CBLogsViewControllerDelegate, CBBeaconsHelperDelegate>
 
 @property IBOutlet UIImageView *imageView;
 @property IBOutlet CBBeaconsMap *beaconsView;
@@ -30,11 +25,7 @@ static NSString *kBeaconsFilename = @"beacons.plist";
 @property CBBeaconsSimulator *simulator;
 @property CBBeaconsRanger *ranger;
 
-@property NSMutableArray *recordingLog;
-@property NSDate *startRecordingTime;
-
-@property NSTimer *playLogTimer;
-@property NSTimeInterval playLogTime;
+@property CBBeaconsHelper *helper;
 
 @property BOOL heatmap;
 
@@ -45,7 +36,8 @@ static NSString *kBeaconsFilename = @"beacons.plist";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    _recordingLog = [NSMutableArray array];
+    _helper = [CBBeaconsHelper new];
+    _helper.delegate = self;
     
     _simulator = [CBBeaconsSimulator new];
     _simulator.delegate = self;
@@ -53,7 +45,7 @@ static NSString *kBeaconsFilename = @"beacons.plist";
     _ranger = [CBBeaconsRanger new];
     _ranger.delegate = self;
     
-    _beaconsView.physicalSize = [self roomSize];
+    _beaconsView.physicalSize = [_helper roomSize];
     _beaconsView.delegate = self;
 }
 
@@ -73,7 +65,7 @@ static NSString *kBeaconsFilename = @"beacons.plist";
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    NSMutableArray *beacons = [self loadBeacons];
+    NSMutableArray *beacons = [_helper loadBeacons];
     
     _beaconsView.beacons = beacons;
     
@@ -83,8 +75,7 @@ static NSString *kBeaconsFilename = @"beacons.plist";
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
     if ([identifier isEqualToString:@"logSegue"]) {
         if ([_logButton.title isEqualToString:@"Stop Log"]) {
-            [_playLogTimer invalidate];
-            _playLogTime = 0;
+            [_helper stopPlayingLog];
             _logButton.title = @"Logs";
             _logButton.tintColor = nil;
             return NO;
@@ -120,13 +111,13 @@ static NSString *kBeaconsFilename = @"beacons.plist";
 
 - (IBAction)changeRanging:(UIBarButtonItem *)sender {
     if ([sender.title hasPrefix:@"Start"]) {
-        [self startLog];
+        [_helper initLogTimers];
         sender.title = @"Stop Ranging";
         sender.tintColor = [UIColor greenColor];
         [_beaconsView resetPreviousData];
         [_ranger startRanging];
     } else {
-        [self saveLog];
+        [_helper saveLog];
         sender.title = @"Start Ranging";
         sender.tintColor = nil;
         [_ranger stopRanging];
@@ -137,174 +128,36 @@ static NSString *kBeaconsFilename = @"beacons.plist";
     [self dismissViewControllerAnimated:YES completion:nil];
     
     // update room size
-    _beaconsView.physicalSize = [self roomSize];
+    _beaconsView.physicalSize = [_helper roomSize];
     [_beaconsView updateBeacons];
 }
 
-- (CGSize)roomSize {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    
-    NSNumber *width = [defaults objectForKey:@"room_width"];
-    NSNumber *height = [defaults objectForKey:@"room_height"];
-    
-    if (!width && !height) {
-        [defaults setObject:[NSNumber numberWithFloat:kRoomWidth] forKey:@"room_width"];
-        [defaults setObject:[NSNumber numberWithFloat:kRoomHeight] forKey:@"room_height"];
-        [defaults synchronize];
-    }
-    
-    width = [defaults objectForKey:@"room_width"];
-    height = [defaults objectForKey:@"room_height"];
-    
-    NSAssert(width != 0, @"room width can't be zero");
-    NSAssert(height != 0, @"room height can't be zero");
-    
-    return CGSizeMake([width floatValue], [height floatValue]);
-}
-
-- (void)startLog {
-    [_recordingLog removeAllObjects];
-    _startRecordingTime = [NSDate date];
-}
-
-- (void)saveLog {
-    NSArray *documentPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *docDirectory = [documentPath objectAtIndex:0];
-
-    NSString *logFile = [NSString stringWithFormat:@"log-%@.plist", [[NSDate date] description]];
-    [_recordingLog writeToFile:[docDirectory stringByAppendingPathComponent:logFile] atomically:YES];
-}
-
-- (void)appendToLog:(NSArray *)signals {
-    if (kLogValues && ![_playLogTimer isValid] && _recordingLog.count < kMaxLogValues) {
-        for (CBSignal *signal in signals) {
-            NSTimeInterval diff = [[NSDate date] timeIntervalSinceDate:_startRecordingTime];
-            [_recordingLog addObject:@{@"minor": signal.minor,
-                              @"rssi": signal.rssi,
-                              @"distance": signal.distance,
-                              @"time": [NSNumber numberWithDouble:diff]}];
-        }
-    }
-}
-
-- (NSMutableArray *)loadBeacons {
-    NSArray *documentPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *docDirectory = [documentPath objectAtIndex:0];
-    
-    NSArray *savedBeacons = (NSArray *)[NSKeyedUnarchiver unarchiveObjectWithFile:[docDirectory stringByAppendingPathComponent:kBeaconsFilename]];
-    
-    NSMutableArray *beacons = [NSMutableArray array];
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    int minorStart = [[defaults objectForKey:@"minor"] intValue];
-    for (int i = 0; i < [[defaults objectForKey:@"beacons"] intValue]; i++) {
-        CBBeacon *beacon = [[CBBeacon alloc] initWithX:20 + i * 20 y:20 + i * 25 distance:2.0];
-        beacon.name = [NSString stringWithFormat:@"%d", minorStart + i];
-        [beacons addObject:beacon];
-    }
-    
-    NSMutableArray *retBeacons = nil;
-    if (savedBeacons.count != beacons.count) {
-        if (savedBeacons) {
-            retBeacons = [savedBeacons mutableCopy];
-        } else {
-            retBeacons = [NSMutableArray array];
-        }
-        
-        if (savedBeacons.count < beacons.count) {
-            for (NSUInteger i = savedBeacons.count; i < beacons.count; i++) {
-                CBBeacon *beacon = beacons[i];
-                [retBeacons addObject:beacon];
-            }
-        } else {
-            for (NSUInteger i = savedBeacons.count - 1; i >= beacons.count; i--) {
-                CBBeacon *beacon = savedBeacons[i];
-                [retBeacons removeObject:beacon];
-            }
-        }
-        
-        [self saveBeacons:retBeacons];
-    } else {
-        retBeacons = [savedBeacons mutableCopy];
-    }
-    
-    return retBeacons;
-}
-
-- (void)saveBeacons:(NSArray *)beacons {
-    NSArray *documentPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *docDirectory = [documentPath objectAtIndex:0];
-    
-    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:beacons];
-    [data writeToFile:[docDirectory stringByAppendingPathComponent:kBeaconsFilename] atomically:YES];
-}
-
-- (void)deleteBeacons {
-    NSArray *documentPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *docDirectory = [documentPath objectAtIndex:0];
-
-    NSFileManager *manager = [NSFileManager defaultManager];
-    [manager removeItemAtPath:[docDirectory stringByAppendingPathComponent:kBeaconsFilename] error:nil];
-}
-
 // Delegates
+
+- (void)helperDidFinishLog:(CBBeaconsHelper *)helper {
+    _logButton.title = @"Logs";
+    _logButton.tintColor = nil;
+}
+
+- (void)helper:(CBBeaconsHelper *)helper didRangeBeacons:(NSArray *)signals {
+    [self beaconsRanger:nil didRangeBeacons:signals];
+}
 
 - (void)logsViewController:(CBLogsViewController *)viewController didSelectLog:(NSMutableArray *)logItems {
     _logButton.title = @"Stop Log";
     _logButton.tintColor = [UIColor greenColor];
     
     [_beaconsView resetPreviousData];
-    
-    [_playLogTimer invalidate];
-    _playLogTimer = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(logTick:) userInfo:logItems repeats:YES];
-    [_playLogTimer fire];
-}
 
-- (void)logTick:(NSTimer *)timer {
-    _playLogTime += timer.timeInterval;
-    
-    NSMutableArray *logs = (NSMutableArray *)timer.userInfo;
-    
-    if (logs.count == 0) {
-        [timer invalidate];
-        _playLogTime = 0;
-        _logButton.title = @"Logs";
-        _logButton.tintColor = nil;
-        
-        return;
-    }
-    
-    NSLog(@"%d %f", (int)logs.count, _playLogTime);
-    
-    NSMutableIndexSet *toRemove = [NSMutableIndexSet indexSet];
-    NSMutableArray *currentBeacons = [NSMutableArray array];
-    [logs enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        NSDictionary *item = (NSDictionary *)obj;
-        
-        if ([item[@"time"] doubleValue] <= _playLogTime) {
-            [toRemove addIndex:idx];
-            
-            CBSignal *signal = [CBSignal new];
-            signal.minor = item[@"minor"];
-            signal.distance = item[@"distance"];
-            [currentBeacons addObject:signal];
-        } else {
-            *stop = YES;
-        }
-        
-        if (currentBeacons.count > 0) {
-            [self beaconsRanger:nil didRangeBeacons:currentBeacons];
-        }
-    }];
-
-    [logs removeObjectsAtIndexes:toRemove];
+    [_helper playLog:logItems];
 }
 
 - (void)settingsViewControllerDeleteBeacons:(CBSettingsViewController *)viewController {
-    [self deleteBeacons];
+    [_helper deleteBeacons];
 }
 
 - (void)beaconsRanger:(CBBeaconsRanger *)ranger didRangeBeacons:(NSArray *)signals {
-    [self appendToLog:signals];
+    [_helper appendToLog:signals];
     
     for (CBBeacon *beaconView in _beaconsView.beacons) {
         for (CBSignal *signal in signals) {
@@ -335,7 +188,7 @@ static NSString *kBeaconsFilename = @"beacons.plist";
 }
 
 - (void)beaconMap:(CBBeaconsMap *)beaconMap beaconsPropertiesChanged:(NSArray *)beacons {
-    [self saveBeacons:beacons];
+    [_helper saveBeacons:beacons];
 }
 
 -(void)beaconSimulatorDidChange:(CBBeaconsSimulator *)simulator {

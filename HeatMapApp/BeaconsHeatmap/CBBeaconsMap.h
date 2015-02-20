@@ -19,15 +19,6 @@
 - (void)beaconMap:(CBBeaconsMap *)beaconMap beaconsPropertiesChanged:(NSArray *)beacons;
 @end
 
-@interface CBBeacon : NSObject <NSCoding>
-@property CGPoint position; // pixels
-@property float distance; // meters
-@property NSString *name;
-
-- (instancetype)initWithX:(float)x y:(float)y distance:(float)distance;
-
-@end
-
 @interface CBBeaconsMap : UIView
 
 @property CGSize physicalSize;

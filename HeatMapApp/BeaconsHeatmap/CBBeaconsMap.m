@@ -8,6 +8,7 @@
 
 #import "CBBeaconsMap.h"
 #import "LocationManager.h"
+#import "CBBeacon.h"
 
 const float kDistanceToRecognizeBeaconTouch = 30.0;
 const int kAverageElements = 20;
@@ -326,43 +327,6 @@ NSMutableArray *_beacons;
     [_delegate beaconMap:self beaconsPropertiesChanged:_beacons];
 
     [self processTouches:touches withEvent:event];
-}
-
-@end
-
-@implementation CBBeacon
-
-- (instancetype)initWithX:(float)x y:(float)y distance:(float)distance {
-    self = [super init];
-    if (self) {
-        _position.x = x;
-        _position.y = y;
-        _distance = distance;
-    }
-    
-    return self;
-}
-
-- (id)initWithCoder:(NSCoder *)decoder {
-    self = [super init];
-    if (self != nil) {
-        _name = [decoder decodeObjectForKey:@"name"];
-        _position = [[decoder decodeObjectForKey:@"position"] CGPointValue];
-        _distance = [[decoder decodeObjectForKey:@"distance"] floatValue];
-    }
-    return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)encoder {
-    if (_name) {
-        [encoder encodeObject:_name forKey:@"name"];        
-    }
-    [encoder encodeObject:[NSValue valueWithCGPoint:_position] forKey:@"position"];
-    [encoder encodeObject:[NSNumber numberWithFloat:_distance] forKey:@"distance"];
-}
-
-- (NSString *)description {
-    return [NSString stringWithFormat:@"%@ (%.1f, %1.f): %.2fm", _name, _position.x, _position.y, _distance];
 }
 
 @end

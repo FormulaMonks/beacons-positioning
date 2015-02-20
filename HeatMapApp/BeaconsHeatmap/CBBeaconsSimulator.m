@@ -7,7 +7,7 @@
 //
 
 #import "CBBeaconsSimulator.h"
-#import "CBBeaconsMap.h"
+#import "CBBeacon.h"
 
 const float kRefreshTime = 0.1;
 

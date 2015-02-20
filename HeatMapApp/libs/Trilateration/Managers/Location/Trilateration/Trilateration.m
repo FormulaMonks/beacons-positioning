@@ -8,7 +8,7 @@
 
 #import "Trilateration.h"
 
-#import "CBBeaconsMap.h"
+#import "CBBeacon.h"
 
 #define radians(angle) ((angle) / 180.0 * M_PI)
 #define degrees(radians) ((radians) * (180.0 / M_PI))

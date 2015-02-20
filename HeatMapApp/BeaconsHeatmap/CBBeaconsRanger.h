@@ -8,13 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-@interface CBSignal : NSObject
-@property NSNumber *distance;
-@property NSNumber *minor;
-@property NSNumber *major;
-@property NSNumber *rssi;
-@end
-
 @class CBBeaconsRanger;
 
 @protocol CBBeaconsRangerDelegate
