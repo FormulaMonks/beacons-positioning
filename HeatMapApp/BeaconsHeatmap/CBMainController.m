@@ -73,7 +73,11 @@ static NSString *kBeaconsFilename = @"beacons.plist";
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    [self loadBeacons];
+    NSMutableArray *beacons = [self loadBeacons];
+    
+    _beaconsView.beacons = beacons;
+    
+    [_beaconsView updateBeacons];
 }
 
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
@@ -102,27 +106,6 @@ static NSString *kBeaconsFilename = @"beacons.plist";
         }
         
     }
-}
-
-- (CGSize)roomSize {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-
-    NSNumber *width = [defaults objectForKey:@"room_width"];
-    NSNumber *height = [defaults objectForKey:@"room_height"];
-    
-    if (!width && !height) {
-        [defaults setObject:[NSNumber numberWithFloat:kRoomWidth] forKey:@"room_width"];
-        [defaults setObject:[NSNumber numberWithFloat:kRoomHeight] forKey:@"room_height"];
-        [defaults synchronize];
-    }
-    
-    width = [defaults objectForKey:@"room_width"];
-    height = [defaults objectForKey:@"room_height"];
-    
-    NSAssert(width != 0, @"room width can't be zero");
-    NSAssert(height != 0, @"room height can't be zero");
-
-    return CGSizeMake([width floatValue], [height floatValue]);
 }
 
 //- (IBAction)changeSimulation:(UIBarButtonItem *)sender {
@@ -158,6 +141,27 @@ static NSString *kBeaconsFilename = @"beacons.plist";
     [_beaconsView updateBeacons];
 }
 
+- (CGSize)roomSize {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    NSNumber *width = [defaults objectForKey:@"room_width"];
+    NSNumber *height = [defaults objectForKey:@"room_height"];
+    
+    if (!width && !height) {
+        [defaults setObject:[NSNumber numberWithFloat:kRoomWidth] forKey:@"room_width"];
+        [defaults setObject:[NSNumber numberWithFloat:kRoomHeight] forKey:@"room_height"];
+        [defaults synchronize];
+    }
+    
+    width = [defaults objectForKey:@"room_width"];
+    height = [defaults objectForKey:@"room_height"];
+    
+    NSAssert(width != 0, @"room width can't be zero");
+    NSAssert(height != 0, @"room height can't be zero");
+    
+    return CGSizeMake([width floatValue], [height floatValue]);
+}
+
 - (void)startLog {
     [_recordingLog removeAllObjects];
     _startRecordingTime = [NSDate date];
@@ -183,7 +187,7 @@ static NSString *kBeaconsFilename = @"beacons.plist";
     }
 }
 
-- (void)loadBeacons {
+- (NSMutableArray *)loadBeacons {
     NSArray *documentPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *docDirectory = [documentPath objectAtIndex:0];
     
@@ -198,31 +202,32 @@ static NSString *kBeaconsFilename = @"beacons.plist";
         [beacons addObject:beacon];
     }
     
+    NSMutableArray *retBeacons = nil;
     if (savedBeacons.count != beacons.count) {
         if (savedBeacons) {
-            _beaconsView.beacons = [savedBeacons mutableCopy];
+            retBeacons = [savedBeacons mutableCopy];
         } else {
-            _beaconsView.beacons = [NSMutableArray array];
+            retBeacons = [NSMutableArray array];
         }
         
         if (savedBeacons.count < beacons.count) {
             for (NSUInteger i = savedBeacons.count; i < beacons.count; i++) {
                 CBBeacon *beacon = beacons[i];
-                [_beaconsView.beacons addObject:beacon];
-                [_beaconsView updateBeacons];
+                [retBeacons addObject:beacon];
             }
         } else {
             for (NSUInteger i = savedBeacons.count - 1; i >= beacons.count; i--) {
                 CBBeacon *beacon = savedBeacons[i];
-                [_beaconsView.beacons removeObject:beacon];
-                [_beaconsView updateBeacons];
+                [retBeacons removeObject:beacon];
             }
         }
         
-        [self saveBeacons:_beaconsView.beacons];
+        [self saveBeacons:retBeacons];
     } else {
-        _beaconsView.beacons = [savedBeacons mutableCopy];
+        retBeacons = [savedBeacons mutableCopy];
     }
+    
+    return retBeacons;
 }
 
 - (void)saveBeacons:(NSArray *)beacons {
