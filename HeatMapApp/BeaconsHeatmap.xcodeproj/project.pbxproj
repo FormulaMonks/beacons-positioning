@@ -12,6 +12,7 @@
 		E2C2E4761A9626BC0075D6F2 /* CBLogsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C2E4751A9626BC0075D6F2 /* CBLogsViewController.m */; };
 		E2D8E9541A72726400CB4B18 /* CBBeaconsMap.m in Sources */ = {isa = PBXBuildFile; fileRef = E2D8E9531A72726400CB4B18 /* CBBeaconsMap.m */; };
 		E2D8E9571A72B6B500CB4B18 /* CBBeaconsSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = E2D8E9561A72B6B500CB4B18 /* CBBeaconsSimulator.m */; };
+		E2DC939B1AC8E85D008FA90E /* CBDrawMethodViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2DC939A1AC8E85D008FA90E /* CBDrawMethodViewController.m */; };
 		E2E5DE8F1A7BD0EC00D0C27A /* CBSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2E5DE8E1A7BD0EC00D0C27A /* CBSettingsViewController.m */; };
 		E2F45E891A94B37B000E18C7 /* CBEstimationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F45E881A94B37B000E18C7 /* CBEstimationViewController.m */; };
 		E2F891961A93787D00C59419 /* CBBeaconsRanger.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F891951A93787D00C59419 /* CBBeaconsRanger.m */; };
@@ -168,6 +169,8 @@
 		E2D8E9531A72726400CB4B18 /* CBBeaconsMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBBeaconsMap.m; sourceTree = "<group>"; };
 		E2D8E9551A72B6B500CB4B18 /* CBBeaconsSimulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBBeaconsSimulator.h; sourceTree = "<group>"; };
 		E2D8E9561A72B6B500CB4B18 /* CBBeaconsSimulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBBeaconsSimulator.m; sourceTree = "<group>"; };
+		E2DC93991AC8E85D008FA90E /* CBDrawMethodViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBDrawMethodViewController.h; sourceTree = "<group>"; };
+		E2DC939A1AC8E85D008FA90E /* CBDrawMethodViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBDrawMethodViewController.m; sourceTree = "<group>"; };
 		E2E5DE8D1A7BD0EC00D0C27A /* CBSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBSettingsViewController.h; sourceTree = "<group>"; };
 		E2E5DE8E1A7BD0EC00D0C27A /* CBSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBSettingsViewController.m; sourceTree = "<group>"; };
 		E2F45E871A94B37B000E18C7 /* CBEstimationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBEstimationViewController.h; sourceTree = "<group>"; };
@@ -1655,6 +1658,8 @@
 				E2E5DE8E1A7BD0EC00D0C27A /* CBSettingsViewController.m */,
 				E2F45E871A94B37B000E18C7 /* CBEstimationViewController.h */,
 				E2F45E881A94B37B000E18C7 /* CBEstimationViewController.m */,
+				E2DC93991AC8E85D008FA90E /* CBDrawMethodViewController.h */,
+				E2DC939A1AC8E85D008FA90E /* CBDrawMethodViewController.m */,
 				E2C2E4741A9626BC0075D6F2 /* CBLogsViewController.h */,
 				E2C2E4751A9626BC0075D6F2 /* CBLogsViewController.m */,
 				E2F891941A93787D00C59419 /* CBBeaconsRanger.h */,
@@ -1942,6 +1947,7 @@
 			files = (
 				E20B49971A976E2B00B05D65 /* CBBeacon.m in Sources */,
 				E20B49941A97688600B05D65 /* CBBeaconsHelper.m in Sources */,
+				E2DC939B1AC8E85D008FA90E /* CBDrawMethodViewController.m in Sources */,
 				E2E5DE8F1A7BD0EC00D0C27A /* CBSettingsViewController.m in Sources */,
 				E2FF00F91A7931BE00AE3506 /* NSDate+Print.m in Sources */,
 				E2FF00EB1A7930ED00AE3506 /* Trilateration.m in Sources */,

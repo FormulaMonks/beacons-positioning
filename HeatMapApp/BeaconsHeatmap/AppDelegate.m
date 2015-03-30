@@ -20,10 +20,6 @@
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
-    NSString *method = [defaults objectForKey:@"estimation"];
-    if (!method) {
-        [defaults setObject:@"heuristic" forKey:@"estimation"];
-    }
     NSNumber *beacons = [defaults objectForKey:@"beacons"];
     if (!beacons) {
         [defaults setObject:@4 forKey:@"beacons"];
@@ -31,11 +27,6 @@
     NSNumber *minor = [defaults objectForKey:@"minor"];
     if (!minor) {
         [defaults setObject:@6131 forKey:@"minor"];
-    }
-
-    NSNumber *heatmap = [defaults objectForKey:@"heatmap"];
-    if (!heatmap) {
-        [defaults setObject:@YES forKey:@"heatmap"];
     }
 
     NSString *uuid = [defaults objectForKey:@"uuid"];

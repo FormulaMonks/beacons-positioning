@@ -10,3 +10,9 @@ typedef NS_ENUM(NSInteger, CBEstimationMethod) {
     CBEstimationMethodHeuristic,
     CBEstimationMethodLevenberg,
 };
+
+typedef NS_ENUM(NSInteger, CBDrawMethod) {
+    CBDrawMethodHeatmap,
+    CBDrawMethodEstimatedPosition,
+    CBDrawMethodNearestBeacon
+};
