@@ -26,7 +26,7 @@
 
 @property CBBeaconsHelper *helper;
 
-@property BOOL heatmap;
+@property CBDrawMethod drawMethod;
 
 @property dispatch_queue_t queue;
 
@@ -58,9 +58,9 @@
     
     _beaconsView.method = method;
     _ranger.uuid = [defaults objectForKey:@"uuid"];
-    _heatmap = [[defaults objectForKey:@"heatmap"] boolValue];
-    _beaconsView.drawPosition = !_heatmap;
-    _imageView.alpha = _heatmap ? 1.0 : 0.0;
+    _drawMethod = [[defaults objectForKey:@"drawMethod"] integerValue];
+    _beaconsView.drawMethod = _drawMethod;
+    _imageView.alpha = _drawMethod == CBDrawMethodHeatmap ? 1.0 : 0.0;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -161,7 +161,7 @@
 }
 
 - (void)beaconMap:(CBBeaconsMap *)beaconMap lastMeasuredPoints:(NSArray *)points {
-    if (_heatmap) {
+    if (_drawMethod == CBDrawMethodHeatmap) {
         dispatch_async(_queue, ^{
             NSMutableArray *weights = [NSMutableArray arrayWithCapacity:points.count];
             for (int i = 0; i < points.count; i++) {

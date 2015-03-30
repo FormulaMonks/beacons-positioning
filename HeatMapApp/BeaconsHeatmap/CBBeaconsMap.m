@@ -16,6 +16,7 @@ const float kGapDistance = 0.05; // meters
 const int kErrorHeatmapRadiusAttenuation = 2.0;
 
 @interface CBBeaconsMap()
+@property CBBeacon *touchedBeacon;
 @property CBBeacon *nearestBeacon;
 @property BOOL moveBeacon;
 @property CGPoint estimatedPosition;
@@ -71,6 +72,24 @@ NSMutableArray *_beacons;
     CGRect room = CGRectInset([self pixelRoomRect], 10, 10);
     CGPoint maxPoint = CGPointMake(MAX(room.origin.x, avg.x), MAX(room.origin.y, avg.y));
     _estimatedPosition = CGPointMake(MIN(maxPoint.x, room.origin.x + room.size.width), MIN(maxPoint.y, room.origin.y + room.size.height));
+    
+    // CALCULATE NEAREST NEIGHBOR
+    _nearestBeacon = _beacons[0];
+    for (CBBeacon *beacon in _beacons) {
+//        float dx = beacon.position.x/[self pixelScale] - _estimatedPosition.y;
+//        float dy = beacon.position.y/[self pixelScale] - _estimatedPosition.y;
+//        float beaconToPoint = dx*dx + dy*dy;
+//        
+//        float ndx = _nearestBeacon.position.x/[self pixelScale] - _estimatedPosition.y;
+//        float ndy = _nearestBeacon.position.y/[self pixelScale] - _estimatedPosition.y;
+//        float nearestToPoint = ndx*ndx + ndy*ndy;
+//        
+//        if (beaconToPoint < nearestToPoint) {
+        if (beacon.distance < _nearestBeacon.distance) {
+            _nearestBeacon = beacon;
+        }
+    }
+
 }
 
 - (float)calculateErrorUsingEstimatedPosition {
@@ -173,12 +192,6 @@ NSMutableArray *_beacons;
     float beaconSize = 20;
     UIFont *font= [UIFont systemFontOfSize:11.0];
     for (CBBeacon *beacon in _beacons) {
-        if (_moveBeacon && _nearestBeacon == beacon) {
-            CGContextSetFillColorWithColor(ctx, [[UIColor redColor] CGColor]);
-        } else {
-            CGContextSetFillColorWithColor(ctx, [[UIColor blackColor] CGColor]);
-        }
-        
         if (beacon.name) {
             CGPoint nameLocation;
             NSString *label = [NSString stringWithFormat:@"%@ (%.2fm)", beacon.name, beacon.distance];
@@ -202,6 +215,16 @@ NSMutableArray *_beacons;
             [label drawAtPoint:nameLocation withAttributes:@{NSFontAttributeName:font}];
         }
         
+        if (_drawMethod == CBDrawMethodNearestBeacon) {
+            if (_nearestBeacon == beacon) {
+                CGContextSetFillColorWithColor(ctx, [[UIColor greenColor] CGColor]);
+            } else if (_moveBeacon && _touchedBeacon == beacon) {
+                CGContextSetFillColorWithColor(ctx, [[UIColor redColor] CGColor]);
+            } else {
+                CGContextSetFillColorWithColor(ctx, [[UIColor blackColor] CGColor]);
+            }   
+        }
+        
         CGContextFillRect(ctx, CGRectMake(beacon.position.x - beaconSize/2, beacon.position.y - beaconSize/2, beaconSize, beaconSize));
         
         CGContextSetLineWidth(ctx,1);
@@ -217,7 +240,7 @@ NSMutableArray *_beacons;
     [roomWidth drawAtPoint:CGPointMake(10, 10) withAttributes:@{NSFontAttributeName:font}];
     
     // ESTIMATED POSITION
-    if (_drawPosition) {
+    if (_drawMethod == CBDrawMethodEstimatedPosition) {
         float deviceSize = 15;
         float error = [self calculateErrorUsingEstimatedPosition] / [self pixelScale];
         NSLog(@"estimated error: %f", error);
@@ -299,7 +322,7 @@ NSMutableArray *_beacons;
         _moveBeacon = NO;
     }
     
-    _nearestBeacon = nearest;
+    _touchedBeacon = nearest;
 }
 
 - (void)processTouches:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -307,10 +330,10 @@ NSMutableArray *_beacons;
     CGPoint location = [touch locationInView:self];
     CGPoint prevLocation = [touch previousLocationInView:self];
     
-    if (_moveBeacon && _nearestBeacon) {
-        _nearestBeacon.position = CGPointMake(_nearestBeacon.position.x - (prevLocation.x - location.x), _nearestBeacon.position.y - (prevLocation.y - location.y));
+    if (_moveBeacon && _touchedBeacon) {
+        _touchedBeacon.position = CGPointMake(_touchedBeacon.position.x - (prevLocation.x - location.x), _touchedBeacon.position.y - (prevLocation.y - location.y));
     } else { // move distance
-        _nearestBeacon.distance += (prevLocation.y - location.y) / [self pixelScale];
+        _touchedBeacon.distance += (prevLocation.y - location.y) / [self pixelScale];
     }
     
     [self calculateProbabilityPoints];
@@ -323,7 +346,7 @@ NSMutableArray *_beacons;
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    _nearestBeacon = nil;
+    _touchedBeacon = nil;
     _moveBeacon = NO;
     
     [_delegate beaconMap:self beaconsPropertiesChanged:_beacons];
