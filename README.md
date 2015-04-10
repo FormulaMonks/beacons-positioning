@@ -29,3 +29,7 @@ Since the real position of the device in a room is quite hard to figure out due 
 ## Server
 
 In the Server/ directory you can find an old piece that was used as a receptor that received beacons signals and transmit them through an Socket.IO API. The server can run on a computer that has Bluetooth LE.
+
+### Attributions
+
+Written by [Luis Floreani](https://github.com/lucholaf), sponsored by [Citrusbyte](https://citrusbyte.com/)
