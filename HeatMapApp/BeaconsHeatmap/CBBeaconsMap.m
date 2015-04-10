@@ -86,6 +86,7 @@ NSMutableArray *_beacons;
 //        
 //        if (beaconToPoint < nearestToPoint) {
         if (beacon.distance < _nearestBeacon.distance) {
+//        if (beacon.rssi > _nearestBeacon.rssi) {
             _nearestBeacon = beacon;
         }
     }
