@@ -19,6 +19,7 @@
 @property CGPoint position; // pixels
 @property float distance; // meters
 @property NSString *name;
+@property NSInteger rssi;
 
 - (instancetype)initWithX:(float)x y:(float)y distance:(float)distance;
 

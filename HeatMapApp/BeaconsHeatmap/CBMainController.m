@@ -153,6 +153,7 @@
             if (beaconView.name == nil || [beaconView.name isEqualToString:[signal.minor stringValue]]) { // in case it's empty assign the first empty
                 beaconView.name = [signal.minor stringValue];
                 beaconView.distance = [signal.distance floatValue];
+                beaconView.rssi = [[signal rssi] integerValue];
             }
         }
     }
