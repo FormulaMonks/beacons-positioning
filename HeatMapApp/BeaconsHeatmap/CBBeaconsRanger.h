@@ -20,7 +20,7 @@
 @property (nonatomic, weak) id<CBBeaconsRangerDelegate> delegate;
 @property NSString *uuid;
 
-- (void)startRanging;
+- (BOOL)startRanging;
 - (void)stopRanging;
 
 @end

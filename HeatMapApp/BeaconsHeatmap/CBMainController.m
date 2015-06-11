@@ -100,11 +100,13 @@
 
 - (IBAction)changeRanging:(UIBarButtonItem *)sender {
     if ([sender.title hasPrefix:@"Start"]) {
-        [_helper initLogTimers];
-        sender.title = @"Stop Ranging";
-        sender.tintColor = [UIColor greenColor];
-        [_beaconsView resetPreviousData];
-        [_ranger startRanging];
+        BOOL ret = [_ranger startRanging];
+        if (ret) {
+            [_helper initLogTimers];
+            sender.title = @"Stop Ranging";
+            sender.tintColor = [UIColor greenColor];
+            [_beaconsView resetPreviousData];            
+        }
     } else {
         [_helper saveLog];
         sender.title = @"Start Ranging";

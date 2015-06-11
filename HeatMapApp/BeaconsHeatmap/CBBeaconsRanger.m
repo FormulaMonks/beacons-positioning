@@ -15,6 +15,7 @@
 //@property SIOSocket *socket;
 @property CLLocationManager *locationManager;
 @property CLBeaconRegion *beaconRegion;
+@property BOOL ranging;
 @end
 
 @implementation CBBeaconsRanger
@@ -25,22 +26,44 @@
     if (self) {
         self.locationManager = [[CLLocationManager alloc] init];
         self.locationManager.delegate = self;
-        [self.locationManager requestAlwaysAuthorization];
+//        [self.locationManager requestAlwaysAuthorization];
+        [self.locationManager requestWhenInUseAuthorization];
     }
     
+
     return self;
 }
 
-- (void)startRanging {
+- (BOOL)startRanging {
     NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:_uuid];
     self.beaconRegion = [[CLBeaconRegion alloc] initWithProximityUUID:uuid identifier:@"com.citrusbyte"];
+    
+    if (![CLLocationManager isRangingAvailable]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Sorry but ranging beacons is not supported on this device" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [alert show];
 
-    if (self.beaconRegion) {
-        [self.locationManager startMonitoringForRegion:self.beaconRegion];
+        return NO;
     }
+    
+    if ([CLLocationManager authorizationStatus] != kCLAuthorizationStatusAuthorizedAlways && [CLLocationManager authorizationStatus] != kCLAuthorizationStatusAuthorizedWhenInUse) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Please first authorize to locate your beacons from iOS Settings" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [alert show];
+        
+        return NO;
+    }
+    
+    _ranging = YES;
+    
+    if (self.beaconRegion) {
+        [self.locationManager startRangingBeaconsInRegion:self.beaconRegion];
+    }
+    
+    return YES;
 }
 
 - (void)stopRanging {
+    _ranging = NO;
+    
     if (self.beaconRegion) {
         [self.locationManager stopRangingBeaconsInRegion:self.beaconRegion];
     }
@@ -50,17 +73,32 @@
 
 - (void) locationManager:(CLLocationManager *)manager didStartMonitoringForRegion:(CLRegion *)region
 {
+    NSLog(@"didStartMonitoringForRegion");
     [self.locationManager requestStateForRegion:self.beaconRegion];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+    NSLog(@"Did change authorization with status %d", status);
+    if (status == kCLAuthorizationStatusAuthorizedAlways || status == kCLAuthorizationStatusAuthorizedWhenInUse) {
+        if (_ranging && self.beaconRegion) {
+            [self.locationManager startMonitoringForRegion:self.beaconRegion];
+        }
+    }
 }
 
 - (void) locationManager:(CLLocationManager *)manager didDetermineState:(CLRegionState)state forRegion:(CLRegion *)region
 {
     switch (state) {
         case CLRegionStateInside:
+            NSLog(@"Region inside");
             [self.locationManager startRangingBeaconsInRegion:self.beaconRegion];
             break;
         case CLRegionStateOutside:
+            NSLog(@"Region outside");
+            break;
         case CLRegionStateUnknown:
+            NSLog(@"Region unknown");
+            break;
         default:
             NSLog(@"Region unknown");
     }
