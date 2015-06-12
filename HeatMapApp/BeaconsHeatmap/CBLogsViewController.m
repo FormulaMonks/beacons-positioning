@@ -7,6 +7,7 @@
 //
 
 #import "CBLogsViewController.h"
+#import "BeaconsHeatmap-Swift.h"
 
 @interface CBLogsViewController()
 @property NSArray *logFiles;

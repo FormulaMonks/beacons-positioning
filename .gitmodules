@@ -4,3 +4,6 @@
 [submodule "HeatMapApp/libs/SIOSocket"]
 	path = HeatMapApp/libs/SIOSocket
 	url = git@github.com:MegaBits/SIOSocket.git
+[submodule "HeatMapApp/libs/ios-charts"]
+	path = HeatMapApp/libs/ios-charts
+	url = git@github.com:danielgindi/ios-charts.git
