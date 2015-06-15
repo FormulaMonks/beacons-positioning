@@ -495,7 +495,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="cell" textLabel="6gu-KT-u0K" style="IBUITableViewCellStyleDefault" id="6ZU-wu-Jmt">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="detailDisclosureButton" indentationWidth="10" reuseIdentifier="cell" textLabel="6gu-KT-u0K" style="IBUITableViewCellStyleDefault" id="6ZU-wu-Jmt">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6ZU-wu-Jmt" id="IfX-9V-DhL">
                                     <autoresizingMask key="autoresizingMask"/>
@@ -508,6 +508,9 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="Str-dy-oCA" kind="show" trigger="accessoryAction" id="XxB-5A-XBf"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -531,6 +534,24 @@
                 <exit id="fJ1-jd-ZEQ" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="488" y="646"/>
+        </scene>
+        <!--Log Chart View Controller-->
+        <scene sceneID="MRj-we-XTC">
+            <objects>
+                <viewController id="Str-dy-oCA" customClass="CBLogChartViewController" customModule="BeaconsHeatmap" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="LIs-6t-w0J"/>
+                        <viewControllerLayoutGuide type="bottom" id="9zn-Z4-JPA"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="JYL-yz-jja">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="M8Z-wT-4Yq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1042" y="866"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="j8a-WA-8uo">
