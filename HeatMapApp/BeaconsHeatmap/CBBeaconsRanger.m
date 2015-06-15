@@ -108,6 +108,9 @@
 {
     NSMutableArray *beaconsArray = [NSMutableArray array];
     for(CLBeacon *beacon in beacons) {
+        if (_minorsFilter && [_minorsFilter count] > 0 && ![_minorsFilter containsObject:beacon.minor]) {
+            continue;
+        }
         if (beacon.accuracy > 0) {
             CBSignal *signal = [CBSignal new];
             signal.minor = beacon.minor;

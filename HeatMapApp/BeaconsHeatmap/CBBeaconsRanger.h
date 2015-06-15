@@ -20,6 +20,9 @@
 @property (nonatomic, weak) id<CBBeaconsRangerDelegate> delegate;
 @property NSString *uuid;
 
+// array of NSNumber
+@property NSArray *minorsFilter; // only log this minors
+
 - (BOOL)startRanging;
 - (void)stopRanging;
 

@@ -39,7 +39,6 @@ class CBLogChartViewController : UIViewController {
     
     func groupIntoAxisDataByMinor(var logs: NSArray) -> [Int : AxisData] {
         var dataByMinor = [Int : AxisData]()
-        var i = 0
         for val in logs {
             let dict = val as! NSDictionary
             let distance = dict["distance"] as! Double
@@ -54,7 +53,7 @@ class CBLogChartViewController : UIViewController {
             }
             
             axisData?.xVals.append(timeString)
-            axisData?.yVals.append(ChartDataEntry(value: distance, xIndex: i++))
+            axisData?.yVals.append(ChartDataEntry(value: distance, xIndex: axisData!.yVals.count))
         }
         
         return dataByMinor

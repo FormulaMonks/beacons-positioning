@@ -18,6 +18,7 @@
 @interface CBBeacon : NSObject <NSCoding>
 @property CGPoint position; // pixels
 @property float distance; // meters
+@property NSNumber *minor;
 @property NSString *name;
 @property NSInteger rssi;
 

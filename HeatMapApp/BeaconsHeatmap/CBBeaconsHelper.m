@@ -95,6 +95,7 @@ static NSString *kBeaconsFilename = @"beacons.plist";
     for (int i = 0; i < [[defaults objectForKey:@"beacons"] intValue]; i++) {
         CBBeacon *beacon = [[CBBeacon alloc] initWithX:20 + i * 20 y:20 + i * 25 distance:2.0];
         beacon.name = [NSString stringWithFormat:@"%d", minorStart + i];
+        beacon.minor = [NSNumber numberWithInt:minorStart + i];
         [beacons addObject:beacon];
     }
     
@@ -122,6 +123,16 @@ static NSString *kBeaconsFilename = @"beacons.plist";
     } else {
         retBeacons = [savedBeacons mutableCopy];
     }
+    
+    NSMutableArray *toRemove = [NSMutableArray array];
+    int i = 0;
+    for (CBBeacon *beacon in retBeacons) {
+        if (!beacon.minor) { // backward compatibility, remove previous saved beacons without minor
+            beacon.minor = [NSNumber numberWithInt:minorStart + i];
+            i++;
+        }
+    }
+    [retBeacons removeObjectsInArray:toRemove];
     
     return retBeacons;
 }

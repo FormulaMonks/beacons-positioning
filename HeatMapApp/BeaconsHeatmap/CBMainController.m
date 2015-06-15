@@ -70,6 +70,12 @@
     
     _beaconsView.beacons = [_helper loadBeacons];
     
+    NSMutableArray *minors = [NSMutableArray array];
+    for (CBBeacon *beacon in _beaconsView.beacons) {
+        [minors addObject:beacon.minor];
+    }
+    _ranger.minorsFilter = minors;
+    
     [_beaconsView updateBeacons];
 }
 
