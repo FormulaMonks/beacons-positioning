@@ -548,14 +548,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f3H-zL-h94" customClass="LineChartView" customModule="Charts">
-                                <rect key="frame" x="0.0" y="64" width="320" height="350"/>
+                                <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="f3H-zL-h94" secondAttribute="centerX" id="0iV-ic-cm5"/>
-                            <constraint firstItem="9zn-Z4-JPA" firstAttribute="top" secondItem="f3H-zL-h94" secondAttribute="bottom" constant="66" id="Dpl-4a-rPz"/>
+                            <constraint firstItem="9zn-Z4-JPA" firstAttribute="top" secondItem="f3H-zL-h94" secondAttribute="bottom" id="Dpl-4a-rPz"/>
                             <constraint firstItem="f3H-zL-h94" firstAttribute="top" secondItem="LIs-6t-w0J" secondAttribute="bottom" id="W2a-T9-Gfu"/>
                             <constraint firstItem="f3H-zL-h94" firstAttribute="width" secondItem="JYL-yz-jja" secondAttribute="width" id="nWp-e8-gfm"/>
                         </constraints>
