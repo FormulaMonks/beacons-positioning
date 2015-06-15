@@ -68,11 +68,22 @@
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (NSMutableArray *)readLogs:(NSIndexPath *)indexPath {
     NSArray *documentPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *docDirectory = [documentPath objectAtIndex:0];
     
     NSMutableArray *logs = [NSMutableArray arrayWithContentsOfFile:[docDirectory stringByAppendingPathComponent:_logFiles[indexPath.row]]];
+    
+    return logs;
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    CBLogChartViewController *vc = segue.destinationViewController;
+    vc.logs = [self readLogs:[self.tableView indexPathForCell:sender]];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSMutableArray *logs = [self readLogs:indexPath];
         
     [_delegate logsViewController:self didSelectLog:logs];
     
