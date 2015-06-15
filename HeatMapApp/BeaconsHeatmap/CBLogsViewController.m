@@ -78,8 +78,10 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    CBLogChartViewController *vc = segue.destinationViewController;
-    vc.logs = [self readLogs:[self.tableView indexPathForCell:sender]];
+    if ([segue.destinationViewController isKindOfClass:[CBLogChartViewController class]]) {
+        CBLogChartViewController *vc = segue.destinationViewController;
+        vc.logs = [self readLogs:[self.tableView indexPathForCell:sender]];        
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

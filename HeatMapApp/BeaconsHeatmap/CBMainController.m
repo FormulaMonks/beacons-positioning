@@ -30,6 +30,8 @@
 
 @property dispatch_queue_t queue;
 
+@property NSArray *lastMeasuredPoints;
+
 @end
 
 @implementation CBMainController
@@ -69,6 +71,11 @@
     _beaconsView.beacons = [_helper loadBeacons];
     
     [_beaconsView updateBeacons];
+}
+
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [_beaconsView updateBeacons];
+    [self refreshHeatmap:CGRectMake(0, 0, size.width, size.height)];
 }
 
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
@@ -163,20 +170,26 @@
     [_beaconsView updateBeacons];
 }
 
-- (void)beaconMap:(CBBeaconsMap *)beaconMap lastMeasuredPoints:(NSArray *)points {
+- (void)refreshHeatmap:(CGRect)rect {
     if (_drawMethod == CBDrawMethodHeatmap) {
         dispatch_async(_queue, ^{
-            NSMutableArray *weights = [NSMutableArray arrayWithCapacity:points.count];
-            for (int i = 0; i < points.count; i++) {
+            NSMutableArray *weights = [NSMutableArray arrayWithCapacity:_lastMeasuredPoints.count];
+            for (int i = 0; i < _lastMeasuredPoints.count; i++) {
                 [weights addObject:[NSNumber numberWithFloat:10.0 + i]]; // we give more weight to newest ones
             }
-
-            UIImage *map = [LFHeatMap heatMapWithRect:_imageView.bounds boost:0.6 points:[points copy] weights:weights];
+            
+            UIImage *map = [LFHeatMap heatMapWithRect:rect boost:0.6 points:[_lastMeasuredPoints copy] weights:weights];
             dispatch_async(dispatch_get_main_queue(), ^{
                 _imageView.image = map;
             });
         });
     }
+}
+
+- (void)beaconMap:(CBBeaconsMap *)beaconMap lastMeasuredPoints:(NSArray *)points {
+    _lastMeasuredPoints = points;
+    
+    [self refreshHeatmap:_imageView.bounds];
 }
 
 - (void)beaconMap:(CBBeaconsMap *)beaconMap beaconsPropertiesChanged:(NSArray *)beacons {

@@ -26,6 +26,9 @@
                             </view>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hzE-KE-FVE">
                                 <rect key="frame" x="0.0" y="436" width="320" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="XgW-9a-u3g"/>
+                                </constraints>
                                 <items>
                                     <barButtonItem title="Start Ranging" id="Dn8-vt-igD">
                                         <connections>
@@ -49,7 +52,6 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="6ge-tE-gAq" secondAttribute="bottom" id="FAg-9F-fsk"/>
                             <constraint firstAttribute="trailingMargin" secondItem="m3P-S7-1hX" secondAttribute="trailing" constant="-16" id="GKl-dM-Eyo"/>
                             <constraint firstItem="hzE-KE-FVE" firstAttribute="top" secondItem="6ge-tE-gAq" secondAttribute="bottom" id="OKD-9v-mRC"/>
                             <constraint firstItem="6ge-tE-gAq" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-16" id="OXx-Fr-mZs"/>
@@ -58,17 +60,10 @@
                             <constraint firstItem="hzE-KE-FVE" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-16" id="XaI-9T-gAf"/>
                             <constraint firstAttribute="trailingMargin" secondItem="hzE-KE-FVE" secondAttribute="trailing" constant="-16" id="YCp-t4-e75"/>
                             <constraint firstItem="m3P-S7-1hX" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-16" id="cJG-P6-TOU"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="m3P-S7-1hX" secondAttribute="bottom" id="lRW-C3-YlL"/>
                             <constraint firstItem="hzE-KE-FVE" firstAttribute="top" secondItem="m3P-S7-1hX" secondAttribute="bottom" id="oPw-U9-Y5r"/>
                             <constraint firstAttribute="trailingMargin" secondItem="6ge-tE-gAq" secondAttribute="trailing" constant="-16" id="uS1-4F-fso"/>
                             <constraint firstItem="m3P-S7-1hX" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="vLi-fj-gFC"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="FAg-9F-fsk"/>
-                                <exclude reference="lRW-C3-YlL"/>
-                            </mask>
-                        </variation>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>

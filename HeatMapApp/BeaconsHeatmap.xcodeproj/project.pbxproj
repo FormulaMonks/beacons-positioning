@@ -13,6 +13,7 @@
 		E21616111B2B534B0071908E /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E29DD3051B2B525C00179474 /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E21616181B2B551E0071908E /* Sample.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21616171B2B551E0071908E /* Sample.swift */; };
 		E263AA121B2F116A0066E7BB /* CBLogChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E263AA111B2F116A0066E7BB /* CBLogChartViewController.swift */; };
+		E263AA181B2F40310066E7BB /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E263AA171B2F40310066E7BB /* UIColorExtension.swift */; };
 		E2C2E4761A9626BC0075D6F2 /* CBLogsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C2E4751A9626BC0075D6F2 /* CBLogsViewController.m */; };
 		E2D8E9541A72726400CB4B18 /* CBBeaconsMap.m in Sources */ = {isa = PBXBuildFile; fileRef = E2D8E9531A72726400CB4B18 /* CBBeaconsMap.m */; };
 		E2D8E9571A72B6B500CB4B18 /* CBBeaconsSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = E2D8E9561A72B6B500CB4B18 /* CBBeaconsSimulator.m */; };
@@ -198,6 +199,7 @@
 		E21616161B2B551D0071908E /* BeaconsHeatmap-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BeaconsHeatmap-Bridging-Header.h"; sourceTree = "<group>"; };
 		E21616171B2B551E0071908E /* Sample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sample.swift; sourceTree = "<group>"; };
 		E263AA111B2F116A0066E7BB /* CBLogChartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CBLogChartViewController.swift; sourceTree = "<group>"; };
+		E263AA171B2F40310066E7BB /* UIColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		E29DD3001B2B525C00179474 /* Charts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Charts.xcodeproj; path = "libs/ios-charts/Charts/Charts.xcodeproj"; sourceTree = "<group>"; };
 		E2C2E4741A9626BC0075D6F2 /* CBLogsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBLogsViewController.h; sourceTree = "<group>"; };
 		E2C2E4751A9626BC0075D6F2 /* CBLogsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBLogsViewController.m; sourceTree = "<group>"; };
@@ -1690,6 +1692,7 @@
 			isa = PBXGroup;
 			children = (
 				E263AA111B2F116A0066E7BB /* CBLogChartViewController.swift */,
+				E263AA171B2F40310066E7BB /* UIColorExtension.swift */,
 				FA75B6181A718E2800CA6DA8 /* libs */,
 				FA75B5F61A718DE500CA6DA8 /* AppDelegate.h */,
 				FA75B5F71A718DE500CA6DA8 /* AppDelegate.m */,
@@ -2016,6 +2019,7 @@
 				E263AA121B2F116A0066E7BB /* CBLogChartViewController.swift in Sources */,
 				E20B49941A97688600B05D65 /* CBBeaconsHelper.m in Sources */,
 				E2DC939B1AC8E85D008FA90E /* CBDrawMethodViewController.m in Sources */,
+				E263AA181B2F40310066E7BB /* UIColorExtension.swift in Sources */,
 				E2E5DE8F1A7BD0EC00D0C27A /* CBSettingsViewController.m in Sources */,
 				E2FF00F91A7931BE00AE3506 /* NSDate+Print.m in Sources */,
 				E2FF00EB1A7930ED00AE3506 /* Trilateration.m in Sources */,

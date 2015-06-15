@@ -23,6 +23,8 @@ class CBLogChartViewController : UIViewController {
         super.viewDidLoad()
         
         chartView.descriptionText = ""
+        chartView.drawGridBackgroundEnabled = false
+
         let xAxis = chartView.xAxis;
         xAxis.drawGridLinesEnabled = false
         let yAxis = chartView.leftAxis;
@@ -41,8 +43,9 @@ class CBLogChartViewController : UIViewController {
         for val in logs {
             let dict = val as! NSDictionary
             let distance = dict["distance"] as! Double
+            let time = dict["time"] as! Double
             let minor = dict["minor"] as! Int
-            let time = String(format:"%.1f", distance)
+            let timeString = String(format:"%d sec", Int(time))
             
             var axisData = dataByMinor[minor];
             if axisData == nil {
@@ -50,7 +53,7 @@ class CBLogChartViewController : UIViewController {
                 dataByMinor[minor] = axisData
             }
             
-            axisData?.xVals.append(time)
+            axisData?.xVals.append(timeString)
             axisData?.yVals.append(ChartDataEntry(value: distance, xIndex: i++))
         }
         
@@ -58,7 +61,7 @@ class CBLogChartViewController : UIViewController {
     }
     
     func loadChartData() {
-        let colors = [UIColor.redColor(), UIColor.greenColor(), UIColor.blueColor(), UIColor.blackColor(), UIColor.grayColor(), UIColor.cyanColor(), UIColor.brownColor(), UIColor.yellowColor()]
+        let colors = [UIColor(rgba: "#603613"), UIColor(rgba: "#eac690"), UIColor(rgba: "#c70000"), UIColor(rgba: "#868686"), UIColor(rgba: "#363469")]
         
         if let values = logs {
             var dataByMinor = groupIntoAxisDataByMinor(values)
