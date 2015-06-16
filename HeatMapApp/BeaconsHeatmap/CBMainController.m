@@ -169,6 +169,7 @@
                 beaconView.name = [signal.minor stringValue];
                 beaconView.distance = [signal.distance floatValue];
                 beaconView.rssi = [[signal rssi] integerValue];
+                beaconView.proximity = signal.proximity;
             }
         }
     }

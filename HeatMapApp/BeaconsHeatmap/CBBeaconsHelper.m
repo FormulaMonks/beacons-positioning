@@ -78,6 +78,7 @@ static NSString *kBeaconsFilename = @"beacons.plist";
             [_recordingLog addObject:@{@"minor": signal.minor,
                                        @"rssi": signal.rssi,
                                        @"distance": signal.distance,
+                                       @"proximity": [NSNumber numberWithInteger:signal.proximity],
                                        @"time": [NSNumber numberWithDouble:diff]}];
         }
     }
@@ -191,6 +192,7 @@ static NSString *kBeaconsFilename = @"beacons.plist";
                 CBSignal *signal = [CBSignal new];
                 signal.minor = item[@"minor"];
                 signal.distance = item[@"distance"];
+                signal.proximity = [item[@"proximity"] intValue];
                 [currentBeacons addObject:signal];
             }
         } else {

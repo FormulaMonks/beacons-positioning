@@ -27,6 +27,7 @@
         _name = [decoder decodeObjectForKey:@"name"];
         _position = [[decoder decodeObjectForKey:@"position"] CGPointValue];
         _distance = [[decoder decodeObjectForKey:@"distance"] floatValue];
+        _proximity = [[decoder decodeObjectForKey:@"proximity"] floatValue];
     }
     return self;
 }
@@ -37,6 +38,7 @@
     }
     [encoder encodeObject:[NSValue valueWithCGPoint:_position] forKey:@"position"];
     [encoder encodeObject:[NSNumber numberWithFloat:_distance] forKey:@"distance"];
+    [encoder encodeObject:[NSNumber numberWithInteger:_proximity] forKey:@"proximity"];
 }
 
 - (NSString *)description {

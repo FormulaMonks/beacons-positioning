@@ -7,12 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
 
 @interface CBSignal : NSObject
 @property NSNumber *distance;
 @property NSNumber *minor;
 @property NSNumber *major;
 @property NSNumber *rssi;
+@property CLProximity proximity;
 @end
 
 @interface CBBeacon : NSObject <NSCoding>
@@ -21,6 +23,7 @@
 @property NSNumber *minor;
 @property NSString *name;
 @property NSInteger rssi;
+@property CLProximity proximity;
 
 - (instancetype)initWithX:(float)x y:(float)y distance:(float)distance;
 

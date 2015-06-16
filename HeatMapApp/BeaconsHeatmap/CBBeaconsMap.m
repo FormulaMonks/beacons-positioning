@@ -224,6 +224,16 @@ NSMutableArray *_beacons;
             } else {
                 CGContextSetFillColorWithColor(ctx, [[UIColor blackColor] CGColor]);
             }   
+        } else {
+            if (beacon.proximity == CLProximityFar) {
+                CGContextSetFillColorWithColor(ctx, [[UIColor redColor] CGColor]);
+            } else if (beacon.proximity == CLProximityImmediate) {
+                CGContextSetFillColorWithColor(ctx, [[UIColor greenColor] CGColor]);
+            } else if (beacon.proximity == CLProximityNear) {
+                CGContextSetFillColorWithColor(ctx, [[UIColor yellowColor] CGColor]);
+            } else {
+                CGContextSetFillColorWithColor(ctx, [[UIColor blackColor] CGColor]);
+            }
         }
         
         CGContextFillRect(ctx, CGRectMake(beacon.position.x - beaconSize/2, beacon.position.y - beaconSize/2, beaconSize, beaconSize));

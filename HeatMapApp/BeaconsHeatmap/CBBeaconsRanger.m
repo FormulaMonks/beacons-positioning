@@ -117,6 +117,7 @@
             signal.major = beacon.major;
             signal.rssi = [NSNumber numberWithInteger:beacon.rssi];
             signal.distance = [NSNumber numberWithDouble:beacon.accuracy];
+            signal.proximity = beacon.proximity;
             [beaconsArray addObject:signal];
         }
     }
