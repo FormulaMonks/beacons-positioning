@@ -4,143 +4,173 @@
 <array>
 	<dict>
 		<key>distance</key>
-		<real>3.1622776601683795</real>
+		<real>1.9419299077469427</real>
+		<key>minor</key>
+		<integer>6131</integer>
+		<key>rssi</key>
+		<integer>-69</integer>
+		<key>time</key>
+		<real>1.0030910394906887</real>
+	</dict>
+	<dict>
+		<key>distance</key>
+		<real>3.696393965266406</real>
+		<key>minor</key>
+		<integer>6131</integer>
+		<key>rssi</key>
+		<integer>-76</integer>
+		<key>time</key>
+		<real>1.9902073033789516</real>
+	</dict>
+	<dict>
+		<key>distance</key>
+		<real>3.3220442931322</real>
+		<key>minor</key>
+		<integer>6131</integer>
+		<key>rssi</key>
+		<integer>-73</integer>
+		<key>time</key>
+		<real>3.0301376004158533</real>
+	</dict>
+	<dict>
+		<key>distance</key>
+		<real>3.605845963340991</real>
 		<key>minor</key>
 		<integer>6131</integer>
 		<key>rssi</key>
 		<integer>-74</integer>
 		<key>time</key>
-		<real>1.0119510293006897</real>
+		<real>4.034636552974973</real>
 	</dict>
 	<dict>
 		<key>distance</key>
-		<real>5.3336096326141496</real>
+		<real>3.1529828521936154</real>
 		<key>minor</key>
 		<integer>6131</integer>
 		<key>rssi</key>
-		<integer>-80</integer>
+		<integer>-76</integer>
 		<key>time</key>
-		<real>2.0135940313339233</real>
+		<real>5.061224069687303</real>
 	</dict>
 	<dict>
 		<key>distance</key>
-		<real>7.9929599889875034</real>
+		<real>3.698234322397588</real>
 		<key>minor</key>
 		<integer>6131</integer>
 		<key>rssi</key>
-		<integer>-89</integer>
+		<integer>-75</integer>
 		<key>time</key>
-		<real>3.0139549970626831</real>
+		<real>6.04679237883836</real>
 	</dict>
 	<dict>
 		<key>distance</key>
-		<real>9.0913209026449184</real>
+		<real>4.210888439241407</real>
 		<key>minor</key>
 		<integer>6131</integer>
 		<key>rssi</key>
-		<integer>-85</integer>
+		<integer>-79</integer>
 		<key>time</key>
-		<real>4.0137460231781006</real>
+		<real>6.960918292543618</real>
 	</dict>
 	<dict>
 		<key>distance</key>
-		<real>9.3040391312778468</real>
+		<real>2.752638816493772</real>
 		<key>minor</key>
 		<integer>6131</integer>
 		<key>rssi</key>
-		<integer>-83</integer>
+		<integer>-67</integer>
 		<key>time</key>
-		<real>5.0110369920730591</real>
+		<real>8.072405269666177</real>
 	</dict>
 	<dict>
 		<key>distance</key>
-		<real>10.407453592598024</real>
+		<real>2.1861361874774965</real>
 		<key>minor</key>
 		<integer>6131</integer>
 		<key>rssi</key>
-		<integer>-88</integer>
+		<integer>-67</integer>
 		<key>time</key>
-		<real>6.0140169858932495</real>
+		<real>8.954920384125817</real>
 	</dict>
 	<dict>
 		<key>distance</key>
-		<real>6.6123507720545707</real>
+		<real>2.967886803870791</real>
 		<key>minor</key>
 		<integer>6131</integer>
 		<key>rssi</key>
-		<integer>-72</integer>
+		<integer>-75</integer>
 		<key>time</key>
-		<real>7.0138670206069946</real>
+		<real>9.955273118408462</real>
 	</dict>
 	<dict>
 		<key>distance</key>
-		<real>6.3634101894984516</real>
+		<real>2.798965394463298</real>
 		<key>minor</key>
 		<integer>6131</integer>
 		<key>rssi</key>
-		<integer>-78</integer>
+		<integer>-76</integer>
 		<key>time</key>
-		<real>8.0136440396308899</real>
+		<real>10.976238886581486</real>
 	</dict>
 	<dict>
 		<key>distance</key>
-		<real>6.7404793915661543</real>
+		<real>3.3219808780910585</real>
 		<key>minor</key>
 		<integer>6131</integer>
 		<key>rssi</key>
-		<integer>-83</integer>
+		<integer>-77</integer>
 		<key>time</key>
-		<real>9.0136170387268066</real>
+		<real>11.98493149507148</real>
 	</dict>
 	<dict>
 		<key>distance</key>
-		<real>7.270206640059282</real>
+		<real>3.2725543136622552</real>
 		<key>minor</key>
 		<integer>6131</integer>
 		<key>rssi</key>
-		<integer>-85</integer>
+		<integer>-74</integer>
 		<key>time</key>
-		<real>10.010582029819489</real>
+		<real>13.042779008918139</real>
 	</dict>
 	<dict>
 		<key>distance</key>
-		<real>7.1978017628289841</real>
+		<real>3.4449095254082134</real>
 		<key>minor</key>
 		<integer>6131</integer>
 		<key>rssi</key>
-		<integer>-80</integer>
+		<integer>-77</integer>
 		<key>time</key>
-		<real>11.00948303937912</real>
+		<real>14.023065406284566</real>
 	</dict>
 	<dict>
 		<key>distance</key>
-		<real>7.7036248401900957</real>
+		<real>3.9053854732983395</real>
 		<key>minor</key>
 		<integer>6131</integer>
 		<key>rssi</key>
-		<integer>-85</integer>
+		<integer>-79</integer>
 		<key>time</key>
-		<real>12.014092028141022</real>
+		<real>14.991781000041145</real>
 	</dict>
 	<dict>
 		<key>distance</key>
-		<real>8.2787556408987371</real>
+		<real>4.194116862636997</real>
 		<key>minor</key>
 		<integer>6131</integer>
 		<key>rssi</key>
-		<integer>-86</integer>
+		<integer>-70</integer>
 		<key>time</key>
-		<real>13.01435399055481</real>
+		<real>16.005767645393668</real>
 	</dict>
 	<dict>
 		<key>distance</key>
-		<real>8.8306623859955504</real>
+		<real>4.13790047617808</real>
 		<key>minor</key>
 		<integer>6131</integer>
 		<key>rssi</key>
-		<integer>-86</integer>
+		<integer>-79</integer>
 		<key>time</key>
-		<real>14.01372903585434</real>
+		<real>17.14918131611655</real>
 	</dict>
 </array>
 </plist>
