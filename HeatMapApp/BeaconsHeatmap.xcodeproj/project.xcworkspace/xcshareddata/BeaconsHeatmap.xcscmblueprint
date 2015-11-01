@@ -1,0 +1,44 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "CADED171714B8A2E2C216718E291DF8139CF0186",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "CADED171714B8A2E2C216718E291DF8139CF0186" : 0,
+    "9025163822AAEA7A2D8AC9210D0874A56F62B462" : 0,
+    "0E77FB9618B0A7E05C2EE27348151B7941044E77" : 0,
+    "0D47F9118801513CFF1019D3260A8450871FFE19" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "D883B6B9-57A7-4F99-B339-AC27B803571F",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "CADED171714B8A2E2C216718E291DF8139CF0186" : "beacons-positioning\/",
+    "9025163822AAEA7A2D8AC9210D0874A56F62B462" : "beacons-positioning\/HeatMapApp\/libs\/ios-charts\/",
+    "0E77FB9618B0A7E05C2EE27348151B7941044E77" : "beacons-positioning\/HeatMapApp\/libs\/SIOSocket\/",
+    "0D47F9118801513CFF1019D3260A8450871FFE19" : "beacons-positioning\/HeatMapApp\/libs\/LFHeatMap\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "BeaconsHeatmap",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "HeatMapApp\/BeaconsHeatmap.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/gpolak\/LFHeatMap.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "0D47F9118801513CFF1019D3260A8450871FFE19"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:MegaBits\/SIOSocket.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "0E77FB9618B0A7E05C2EE27348151B7941044E77"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:danielgindi\/ios-charts.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "9025163822AAEA7A2D8AC9210D0874A56F62B462"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/NourDT\/beacons-positioning.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "CADED171714B8A2E2C216718E291DF8139CF0186"
+    }
+  ]
+}
