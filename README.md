@@ -30,22 +30,12 @@ Since the real position of the device in a room is quite hard to figure out due 
 
 In the Server/ directory you can find an old piece that was used as a receptor that received beacons signals and transmit them through an Socket.IO API. The server can run on a computer that has Bluetooth LE.
 
+
+
 ### Attributions
-
-Written by [Luis Floreani](https://github.com/lucholaf), sponsored by [Citrusbyte](https://citrusbyte.com/)
-
-
-## About Citrusbyte
+Written by [Luis Floreani](https://github.com/lucholaf), sponsored by [Citrusbyte](https://citrusbyte.com/). curr
 
 ![Citrusbyte](http://i.imgur.com/W6eISI3.png)
-
 This software is lovingly maintained and funded by Citrusbyte.
-At Citrusbyte, we specialize in solving difficult computer science problems for startups and the enterprise.
 
-At Citrusbyte we believe in and support open source software.
-* Check out more of our open source software at Citrusbyte Labs.
-* Learn more about [our work](https://citrusbyte.com/portfolio).
-* [Hire us](https://citrusbyte.com/contact) to work on your project.
-* [Want to join the team?](http://careers.citrusbyte.com)
 
-*Citrusbyte and the Citrusbyte logo are trademarks or registered trademarks of Citrusbyte, LLC.*
